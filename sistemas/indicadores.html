@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoPIA - Base de Indicadores PNFT</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .indicadores-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .filtros-sidebar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: fit-content;
+        }
+        
+        .filtro-group {
+            margin-bottom: 25px;
+        }
+        
+        .filtro-group h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filtro-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .filtro-chip {
+            padding: 6px 12px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .filtro-chip:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .filtro-chip.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .indicador-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .indicador-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .indicador-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .indicador-codigo {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .indicador-nivel {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .indicador-titulo {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .indicador-descripcion {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .criterios-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .criterios-title {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .criterio-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .criterio-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .criterio-numero {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .criterio-texto {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            line-height: 1.4;
+            flex: 1;
+        }
+        
+        .indicador-metadata {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .metadata-item i {
+            font-size: 14px;
+        }
+        
+        .indicador-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn-indicador {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+        
+        .btn-indicador:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .btn-indicador.primary {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            color: white;
+        }
+        
+        .btn-indicador.success {
+            background: rgba(46, 213, 115, 0.2);
+            color: #2ed573;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .stats-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 14px;
+        }
+        
+        .search-container input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .modal-wide {
+            max-width: 800px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .criterios-input textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .criterios-input textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            min-height: 44px;
+        }
+        
+        .tag {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tag-remove {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 0;
+            font-size: 14px;
+        }
+        
+        .escala-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .escala-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .escala-valor {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .escala-descripcion {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            flex: 1;
+        }
+        
+        .nivel-colors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.selected {
+            border-color: white;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h2>TecnoPIA</h2>
+            </div>
+            
+            <nav class="menu">
+                <a href="principal.html" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Principal</span>
+                </a>
+                <a href="estudiantes.html" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Estudiantes</span>
+                </a>
+                <a href="indicadores.html" class="menu-item active">
+                    <i class="fas fa-list-check"></i>
+                    <span>Indicadores</span>
+                </a>
+                <a href="cotidiano.html" class="menu-item">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Cotidiano</span>
+                </a>
+                <a href="tareas.html" class="menu-item">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tareas</span>
+                </a>
+                <a href="proyectos.html" class="menu-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Proyectos</span>
+                </a>
+                <a href="pruebas.html" class="menu-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Pruebas</span>
+                </a>
+                <a href="asistencia.html" class="menu-item">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Asistencia</span>
+                </a>
+                <a href="reportes.html" class="menu-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </a>
+                <a href="recursos.html" class="menu-item">
+                    <i class="fas fa-toolbox"></i>
+                    <span>Recursos</span>
+                </a>
+            </nav>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name">Docente Tecnología</span>
+                    <span class="user-role">Base PNFT Tecnológica</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-title">
+                    <h1><i class="fas fa-list-check"></i> Base de Indicadores PNFT</h1>
+                    <p>Indicadores de desempeño para Formación Tecnológica (Maternal - Noveno)</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="mostrarModalNuevoIndicador()">
+                        <i class="fas fa-plus-circle"></i> Nuevo Indicador
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportarIndicadores()">
+                        <i class="fas fa-file-export"></i> Exportar PNFT
+                    </button>
+                    <button class="btn btn-success" onclick="cargarBasePNFT()">
+                        <i class="fas fa-database"></i> Cargar Base MEP
+                    </button>
+                </div>
+            </header>
+
+            <!-- Contenido Principal -->
+            <div class="content-grid">
+                <div class="card full-width">
+                    <div class="card-header">
+                        <h3><i class="fas fa-database"></i> Base de Indicadores de Desempeño</h3>
+                        <div class="card-actions">
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="buscarIndicadores" placeholder="Buscar indicadores por código, título o descripción..." oninput="filtrarIndicadores()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Estadísticas -->
+                        <div class="stats-bar">
+                            <div class="stat-item">
+                                <div class="stat-value" id="totalIndicadores">0</div>
+                                <div class="stat-label">Total Indicadores</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="indicadoresCotidiano">0</div>
+                                <div class="stat-label">Para Cotidiano</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="indicadoresTareas">0</div>
+                                <div class="stat-label">Para Tareas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="indicadoresProyectos">0</div>
+                                <div class="stat-label">Para Proyectos</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="nivelesCubiertos">0/11</div>
+                                <div class="stat-label">Niveles Cubiertos</div>
+                            </div>
+                        </div>
+                        
+                        <div class="indicadores-container">
+                            <!-- Sidebar de Filtros -->
+                            <div class="filtros-sidebar">
+                                <div class="filtro-group">
+                                    <h4><i class="fas fa-filter"></i> Nivel Educativo</h4>
+                                    <div class="filtro-chips" id="filtroNiveles">
+                                        <!-- Los niveles se cargarán dinámicamente -->
+                                    </div>
+                                </div>
+                                
+                                <div class="filtro-group">
+                                    <h4><i class="fas fa-tag"></i> Componente</h4>
+                                    <div class="filtro-chips">
+                                        <div class="filtro-chip active" data-componente="todos" onclick="filtrarPorComponente('todos')">Todos</div>
+                                        <div class="filtro-chip" data-componente="cotidiano" onclick="filtrarPorComponente('cotidiano')">Cotidiano</div>
+                                        <div class="filtro-chip" data-componente="tareas" onclick="filtrarPorComponente('tareas')">Tareas</div>
+                                        <div class="filtro-chip" data-componente="proyectos" onclick="filtrarPorComponente('proyectos')">Proyectos</div>
+                                        <div class="filtro-chip" data-componente="pruebas" onclick="filtrarPorComponente('pruebas')">Pruebas</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="filtro-group">
+                                    <h4><i class="fas fa-puzzle-piece"></i> Competencia</h4>
+                                    <div class="filtro-chips" id="filtroCompetencias">
+                                        <!-- Las competencias se cargarán dinámicamente -->
+                                    </div>
+                                </div>
+                                
+                                <div class="filtro-group">
+                                    <h4><i class="fas fa-sort-amount-down"></i> Ordenar por</h4>
+                                    <div class="filtro-chips">
+                                        <div class="filtro-chip active" data-orden="codigo" onclick="ordenarIndicadores('codigo')">Código</div>
+                                        <div class="filtro-chip" data-orden="nivel" onclick="ordenarIndicadores('nivel')">Nivel</div>
+                                        <div class="filtro-chip" data-orden="fecha" onclick="ordenarIndicadores('fecha')">Fecha</div>
+                                        <div class="filtro-chip" data-orden="uso" onclick="ordenarIndicadores('uso')">Uso</div>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-secondary btn-block" onclick="limpiarFiltros()" style="margin-top: 20px;">
+                                    <i class="fas fa-eraser"></i> Limpiar Filtros
+                                </button>
+                            </div>
+
+                            <!-- Lista de Indicadores -->
+                            <div>
+                                <div id="listaIndicadores">
+                                    <!-- Los indicadores se cargarán dinámicamente -->
+                                    <div class="empty-state">
+                                        <i class="fas fa-database"></i>
+                                        <h4>Base de indicadores vacía</h4>
+                                        <p>Cree nuevos indicadores o cargue la base oficial PNFT del MEP.</p>
+                                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                                            <button class="btn btn-primary" onclick="mostrarModalNuevoIndicador()">
+                                                <i class="fas fa-plus"></i> Crear Indicador
+                                            </button>
+                                            <button class="btn btn-success" onclick="cargarBasePNFT()">
+                                                <i class="fas fa-cloud-download-alt"></i> Cargar Base MEP
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para Nuevo Indicador -->
+    <div class="modal" id="modalNuevoIndicador">
+        <div class="modal-content modal-wide">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle"></i> Nuevo Indicador PNFT</h3>
+                <button class="modal-close" onclick="cerrarModal('modalNuevoIndicador')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formNuevoIndicador" onsubmit="guardarIndicador(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-hashtag"></i> Código del Indicador</label>
+                            <input type="text" id="codigoIndicador" class="form-control" required 
+                                   placeholder="Ej: TEC-M-1.1, TEC-T-2.3" pattern="[A-Z]{3}-[A-Z]-[0-9]+\.[0-9]+">
+                            <small style="color: rgba(255, 255, 255, 0.6);">Formato: TEC-N-X.X (Tecnología-Nivel-Número)</small>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-graduation-cap"></i> Nivel Educativo</label>
+                            <select id="nivelIndicador" class="form-control" required>
+                                <option value="">Seleccionar nivel...</option>
+                                <option value="maternal">Maternal (M)</option>
+                                <option value="transicion">Transición (T)</option>
+                                <option value="primero">Primero (1)</option>
+                                <option value="segundo">Segundo (2)</option>
+                                <option value="tercero">Tercero (3)</option>
+                                <option value="cuarto">Cuarto (4)</option>
+                                <option value="quinto">Quinto (5)</option>
+                                <option value="sexto">Sexto (6)</option>
+                                <option value="septimo">Séptimo (7)</option>
+                                <option value="octavo">Octavo (8)</option>
+                                <option value="noveno">Noveno (9)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-heading"></i> Título del Indicador</label>
+                        <input type="text" id="tituloIndicador" class="form-control" required 
+                               placeholder="Ej: Manejo básico de herramientas tecnológicas">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-align-left"></i> Descripción</label>
+                        <textarea id="descripcionIndicador" class="form-control" rows="3" required
+                                  placeholder="Describa el indicador de desempeño..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-puzzle-piece"></i> Competencia Principal</label>
+                            <select id="competenciaIndicador" class="form-control" required>
+                                <option value="">Seleccionar competencia...</option>
+                                <option value="cognitiva">Cognitiva (Conocimiento)</option>
+                                <option value="procedimental">Procedimental (Habilidades)</option>
+                                <option value="actitudinal">Actitudinal (Valores)</option>
+                                <option value="socioemocional">Socioemocional (Relaciones)</option>
+                                <option value="tecnologica">Tecnológica Específica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-tags"></i> Componentes de Evaluación</label>
+                            <div class="tag-input" id="componentesInput">
+                                <!-- Los tags se agregarán dinámicamente -->
+                            </div>
+                            <div style="display: flex; gap: 5px; margin-top: 5px;">
+                                <button type="button" class="btn-icon-sm" onclick="agregarComponente('cotidiano')">
+                                    <i class="fas fa-calendar-day"></i> Cotidiano
+                                </button>
+                                <button type="button" class="btn-icon-sm" onclick="agregarComponente('tareas')">
+                                    <i class="fas fa-tasks"></i> Tareas
+                                </button>
+                                <button type="button" class="btn-icon-sm" onclick="agregarComponente('proyectos')">
+                                    <i class="fas fa-project-diagram"></i> Proyectos
+                                </button>
+                                <button type="button" class="btn-icon-sm" onclick="agregarComponente('pruebas')">
+                                    <i class="fas fa-file-alt"></i> Pruebas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-list-ol"></i> Criterios de Evaluación (Separar por punto y coma)</label>
+                        <textarea id="criteriosIndicador" class="form-control" rows="4" required
+                                  placeholder="Ej: Identifica herramientas tecnológicas básicas; Utiliza dispositivos con supervisión; Demuestra interés por explorar tecnología..."></textarea>
+                        <small style="color: rgba(255, 255, 255, 0.6);">Separe cada criterio con punto y coma (;)</small>
+                    </div>
+                    
+                    <div class="escala-container">
+                        <h4 style="color: white; margin-bottom: 15px;"><i class="fas fa-chart-bar"></i> Escala de Valoración</h4>
+                        <div class="escala-item">
+                            <div class="escala-valor">10</div>
+                            <div class="escala-descripcion">
+                                <strong>Excelente:</strong> Supera ampliamente los criterios establecidos, demuestra dominio completo y aplica creativamente los conocimientos.
+                            </div>
+                        </div>
+                        <div class="escala-item">
+                            <div class="escala-valor">8</div>
+                            <div class="escala-descripcion">
+                                <strong>Muy Bueno:</strong> Cumple completamente con todos los criterios y muestra comprensión profunda.
+                            </div>
+                        </div>
+                        <div class="escala-item">
+                            <div class="escala-valor">6</div>
+                            <div class="escala-descripcion">
+                                <strong>Bueno:</strong> Cumple con la mayoría de criterios, muestra comprensión adecuada.
+                            </div>
+                        </div>
+                        <div class="escala-item">
+                            <div class="escala-valor">4</div>
+                            <div class="escala-descripcion">
+                                <strong>En Proceso:</strong> Cumple parcialmente con los criterios, necesita mejorar en algunos aspectos.
+                            </div>
+                        </div>
+                        <div class="escala-item">
+                            <div class="escala-valor">2</div>
+                            <div class="escala-descripcion">
+                                <strong>Insuficiente:</strong> No cumple con los criterios mínimos, requiere atención especial.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('modalNuevoIndicador')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Indicador
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // BASE DE DATOS PNFT PARA FORMACIÓN TECNOLÓGICA
+        const basePNFTCompleta = [
+            // MATERNAL (0-3 años)
+            {
+                id: "TEC-M-1.1",
+                codigo: "TEC-M-1.1",
+                nivel: "maternal",
+                titulo: "Exploración sensorial de dispositivos tecnológicos",
+                descripcion: "El niño/niña explora dispositivos tecnológicos de manera segura bajo supervisión, utilizando los sentidos para descubrir sus características básicas.",
+                competencia: "cognitiva",
+                componentes: ["cotidiano"],
+                criterios: [
+                    "Toca dispositivos tecnológicos con supervisión",
+                    "Observa imágenes y sonidos en pantallas",
+                    "Muestra interés por dispositivos luminosos o sonoros",
+                    "Manipula juguetes tecnológicos adaptados a su edad"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#FF6B8B"
+            },
+            {
+                id: "TEC-M-1.2",
+                codigo: "TEC-M-1.2",
+                nivel: "maternal",
+                titulo: "Reconocimiento básico de herramientas tecnológicas",
+                descripcion: "Reconoce y diferencia algunas herramientas tecnológicas básicas de su entorno inmediato.",
+                competencia: "cognitiva",
+                componentes: ["cotidiano"],
+                criterios: [
+                    "Señala dispositivos tecnológicos familiares",
+                    "Reconoce sonidos de dispositivos comunes",
+                    "Identifica pantallas como fuentes de imágenes",
+                    "Muestra curiosidad por objetos tecnológicos"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#FF6B8B"
+            },
+
+            // TRANSICIÓN (4-6 años)
+            {
+                id: "TEC-T-2.1",
+                codigo: "TEC-T-2.1",
+                nivel: "transicion",
+                titulo: "Manejo básico de dispositivos táctiles",
+                descripcion: "Utiliza dispositivos táctiles de manera básica para actividades educativas simples bajo supervisión.",
+                competencia: "procedimental",
+                componentes: ["cotidiano", "tareas"],
+                criterios: [
+                    "Desliza dedos en pantallas táctiles",
+                    "Toca íconos para activar aplicaciones simples",
+                    "Utiliza aplicaciones educativas con ayuda",
+                    "Apaga y enciende dispositivos con supervisión"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#36D7B7"
+            },
+            {
+                id: "TEC-T-2.2",
+                codigo: "TEC-T-2.2",
+                nivel: "transicion",
+                titulo: "Creación digital básica con herramientas simples",
+                descripcion: "Crea producciones digitales simples utilizando herramientas tecnológicas adecuadas a su edad.",
+                competencia: "tecnologica",
+                componentes: ["proyectos"],
+                criterios: [
+                    "Dibuja usando aplicaciones de pintura digital",
+                    "Toma fotografías simples con dispositivos",
+                    "Graba audios cortos con ayuda",
+                    "Muestra sus creaciones digitales a otros"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#36D7B7"
+            },
+
+            // PRIMERO (6-7 años)
+            {
+                id: "TEC-1-3.1",
+                codigo: "TEC-1-3.1",
+                nivel: "primero",
+                titulo: "Uso básico de teclado y mouse",
+                descripcion: "Utiliza teclado y mouse para realizar actividades básicas en computadora.",
+                competencia: "procedimental",
+                componentes: ["cotidiano", "tareas"],
+                criterios: [
+                    "Identifica teclas principales (enter, espacio, borrar)",
+                    "Mueve el mouse y hace clic con precisión básica",
+                    "Escribe su nombre con ayuda del teclado",
+                    "Navega en menús simples con supervisión"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#3498DB"
+            },
+
+            // SEGUNDO (7-8 años)
+            {
+                id: "TEC-2-4.1",
+                codigo: "TEC-2-4.1",
+                nivel: "segundo",
+                titulo: "Búsqueda guiada de información digital",
+                descripcion: "Realiza búsquedas simples de información en recursos digitales con guía del docente.",
+                competencia: "cognitiva",
+                componentes: ["tareas", "proyectos"],
+                criterios: [
+                    "Utiliza palabras clave simples en buscadores",
+                    "Identifica información relevante con ayuda",
+                    "Navega en sitios web educativos apropiados",
+                    "Comparte información encontrada con compañeros"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#9B59B6"
+            },
+
+            // TERCERO (8-9 años)
+            {
+                id: "TEC-3-5.1",
+                codigo: "TEC-3-5.1",
+                nivel: "tercero",
+                titulo: "Programación visual básica",
+                descripcion: "Utiliza entornos de programación visual para crear secuencias simples.",
+                competencia: "tecnologica",
+                componentes: ["proyectos", "pruebas"],
+                criterios: [
+                    "Arrastra y suelta bloques de programación",
+                    "Crea secuencias simples de acciones",
+                    "Depura errores básicos con ayuda",
+                    "Comparte sus programas con otros"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#E74C3C"
+            },
+
+            // CUARTO (9-10 años)
+            {
+                id: "TEC-4-6.1",
+                codigo: "TEC-4-6.1",
+                nivel: "cuarto",
+                titulo: "Creación de presentaciones digitales",
+                descripcion: "Crea presentaciones digitales simples utilizando herramientas adecuadas.",
+                competencia: "tecnologica",
+                componentes: ["tareas", "proyectos"],
+                criterios: [
+                    "Inserta texto e imágenes en diapositivas",
+                    "Aplica formatos básicos (fuente, color, tamaño)",
+                    "Organiza información en secuencia lógica",
+                    "Presenta su trabajo ante el grupo"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#1ABC9C"
+            },
+
+            // QUINTO (10-11 años)
+            {
+                id: "TEC-5-7.1",
+                codigo: "TEC-5-7.1",
+                nivel: "quinto",
+                titulo: "Manejo de herramientas de ofimática básica",
+                descripcion: "Utiliza herramientas de ofimática para crear documentos y organizar información.",
+                competencia: "procedimental",
+                componentes: ["cotidiano", "tareas", "proyectos"],
+                criterios: [
+                    "Crea documentos de texto con formato básico",
+                    "Utiliza hojas de cálculo para organizar datos simples",
+                    "Guarda y organiza archivos en carpetas",
+                    "Comparte documentos digitales con supervisión"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#F39C12"
+            },
+
+            // SEXTO (11-12 años)
+            {
+                id: "TEC-6-8.1",
+                codigo: "TEC-6-8.1",
+                nivel: "sexto",
+                titulo: "Diseño y creación de contenido multimedia",
+                descripcion: "Crea contenido multimedia integrando diferentes elementos digitales.",
+                competencia: "tecnologica",
+                componentes: ["proyectos"],
+                criterios: [
+                    "Combina texto, imágenes y audio en producciones",
+                    "Utiliza herramientas de edición básica",
+                    "Respeta derechos de autor en sus creaciones",
+                    "Publica contenido en espacios digitales seguros"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#2ECC71"
+            },
+
+            // SÉPTIMO (12-13 años)
+            {
+                id: "TEC-7-9.1",
+                codigo: "TEC-7-9.1",
+                nivel: "septimo",
+                titulo: "Programación de algoritmos simples",
+                descripcion: "Diseña e implementa algoritmos simples utilizando lenguajes de programación textuales básicos.",
+                competencia: "tecnologica",
+                componentes: ["tareas", "proyectos", "pruebas"],
+                criterios: [
+                    "Escribe código en lenguaje de programación básico",
+                    "Implementa estructuras de control simples",
+                    "Depura errores de sintaxis básicos",
+                    "Documenta sus programas de manera simple"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#9B59B6"
+            },
+
+            // OCTAVO (13-14 años)
+            {
+                id: "TEC-8-10.1",
+                codigo: "TEC-8-10.1",
+                nivel: "octavo",
+                titulo: "Desarrollo de aplicaciones simples",
+                descripcion: "Desarrolla aplicaciones funcionales simples para resolver problemas específicos.",
+                competencia: "tecnologica",
+                componentes: ["proyectos"],
+                criterios: [
+                    "Diseña interfaces de usuario simples",
+                    "Implementa funcionalidades básicas",
+                    "Prueba y depura sus aplicaciones",
+                    "Presenta sus aplicaciones explicando su funcionamiento"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#34495E"
+            },
+
+            // NOVENO (14-15 años)
+            {
+                id: "TEC-9-11.1",
+                codigo: "TEC-9-11.1",
+                nivel: "noveno",
+                titulo: "Gestión de proyectos tecnológicos complejos",
+                descripcion: "Planifica, ejecuta y evalúa proyectos tecnológicos que integren múltiples competencias.",
+                competencia: "tecnologica",
+                componentes: ["proyectos", "pruebas"],
+                criterios: [
+                    "Planifica proyectos con objetivos claros",
+                    "Gestiona recursos y tiempos efectivamente",
+                    "Integra diferentes tecnologías en sus proyectos",
+                    "Evalúa resultados y propone mejoras",
+                    "Documenta todo el proceso de desarrollo"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#E67E22"
+            },
+            {
+                id: "TEC-9-11.2",
+                codigo: "TEC-9-11.2",
+                nivel: "noveno",
+                titulo: "Ética y seguridad en entornos digitales",
+                descripcion: "Aplica principios éticos y medidas de seguridad en el uso de tecnologías digitales.",
+                competencia: "actitudinal",
+                componentes: ["cotidiano", "pruebas"],
+                criterios: [
+                    "Respeta la propiedad intelectual digital",
+                    "Protege su información personal en línea",
+                    "Identifica riesgos comunes en Internet",
+                    "Practica netiqueta en interacciones digitales",
+                    "Promueve uso responsable de tecnología"
+                ],
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: "2024-01-01",
+                usadoEn: 0,
+                color: "#E67E22"
+            }
+        ];
+
+        // VARIABLES GLOBALES
+        let indicadores = [];
+        let filtrosActivos = {
+            nivel: 'todos',
+            componente: 'todos',
+            competencia: 'todos',
+            orden: 'codigo'
+        };
+        let componentesSeleccionados = [];
+
+        // INICIALIZAR SISTEMA
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarIndicadores();
+            cargarFiltros();
+            actualizarEstadisticas();
+            
+            // Configurar búsqueda en tiempo real
+            document.getElementById('buscarIndicadores').addEventListener('input', filtrarIndicadores);
+            
+            // Inicializar componentes en el modal
+            inicializarComponentesModal();
+        });
+
+        function cargarIndicadores() {
+            try {
+                const indicadoresGuardados = localStorage.getItem('tecnoPIA_indicadores');
+                indicadores = indicadoresGuardados ? JSON.parse(indicadoresGuardados) : [];
+                
+                // Si no hay indicadores, cargar base PNFT
+                if (indicadores.length === 0) {
+                    indicadores = [...basePNFTCompleta];
+                    guardarIndicadoresEnStorage();
+                }
+                
+                mostrarIndicadores();
+                
+            } catch (error) {
+                console.error('Error cargando indicadores:', error);
+                indicadores = [...basePNFTCompleta];
+                mostrarIndicadores();
+            }
+        }
+
+        function cargarFiltros() {
+            // Cargar filtro de niveles
+            const nivelesConfigurados = JSON.parse(localStorage.getItem('tecnoPIA_niveles')) || ['noveno'];
+            const filtroNiveles = document.getElementById('filtroNiveles');
+            
+            let htmlNiveles = '<div class="filtro-chip active" data-nivel="todos" onclick="aplicarFiltroNivel(\'todos\')">Todos</div>';
+            
+            nivelesConfigurados.forEach(nivelId => {
+                const nivelInfo = basePNFTCompleta.find(n => n.nivel === nivelId);
+                if (nivelInfo) {
+                    const nombreNivel = getNombreNivelCompleto(nivelId);
+                    htmlNiveles += `
+                        <div class="filtro-chip" data-nivel="${nivelId}" onclick="aplicarFiltroNivel('${nivelId}')">
+                            ${nombreNivel}
+                        </div>
+                    `;
+                }
+            });
+            
+            filtroNiveles.innerHTML = htmlNiveles;
+            
+            // Cargar filtro de competencias
+            const competencias = [...new Set(basePNFTCompleta.map(i => i.competencia))];
+            const filtroCompetencias = document.getElementById('filtroCompetencias');
+            
+            let htmlCompetencias = '<div class="filtro-chip active" data-competencia="todos" onclick="aplicarFiltroCompetencia(\'todos\')">Todas</div>';
+            
+            competencias.forEach(competencia => {
+                const nombreCompetencia = getNombreCompetencia(competencia);
+                htmlCompetencias += `
+                    <div class="filtro-chip" data-competencia="${competencia}" onclick="aplicarFiltroCompetencia('${competencia}')">
+                        ${nombreCompetencia}
+                    </div>
+                `;
+            });
+            
+            filtroCompetencias.innerHTML = htmlCompetencias;
+        }
+
+        function getNombreNivelCompleto(nivelId) {
+            const nombres = {
+                maternal: "Maternal",
+                transicion: "Transición",
+                primero: "Primero",
+                segundo: "Segundo",
+                tercero: "Tercero",
+                cuarto: "Cuarto",
+                quinto: "Quinto",
+                sexto: "Sexto",
+                septimo: "Séptimo",
+                octavo: "Octavo",
+                noveno: "Noveno"
+            };
+            return nombres[nivelId] || nivelId;
+        }
+
+        function getNombreCompetencia(competenciaId) {
+            const nombres = {
+                cognitiva: "Cognitiva",
+                procedimental: "Procedimental",
+                actitudinal: "Actitudinal",
+                socioemocional: "Socioemocional",
+                tecnologica: "Tecnológica"
+            };
+            return nombres[competenciaId] || competenciaId;
+        }
+
+        function mostrarIndicadores() {
+            const listaIndicadores = document.getElementById('listaIndicadores');
+            
+            if (indicadores.length === 0) {
+                listaIndicadores.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-database"></i>
+                        <h4>Base de indicadores vacía</h4>
+                        <p>Cree nuevos indicadores o cargue la base oficial PNFT del MEP.</p>
+                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="mostrarModalNuevoIndicador()">
+                                <i class="fas fa-plus"></i> Crear Indicador
+                            </button>
+                            <button class="btn btn-success" onclick="cargarBasePNFT()">
+                                <i class="fas fa-cloud-download-alt"></i> Cargar Base MEP
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Filtrar indicadores
+            let indicadoresFiltrados = [...indicadores];
+            
+            // Aplicar filtro de nivel
+            if (filtrosActivos.nivel !== 'todos') {
+                indicadoresFiltrados = indicadoresFiltrados.filter(i => i.nivel === filtrosActivos.nivel);
+            }
+            
+            // Aplicar filtro de componente
+            if (filtrosActivos.componente !== 'todos') {
+                indicadoresFiltrados = indicadoresFiltrados.filter(i => 
+                    i.componentes.includes(filtrosActivos.componente)
+                );
+            }
+            
+            // Aplicar filtro de competencia
+            if (filtrosActivos.competencia !== 'todos') {
+                indicadoresFiltrados = indicadoresFiltrados.filter(i => i.competencia === filtrosActivos.competencia);
+            }
+            
+            // Aplicar búsqueda
+            const busqueda = document.getElementById('buscarIndicadores').value.toLowerCase();
+            if (busqueda) {
+                indicadoresFiltrados = indicadoresFiltrados.filter(i => 
+                    i.codigo.toLowerCase().includes(busqueda) ||
+                    i.titulo.toLowerCase().includes(busqueda) ||
+                    i.descripcion.toLowerCase().includes(busqueda) ||
+                    i.criterios.some(c => c.toLowerCase().includes(busqueda))
+                );
+            }
+            
+            // Ordenar indicadores
+            switch(filtrosActivos.orden) {
+                case 'codigo':
+                    indicadoresFiltrados.sort((a, b) => a.codigo.localeCompare(b.codigo));
+                    break;
+                case 'nivel':
+                    const ordenNiveles = ['maternal', 'transicion', 'primero', 'segundo', 'tercero', 'cuarto', 'quinto', 'sexto', 'septimo', 'octavo', 'noveno'];
+                    indicadoresFiltrados.sort((a, b) => ordenNiveles.indexOf(a.nivel) - ordenNiveles.indexOf(b.nivel));
+                    break;
+                case 'fecha':
+                    indicadoresFiltrados.sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion));
+                    break;
+                case 'uso':
+                    indicadoresFiltrados.sort((a, b) => b.usadoEn - a.usadoEn);
+                    break;
+            }
+            
+            if (indicadoresFiltrados.length === 0) {
+                listaIndicadores.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h4>No se encontraron indicadores</h4>
+                        <p>Intente con otros criterios de búsqueda o cree un nuevo indicador.</p>
+                        <button class="btn btn-primary" onclick="limpiarFiltros()" style="margin-top: 20px;">
+                            <i class="fas fa-eraser"></i> Limpiar Filtros
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Generar HTML de indicadores
+            let html = '';
+            
+            indicadoresFiltrados.forEach(indicador => {
+                const nivelNombre = getNombreNivelCompleto(indicador.nivel);
+                const competenciaNombre = getNombreCompetencia(indicador.competencia);
+                const color = indicador.color || '#667eea';
+                
+                html += `
+                    <div class="indicador-card" data-id="${indicador.id}">
+                        <div class="indicador-header">
+                            <div class="indicador-codigo" style="background: linear-gradient(135deg, ${color}, ${color}80);">
+                                ${indicador.codigo}
+                            </div>
+                            <div class="indicador-nivel">
+                                <i class="fas fa-graduation-cap"></i> ${nivelNombre}
+                            </div>
+                        </div>
+                        
+                        <div class="indicador-titulo">${indicador.titulo}</div>
+                        <div class="indicador-descripcion">${indicador.descripcion}</div>
+                        
+                        <div class="criterios-container">
+                            <div class="criterios-title">
+                                <i class="fas fa-list-ol"></i> Criterios de Evaluación
+                            </div>
+                            ${indicador.criterios.map((criterio, index) => `
+                                <div class="criterio-item">
+                                    <div class="criterio-numero">${index + 1}</div>
+                                    <div class="criterio-texto">${criterio}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="indicador-metadata">
+                            <div class="metadata-item">
+                                <i class="fas fa-puzzle-piece"></i>
+                                <span>${competenciaNombre}</span>
+                            </div>
+                            <div class="metadata-item">
+                                <i class="fas fa-tags"></i>
+                                <span>${indicador.componentes.map(c => getNombreComponente(c)).join(', ')}</span>
+                            </div>
+                            <div class="metadata-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Usado ${indicador.usadoEn} veces</span>
+                            </div>
+                            <div class="metadata-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>${new Date(indicador.fechaCreacion).toLocaleDateString('es-CR')}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="indicador-actions">
+                            <button class="btn-indicador primary" onclick="usarIndicador('${indicador.id}')" title="Usar en evaluación">
+                                <i class="fas fa-play-circle"></i> Usar Indicador
+                            </button>
+                            <button class="btn-indicador" onclick="editarIndicador('${indicador.id}')" title="Editar">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn-indicador" onclick="duplicarIndicador('${indicador.id}')" title="Duplicar">
+                                <i class="fas fa-copy"></i> Duplicar
+                            </button>
+                            <button class="btn-indicador" onclick="exportarIndicador('${indicador.id}')" title="Exportar">
+                                <i class="fas fa-download"></i> Exportar
+                            </button>
+                            <button class="btn-indicador btn-danger" onclick="eliminarIndicador('${indicador.id}')" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listaIndicadores.innerHTML = html;
+        }
+
+        function getNombreComponente(componenteId) {
+            const nombres = {
+                cotidiano: "Cotidiano",
+                tareas: "Tareas",
+                proyectos: "Proyectos",
+                pruebas: "Pruebas"
+            };
+            return nombres[componenteId] || componenteId;
+        }
+
+        function aplicarFiltroNivel(nivel) {
+            filtrosActivos.nivel = nivel;
+            
+            // Actualizar UI
+            document.querySelectorAll('#filtroNiveles .filtro-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.nivel === nivel) {
+                    chip.classList.add('active');
+                }
+            });
+            
+            mostrarIndicadores();
+        }
+
+        function filtrarPorComponente(componente) {
+            filtrosActivos.componente = componente;
+            
+            // Actualizar UI
+            document.querySelectorAll('[data-componente]').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.componente === componente) {
+                    chip.classList.add('active');
+                }
+            });
+            
+            mostrarIndicadores();
+        }
+
+        function aplicarFiltroCompetencia(competencia) {
+            filtrosActivos.competencia = competencia;
+            
+            // Actualizar UI
+            document.querySelectorAll('#filtroCompetencias .filtro-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.competencia === competencia) {
+                    chip.classList.add('active');
+                }
+            });
+            
+            mostrarIndicadores();
+        }
+
+        function ordenarIndicadores(orden) {
+            filtrosActivos.orden = orden;
+            
+            // Actualizar UI
+            document.querySelectorAll('[data-orden]').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.orden === orden) {
+                    chip.classList.add('active');
+                }
+            });
+            
+            mostrarIndicadores();
+        }
+
+        function filtrarIndicadores() {
+            mostrarIndicadores();
+        }
+
+        function limpiarFiltros() {
+            filtrosActivos = {
+                nivel: 'todos',
+                componente: 'todos',
+                competencia: 'todos',
+                orden: 'codigo'
+            };
+            
+            // Resetear UI de filtros
+            document.querySelectorAll('.filtro-chip.active').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            
+            document.querySelectorAll('[data-nivel="todos"], [data-componente="todos"], [data-competencia="todos"], [data-orden="codigo"]').forEach(chip => {
+                chip.classList.add('active');
+            });
+            
+            // Limpiar búsqueda
+            document.getElementById('buscarIndicadores').value = '';
+            
+            mostrarIndicadores();
+            mostrarNotificacion('Filtros limpiados', 'success');
+        }
+
+        function mostrarModalNuevoIndicador() {
+            document.getElementById('modalNuevoIndicador').style.display = 'block';
+            document.getElementById('formNuevoIndicador').reset();
+            componentesSeleccionados = [];
+            actualizarComponentesUI();
+        }
+
+        function inicializarComponentesModal() {
+            componentesSeleccionados = [];
+            actualizarComponentesUI();
+        }
+
+        function agregarComponente(componente) {
+            if (!componentesSeleccionados.includes(componente)) {
+                componentesSeleccionados.push(componente);
+                actualizarComponentesUI();
+            }
+        }
+
+        function actualizarComponentesUI() {
+            const componentesInput = document.getElementById('componentesInput');
+            componentesInput.innerHTML = '';
+            
+            componentesSeleccionados.forEach(componente => {
+                const tag = document.createElement('div');
+                tag.className = 'tag';
+                tag.innerHTML = `
+                    ${getNombreComponente(componente)}
+                    <button type="button" class="tag-remove" onclick="removerComponente('${componente}')">&times;</button>
+                `;
+                componentesInput.appendChild(tag);
+            });
+            
+            if (componentesSeleccionados.length === 0) {
+                componentesInput.innerHTML = '<span style="color: rgba(255, 255, 255, 0.5); font-size: 13px;">Seleccione componentes...</span>';
+            }
+        }
+
+        function removerComponente(componente) {
+            componentesSeleccionados = componentesSeleccionados.filter(c => c !== componente);
+            actualizarComponentesUI();
+        }
+
+        function guardarIndicador(event) {
+            event.preventDefault();
+            
+            // Validar que haya al menos un componente
+            if (componentesSeleccionados.length === 0) {
+                mostrarNotificacion('Seleccione al menos un componente de evaluación', 'error');
+                return;
+            }
+            
+            // Obtener datos del formulario
+            const nivel = document.getElementById('nivelIndicador').value;
+            const color = getColorPorNivel(nivel);
+            
+            const indicador = {
+                id: document.getElementById('codigoIndicador').value.trim(),
+                codigo: document.getElementById('codigoIndicador').value.trim(),
+                nivel: nivel,
+                titulo: document.getElementById('tituloIndicador').value.trim(),
+                descripcion: document.getElementById('descripcionIndicador').value.trim(),
+                competencia: document.getElementById('competenciaIndicador').value,
+                componentes: [...componentesSeleccionados],
+                criterios: document.getElementById('criteriosIndicador').value.split(';').map(c => c.trim()).filter(c => c),
+                escala: [2, 4, 6, 8, 10],
+                fechaCreacion: new Date().toISOString().split('T')[0],
+                usadoEn: 0,
+                color: color
+            };
+
+            // Validar datos
+            if (!indicador.codigo || !indicador.titulo || !indicador.descripcion || !indicador.criterios.length) {
+                mostrarNotificacion('Complete todos los campos obligatorios', 'error');
+                return;
+            }
+
+            // Verificar si ya existe un indicador con el mismo código
+            const existeCodigo = indicadores.some(i => i.codigo === indicador.codigo);
+            if (existeCodigo) {
+                mostrarNotificacion('Ya existe un indicador con este código', 'error');
+                return;
+            }
+
+            // Agregar indicador
+            indicadores.push(indicador);
+            
+            // Guardar en localStorage
+            guardarIndicadoresEnStorage();
+            
+            // Actualizar UI
+            mostrarIndicadores();
+            actualizarEstadisticas();
+            
+            // Cerrar modal
+            cerrarModal('modalNuevoIndicador');
+            
+            // Mostrar notificación
+            mostrarNotificacion(`Indicador "${indicador.codigo}" creado exitosamente`, 'success');
+        }
+
+        function getColorPorNivel(nivel) {
+            const colores = {
+                maternal: "#FF6B8B",
+                transicion: "#36D7B7",
+                primero: "#3498DB",
+                segundo: "#9B59B6",
+                tercero: "#E74C3C",
+                cuarto: "#1ABC9C",
+                quinto: "#F39C12",
+                sexto: "#2ECC71",
+                septimo: "#9B59B6",
+                octavo: "#34495E",
+                noveno: "#E67E22"
+            };
+            return colores[nivel] || "#667eea";
+        }
+
+        function guardarIndicadoresEnStorage() {
+            try {
+                localStorage.setItem('tecnoPIA_indicadores', JSON.stringify(indicadores));
+            } catch (error) {
+                console.error('Error guardando indicadores:', error);
+                mostrarNotificacion('Error al guardar los indicadores', 'error');
+            }
+        }
+
+        function editarIndicador(indicadorId) {
+            const indicador = indicadores.find(i => i.id === indicadorId);
+            if (!indicador) return;
+            
+            // Llenar formulario con datos del indicador
+            document.getElementById('codigoIndicador').value = indicador.codigo;
+            document.getElementById('nivelIndicador').value = indicador.nivel;
+            document.getElementById('tituloIndicador').value = indicador.titulo;
+            document.getElementById('descripcionIndicador').value = indicador.descripcion;
+            document.getElementById('competenciaIndicador').value = indicador.competencia;
+            document.getElementById('criteriosIndicador').value = indicador.criterios.join('; ');
+            
+            componentesSeleccionados = [...indicador.componentes];
+            actualizarComponentesUI();
+            
+            // Cambiar comportamiento del formulario para edición
+            const form = document.getElementById('formNuevoIndicador');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                actualizarIndicador(indicadorId);
+            };
+            
+            // Mostrar modal
+            document.getElementById('modalNuevoIndicador').style.display = 'block';
+        }
+
+        function actualizarIndicador(indicadorId) {
+            const index = indicadores.findIndex(i => i.id === indicadorId);
+            if (index === -1) return;
+            
+            // Actualizar datos
+            indicadores[index].codigo = document.getElementById('codigoIndicador').value.trim();
+            indicadores[index].nivel = document.getElementById('nivelIndicador').value;
+            indicadores[index].titulo = document.getElementById('tituloIndicador').value.trim();
+            indicadores[index].descripcion = document.getElementById('descripcionIndicador').value.trim();
+            indicadores[index].competencia = document.getElementById('competenciaIndicador').value;
+            indicadores[index].componentes = [...componentesSeleccionados];
+            indicadores[index].criterios = document.getElementById('criteriosIndicador').value.split(';').map(c => c.trim()).filter(c => c);
+            indicadores[index].color = getColorPorNivel(indicadores[index].nivel);
+            
+            // Guardar cambios
+            guardarIndicadoresEnStorage();
+            
+            // Actualizar UI
+            mostrarIndicadores();
+            
+            // Cerrar modal
+            cerrarModal('modalNuevoIndicador');
+            
+            // Restaurar comportamiento original del formulario
+            document.getElementById('formNuevoIndicador').onsubmit = guardarIndicador;
+            
+            mostrarNotificacion('Indicador actualizado exitosamente', 'success');
+        }
+
+        function usarIndicador(indicadorId) {
+            const index = indicadores.findIndex(i => i.id === indicadorId);
+            if (index === -1) return;
+            
+            // Incrementar contador de uso
+            indicadores[index].usadoEn = (indicadores[index].usadoEn || 0) + 1;
+            
+            // Guardar cambios
+            guardarIndicadoresEnStorage();
+            
+            // Actualizar UI
+            mostrarIndicadores();
+            actualizarEstadisticas();
+            
+            // Guardar indicador seleccionado para evaluación
+            localStorage.setItem('tecnoPIA_indicador_seleccionado', indicadorId);
+            
+            // Redirigir a evaluación cotidiana
+            window.location.href = 'cotidiano.html';
+        }
+
+        function duplicarIndicador(indicadorId) {
+            const indicador = indicadores.find(i => i.id === indicadorId);
+            if (!indicador) return;
+            
+            // Crear copia con nuevo código
+            const nuevoCodigo = generarNuevoCodigo(indicador.codigo);
+            const nuevoIndicador = {
+                ...indicador,
+                id: nuevoCodigo,
+                codigo: nuevoCodigo,
+                usadoEn: 0,
+                fechaCreacion: new Date().toISOString().split('T')[0]
+            };
+            
+            // Agregar nuevo indicador
+            indicadores.push(nuevoIndicador);
+            
+            // Guardar en localStorage
+            guardarIndicadoresEnStorage();
+            
+            // Actualizar UI
+            mostrarIndicadores();
+            actualizarEstadisticas();
+            
+            mostrarNotificacion(`Indicador duplicado como ${nuevoCodigo}`, 'success');
+        }
+
+        function generarNuevoCodigo(codigoBase) {
+            // Extraer número del código (ej: TEC-M-1.1 → 1.1)
+            const match = codigoBase.match(/(\d+\.\d+)$/);
+            if (match) {
+                const [numero] = match;
+                const [entero, decimal] = numero.split('.');
+                const nuevoDecimal = parseInt(decimal) + 1;
+                return codigoBase.replace(numero, `${entero}.${nuevoDecimal}`);
+            }
+            return `${codigoBase}-copia`;
+        }
+
+        function exportarIndicador(indicadorId) {
+            const indicador = indicadores.find(i => i.id === indicadorId);
+            if (!indicador) return;
+            
+            // Crear contenido del indicador en formato texto
+            let contenido = `INDICADOR PNFT - FORMACIÓN TECNOLÓGICA\n`;
+            contenido += `===========================================\n\n`;
+            contenido += `CÓDIGO: ${indicador.codigo}\n`;
+            contenido += `NIVEL: ${getNombreNivelCompleto(indicador.nivel)}\n`;
+            contenido += `COMPETENCIA: ${getNombreCompetencia(indicador.competencia)}\n`;
+            contenido += `COMPONENTES: ${indicador.componentes.map(c => getNombreComponente(c)).join(', ')}\n\n`;
+            contenido += `TÍTULO:\n${indicador.titulo}\n\n`;
+            contenido += `DESCRIPCIÓN:\n${indicador.descripcion}\n\n`;
+            contenido += `CRITERIOS DE EVALUACIÓN:\n`;
+            indicador.criterios.forEach((criterio, index) => {
+                contenido += `${index + 1}. ${criterio}\n`;
+            });
+            contenido += `\nESCALA DE VALORACIÓN:\n`;
+            contenido += `10 - Excelente: Supera ampliamente los criterios\n`;
+            contenido += `8 - Muy Bueno: Cumple completamente con todos los criterios\n`;
+            contenido += `6 - Bueno: Cumple con la mayoría de criterios\n`;
+            contenido += `4 - En Proceso: Cumple parcialmente con los criterios\n`;
+            contenido += `2 - Insuficiente: No cumple con los criterios mínimos\n\n`;
+            contenido += `FECHA DE CREACIÓN: ${indicador.fechaCreacion}\n`;
+            contenido += `VECES UTILIZADO: ${indicador.usadoEn}\n\n`;
+            contenido += `----------------------------------------\n`;
+            contenido += `Documento generado por TecnoPIA - Sistema de Evaluación MEP\n`;
+            contenido += `Fecha de generación: ${new Date().toLocaleString('es-CR')}\n`;
+            
+            // Crear archivo y descargar
+            const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Indicador_${indicador.codigo}_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            mostrarNotificacion(`Indicador ${indicador.codigo} exportado`, 'success');
+        }
+
+        function eliminarIndicador(indicadorId) {
+            if (!confirm('¿Está seguro de eliminar este indicador? Esta acción no se puede deshacer.')) {
+                return;
+            }
+            
+            const index = indicadores.findIndex(i => i.id === indicadorId);
+            if (index === -1) return;
+            
+            const indicadorEliminado = indicadores.splice(index, 1)[0];
+            
+            // Guardar cambios
+            guardarIndicadoresEnStorage();
+            
+            // Actualizar UI
+            mostrarIndicadores();
+            actualizarEstadisticas();
+            
+            mostrarNotificacion(`Indicador "${indicadorEliminado.codigo}" eliminado`, 'success');
+        }
+
+        function cargarBasePNFT() {
+            if (confirm('¿Desea cargar la base completa de indicadores PNFT para Formación Tecnológica? Esto agregará los indicadores oficiales del MEP.')) {
+                // Verificar qué indicadores ya existen
+                const codigosExistentes = indicadores.map(i => i.codigo);
+                const nuevosIndicadores = basePNFTCompleta.filter(i => !codigosExistentes.includes(i.codigo));
+                
+                if (nuevosIndicadores.length === 0) {
+                    mostrarNotificacion('Todos los indicadores PNFT ya están cargados', 'info');
+                    return;
+                }
+                
+                // Agregar nuevos indicadores
+                indicadores.push(...nuevosIndicadores);
+                
+                // Guardar en localStorage
+                guardarIndicadoresEnStorage();
+                
+                // Actualizar UI
+                mostrarIndicadores();
+                actualizarEstadisticas();
+                
+                mostrarNotificacion(`${nuevosIndicadores.length} indicadores PNFT cargados exitosamente`, 'success');
+            }
+        }
+
+        function exportarIndicadores() {
+            if (indicadores.length === 0) {
+                mostrarNotificacion('No hay indicadores para exportar', 'info');
+                return;
+            }
+            
+            // Crear contenido CSV
+            let csv = 'Código,Nivel,Título,Descripción,Competencia,Componentes,Criterios,Escala,Fecha Creación,Usado En\n';
+            
+            indicadores.forEach(ind => {
+                const criteriosTexto = ind.criterios.map(c => `"${c}"`).join(' | ');
+                const componentesTexto = ind.componentes.join(', ');
+                const escalaTexto = ind.escala.join('-');
+                
+                csv += `"${ind.codigo}","${getNombreNivelCompleto(ind.nivel)}","${ind.titulo}","${ind.descripcion}","${getNombreCompetencia(ind.competencia)}","${componentesTexto}","${criteriosTexto}","${escalaTexto}","${ind.fechaCreacion}","${ind.usadoEn}"\n`;
+            });
+            
+            // Crear archivo y descargar
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `base_pnft_tecnologia_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            mostrarNotificacion('Base PNFT exportada exitosamente', 'success');
+        }
+
+        function actualizarEstadisticas() {
+            const total = indicadores.length;
+            const cotidiano = indicadores.filter(i => i.componentes.includes('cotidiano')).length;
+            const tareas = indicadores.filter(i => i.componentes.includes('tareas')).length;
+            const proyectos = indicadores.filter(i => i.componentes.includes('proyectos')).length;
+            const nivelesUnicos = new Set(indicadores.map(i => i.nivel)).size;
+            
+            document.getElementById('totalIndicadores').textContent = total;
+            document.getElementById('indicadoresCotidiano').textContent = cotidiano;
+            document.getElementById('indicadoresTareas').textContent = tareas;
+            document.getElementById('indicadoresProyectos').textContent = proyectos;
+            document.getElementById('nivelesCubiertos').textContent = `${nivelesUnicos}/11`;
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function mostrarNotificacion(mensaje, tipo = 'info') {
+            // Crear elemento de notificación
+            const notificacion = document.createElement('div');
+            notificacion.className = `notificacion notificacion-${tipo}`;
+            notificacion.innerHTML = `
+                <div class="notificacion-icon">
+                    <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                </div>
+                <div class="notificacion-content">
+                    <p>${mensaje}</p>
+                </div>
+                <button class="notificacion-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            
+            // Estilos para la notificación
+            notificacion.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${tipo === 'success' ? '#2ed573' : tipo === 'error' ? '#ff4757' : '#1e90ff'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+                max-width: 400px;
+            `;
+            
+            // Agregar al documento
+            document.body.appendChild(notificacion);
+            
+            // Auto-remover después de 5 segundos
+            setTimeout(() => {
+                if (notificacion.parentNode) {
+                    notificacion.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => {
+                        if (notificacion.parentNode) {
+                            notificacion.parentNode.removeChild(notificacion);
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // Configurar cierre de modales al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
