@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECNO-PIA | Gestión de Estudiantes - EXCEVAL + Califica.ai</title>
+    <title>TECNO-PIA | Gestión de Estudiantes - Sistema de Evaluación Tecnológica MEP</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         
@@ -168,15 +168,10 @@
             font-weight: 600;
         }
         
-        .exceval-badge {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary);
-        }
-        
-        .califica-badge {
-            background: rgba(124, 58, 237, 0.1);
-            color: var(--secondary);
-        }
+        .tech-badge-1 { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        .tech-badge-2 { background: rgba(124, 58, 237, 0.1); color: var(--secondary); }
+        .tech-badge-3 { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .tech-badge-4 { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
         
         /* Content Area */
         .content {
@@ -544,7 +539,7 @@
         <div class="header">
             <div class="logo">
                 <h1>TECNO-PIA</h1>
-                <div class="logo-badge">EXCEVAL + Califica.ai</div>
+                <div class="logo-badge">Sistema de Evaluación Tecnológica MEP</div>
             </div>
             <div class="nav-tabs">
                 <a href="principal.html" class="nav-tab">Principal</a>
@@ -566,61 +561,77 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <div class="sidebar-section">
-                    <div class="sidebar-title">Gestión EXCEVAL</div>
+                    <div class="sidebar-title">Gestión Estudiantil</div>
                     <ul class="sidebar-menu">
                         <li><a href="#" class="active">
                             <span>📋 Lista de Estudiantes</span>
-                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                            <span class="module-badge tech-badge-1">TECNO</span>
                         </a></li>
                         <li><a href="#">
                             <span>➕ Agregar Estudiante</span>
-                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                            <span class="module-badge tech-badge-2">TECNO</span>
                         </a></li>
                         <li><a href="#">
                             <span>📁 Grupos/Niveles</span>
-                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                            <span class="module-badge tech-badge-3">TECNO</span>
                         </a></li>
                         <li><a href="#">
                             <span>📊 Historial Académico</span>
-                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                            <span class="module-badge tech-badge-4">TECNO</span>
                         </a></li>
                         <li><a href="#">
                             <span>📤 Importar CSV</span>
-                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                            <span class="module-badge tech-badge-1">MEP</span>
                         </a></li>
                         <li><a href="#">
                             <span>📥 Exportar MEP</span>
-                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                            <span class="module-badge tech-badge-2">MEP</span>
                         </a></li>
                     </ul>
                 </div>
 
                 <div class="sidebar-section">
-                    <div class="sidebar-title">Inteligencia Califica.ai</div>
+                    <div class="sidebar-title">Áreas Tecnológicas PNFT</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">
+                            <span>💻 Apropiación Tecnológica</span>
+                            <span class="module-badge tech-badge-1">PNFT</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>⚡ Programación</span>
+                            <span class="module-badge tech-badge-2">PNFT</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🤖 Computación Física</span>
+                            <span class="module-badge tech-badge-3">PNFT</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🧠 Ciencia de Datos</span>
+                            <span class="module-badge tech-badge-4">PNFT</span>
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Análisis Inteligente</div>
                     <ul class="sidebar-menu">
                         <li><a href="#">
                             <span>🧠 Portafolios Digitales</span>
-                            <span class="module-badge califica-badge">Califica.ai</span>
                         </a></li>
                         <li><a href="#">
                             <span>📈 Progreso Inteligente</span>
-                            <span class="module-badge califica-badge">Califica.ai</span>
                         </a></li>
                         <li><a href="#">
                             <span>⚠️ Alertas Tempranas</span>
-                            <span class="module-badge califica-badge">Califica.ai</span>
                         </a></li>
                         <li><a href="#">
                             <span>🔮 Predicción de Desempeño</span>
-                            <span class="module-badge califica-badge">Califica.ai</span>
                         </a></li>
                         <li><a href="#">
                             <span>📱 Comunicación Familias</span>
-                            <span class="module-badge califica-badge">Califica.ai</span>
                         </a></li>
                         <li><a href="#">
                             <span>🎯 Recomendaciones IA</span>
-                            <span class="module-badge califica-badge">Califica.ai</span>
                         </a></li>
                     </ul>
                 </div>
@@ -643,11 +654,11 @@
                 <div class="page-header">
                     <div>
                         <h1 class="page-title">Gestión de Estudiantes</h1>
-                        <p class="page-subtitle">Módulo EXCEVAL + Portafolios Digitales Califica.ai</p>
+                        <p class="page-subtitle">Módulo de Gestión Estudiantil con Portafolios Digitales</p>
                     </div>
                     <div class="table-actions">
                         <button class="btn btn-secondary" onclick="exportData()">
-                            📤 Exportar CSV
+                            📤 Exportar CSV MEP
                         </button>
                         <button class="btn btn-primary" onclick="showImportModal()">
                             📥 Importar Estudiantes
@@ -695,7 +706,7 @@
                     <div class="tab active" onclick="switchTab('list')">📋 Lista de Estudiantes</div>
                     <div class="tab" onclick="switchTab('groups')">👥 Grupos por Nivel</div>
                     <div class="tab" onclick="switchTab('portfolios')">📁 Portafolios Digitales</div>
-                    <div class="tab" onclick="switchTab('analytics')">📈 Análisis IA</div>
+                    <div class="tab" onclick="switchTab('analytics')">📈 Análisis Inteligente</div>
                 </div>
 
                 <!-- Tab Content: Student List -->
@@ -705,7 +716,7 @@
                             <div>
                                 <h3 style="font-size: 18px; font-weight: 600;">Registro de Estudiantes</h3>
                                 <p style="color: var(--gray); margin-top: 5px; font-size: 14px;">
-                                    Gestión EXCEVAL con integración de portafolios digitales Califica.ai
+                                    Gestión de estudiantes con integración de portafolios digitales tecnológicos
                                 </p>
                             </div>
                             <div class="table-actions">
@@ -864,7 +875,7 @@
                 <div id="tab-portfolios" class="tab-content">
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">📁 Portafolios Digitales - Califica.ai</div>
+                            <div class="card-title">📁 Portafolios Digitales</div>
                             <button class="btn btn-primary btn-sm" onclick="generateAllPortfolios()">
                                 🚀 Generar Todos los Portafolios
                             </button>
@@ -879,7 +890,7 @@
                 <div id="tab-analytics" class="tab-content">
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">📈 Análisis Predictivo - Inteligencia Califica.ai</div>
+                            <div class="card-title">📈 Análisis Predictivo - Inteligencia</div>
                         </div>
                         <div class="form-grid">
                             <div>
@@ -964,12 +975,12 @@
     <div id="importModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 style="font-size: 20px; font-weight: 600;">📥 Importar Estudiantes desde CSV/Excel</h2>
+                <h2 style="font-size: 20px; font-weight: 600;">📥 Importar Estudiantes desde CSV/Excel MEP</h2>
                 <button onclick="closeModal('importModal')" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray);">×</button>
             </div>
             <div class="modal-body">
                 <div style="background: var(--light); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                    <h4 style="margin-bottom: 10px; color: var(--dark);">Formato EXCEVAL Compatible:</h4>
+                    <h4 style="margin-bottom: 10px; color: var(--dark);">Formato Compatible MEP:</h4>
                     <pre style="font-size: 12px; color: var(--gray);">
 ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
 2024001,Juan,Perez,4-6,10,juan@email.com,8888-8888
@@ -1026,6 +1037,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         progress: 65,
                         portfolio: true,
                         status: 'active',
+                        techAreas: ['Apropiación', 'Programación'],
+                        pnftLevel: 'Preescolar - Nivel 1',
                         lastUpdated: new Date().toISOString()
                     },
                     {
@@ -1037,6 +1050,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         progress: 82,
                         portfolio: true,
                         status: 'active',
+                        techAreas: ['Programación', 'Robótica'],
+                        pnftLevel: 'I Ciclo - Nivel 2',
                         lastUpdated: new Date().toISOString()
                     },
                     {
@@ -1048,6 +1063,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         progress: 78,
                         portfolio: true,
                         status: 'active',
+                        techAreas: ['Robótica', 'Ciencia de Datos'],
+                        pnftLevel: 'II Ciclo - Nivel 3',
                         lastUpdated: new Date().toISOString()
                     },
                     {
@@ -1059,6 +1076,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         progress: 91,
                         portfolio: true,
                         status: 'active',
+                        techAreas: ['Ciencia de Datos', 'Apropiación'],
+                        pnftLevel: 'III Ciclo - Nivel 4',
                         lastUpdated: new Date().toISOString()
                     },
                     {
@@ -1070,6 +1089,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         progress: 45,
                         portfolio: false,
                         status: 'needs_attention',
+                        techAreas: ['Apropiación'],
+                        pnftLevel: 'Preescolar - Nivel 1',
                         lastUpdated: new Date().toISOString()
                     },
                     {
@@ -1081,6 +1102,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         progress: 73,
                         portfolio: true,
                         status: 'active',
+                        techAreas: ['Programación'],
+                        pnftLevel: 'I Ciclo - Nivel 2',
                         lastUpdated: new Date().toISOString()
                     },
                     {
@@ -1092,6 +1115,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         progress: 88,
                         portfolio: true,
                         status: 'active',
+                        techAreas: ['Robótica', 'Programación'],
+                        pnftLevel: 'II Ciclo - Nivel 3',
                         lastUpdated: new Date().toISOString()
                     },
                     {
@@ -1103,6 +1128,21 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         progress: 67,
                         portfolio: true,
                         status: 'warning',
+                        techAreas: ['Ciencia de Datos'],
+                        pnftLevel: 'III Ciclo - Nivel 4',
+                        lastUpdated: new Date().toISOString()
+                    },
+                    {
+                        id: '20241009',
+                        name: 'Camila Esperanza Ruiz',
+                        level: 'maternal',
+                        age: 2,
+                        email: 'camila.ruiz@email.com',
+                        progress: 30,
+                        portfolio: false,
+                        status: 'active',
+                        techAreas: ['Apropiación'],
+                        pnftLevel: 'Maternal - Nivel 0',
                         lastUpdated: new Date().toISOString()
                     }
                 ];
@@ -1245,6 +1285,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                 progress: 0,
                 portfolio: false,
                 status: 'active',
+                techAreas: getDefaultTechAreas(document.getElementById('studentLevel').value),
+                pnftLevel: getPNFTLevel(document.getElementById('studentLevel').value),
                 createdAt: new Date().toISOString(),
                 lastUpdated: new Date().toISOString()
             };
@@ -1257,6 +1299,30 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
             document.getElementById('addStudentForm').reset();
             
             showNotification('✅ Estudiante agregado exitosamente', 'success');
+        }
+        
+        // Get default tech areas based on level
+        function getDefaultTechAreas(level) {
+            const areaMap = {
+                'maternal': ['Apropiación'],
+                'preescolar': ['Apropiación', 'Programación'],
+                '1-3': ['Programación', 'Robótica'],
+                '4-6': ['Robótica', 'Ciencia de Datos'],
+                '7-9': ['Ciencia de Datos', 'Apropiación']
+            };
+            return areaMap[level] || ['Apropiación'];
+        }
+        
+        // Get PNFT level based on student level
+        function getPNFTLevel(level) {
+            const pnftMap = {
+                'maternal': 'Maternal - Nivel 0',
+                'preescolar': 'Preescolar - Nivel 1',
+                '1-3': 'I Ciclo - Nivel 2',
+                '4-6': 'II Ciclo - Nivel 3',
+                '7-9': 'III Ciclo - Nivel 4'
+            };
+            return pnftMap[level] || 'Nivel no definido';
         }
         
         // Edit student
@@ -1282,6 +1348,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                     student.email = document.getElementById('studentEmail').value;
                     student.phone = document.getElementById('studentPhone').value;
                     student.notes = document.getElementById('studentNotes').value;
+                    student.techAreas = getDefaultTechAreas(student.level);
+                    student.pnftLevel = getPNFTLevel(student.level);
                     student.lastUpdated = new Date().toISOString();
                     
                     saveStudents(students);
@@ -1354,29 +1422,34 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                 'maternal': [
                     'Interacción con tabletas educativas',
                     'Reconocimiento de colores y formas digitales',
-                    'Actividades táctiles básicas'
+                    'Actividades táctiles básicas',
+                    'Manipulación de objetos tecnológicos seguros'
                 ],
                 'preescolar': [
                     'Proyectos en Scratch Jr.',
                     'Introducción a la robótica con Bee-Bot',
-                    'Actividades de pensamiento computacional'
+                    'Actividades de pensamiento computacional',
+                    'Uso básico de herramientas digitales'
                 ],
                 '1-3': [
                     'Proyectos Scratch avanzados',
-                    'Diseño 2D básico',
-                    'Circuitos simples con materiales reciclados'
+                    'Diseño 2D básico con herramientas digitales',
+                    'Circuitos simples con materiales reciclados',
+                    'Introducción a conceptos de programación'
                 ],
                 '4-6': [
                     'Programación en Python básico',
                     'Diseño 3D con Tinkercad',
-                    'Robótica con Arduino',
-                    'Desarrollo web con HTML/CSS'
+                    'Robótica con Arduino básico',
+                    'Desarrollo web con HTML/CSS simple',
+                    'Introducción a análisis de datos'
                 ],
                 '7-9': [
-                    'Desarrollo de aplicaciones móviles',
+                    'Desarrollo de aplicaciones móviles básicas',
                     'Inteligencia Artificial con Teachable Machine',
-                    'Proyectos IoT',
-                    'Análisis de datos con Python'
+                    'Proyectos IoT simples',
+                    'Análisis de datos con Python',
+                    'Diseño de sistemas automatizados'
                 ]
             };
             
@@ -1386,11 +1459,13 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         <h4 style="margin-bottom: 10px; color: var(--dark);">Información del Estudiante</h4>
                         <p><strong>ID:</strong> ${student.id}</p>
                         <p><strong>Nivel:</strong> ${getLevelName(student.level)}</p>
+                        <p><strong>Nivel PNFT:</strong> ${student.pnftLevel}</p>
                         <p><strong>Edad:</strong> ${student.age} años</p>
                         <p><strong>Progreso:</strong> ${student.progress}%</p>
+                        <p><strong>Áreas Tecnológicas:</strong> ${student.techAreas?.join(', ') || 'No asignadas'}</p>
                         
-                        <h4 style="margin-top: 20px; margin-bottom: 10px; color: var(--dark);">Recursos Recomendados</h4>
-                        <ul style="padding-left: 20px; color: var(--gray);">
+                        <h4 style="margin-top: 20px; margin-bottom: 10px; color: var(--dark);">Recursos Recomendados PNFT</h4>
+                        <ul style="padding-left: 20px; color: var(--gray); font-size: 13px;">
                             ${levelResources[student.level]?.map(item => `<li>${item}</li>`).join('') || '<li>No hay recursos específicos</li>'}
                         </ul>
                     </div>
@@ -1398,16 +1473,22 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                         <h4 style="margin-bottom: 10px; color: var(--dark);">Proyectos Tecnológicos</h4>
                         <div style="background: var(--light); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
                             <strong>🛠️ Proyecto Actual:</strong> ${getCurrentProject(student.level)}
+                            <p style="margin-top: 10px; font-size: 13px; color: var(--gray);">
+                                ${getProjectDescription(student.level)}
+                            </p>
                         </div>
                         
-                        <h4 style="margin-bottom: 10px; color: var(--dark);">Análisis de Competencias</h4>
+                        <h4 style="margin-bottom: 10px; color: var(--dark);">Análisis de Competencias PNFT</h4>
                         <div style="background: var(--light); padding: 15px; border-radius: 10px;">
-                            ${generateCompetencyAnalysis(student)}
+                            ${generatePNFTCompetencyAnalysis(student)}
                         </div>
                         
-                        <div style="margin-top: 20px;">
+                        <div style="margin-top: 20px; display: flex; gap: 10px;">
                             <button class="btn btn-primary" onclick="exportPortfolio('${student.id}')">
                                 📤 Exportar Portafolio PDF
+                            </button>
+                            <button class="btn btn-secondary" onclick="generateActivityPlan('${student.id}')">
+                                📝 Plan de Actividades
                             </button>
                         </div>
                     </div>
@@ -1418,32 +1499,39 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
         // Get current project based on level
         function getCurrentProject(level) {
             const projects = {
-                'maternal': 'Juego de reconocimiento de formas digitales',
-                'preescolar': 'Animación interactiva en Scratch Jr.',
-                '1-3': 'Videojuego educativo en Scratch',
-                '4-6': 'Sistema automatizado con Arduino',
-                '7-9': 'Aplicación web con inteligencia artificial'
+                'maternal': 'Juego de reconocimiento de formas y colores digitales',
+                'preescolar': 'Animación interactiva en Scratch Jr. sobre cuentos',
+                '1-3': 'Videojuego educativo en Scratch sobre matemáticas',
+                '4-6': 'Sistema automatizado con Arduino para control ambiental',
+                '7-9': 'Aplicación web con inteligencia artificial para clasificación de imágenes'
             };
             return projects[level] || 'Proyecto tecnológico personalizado';
         }
         
-        // Generate competency analysis
-        function generateCompetencyAnalysis(student) {
-            const competencies = {
-                'pensamiento_computacional': Math.min(100, student.progress + 20),
-                'programacion': Math.min(100, student.progress + 10),
-                'diseno_digital': Math.min(100, student.progress + 15),
-                'robotic': Math.min(100, student.progress - 5),
-                'colaboracion': Math.min(100, student.progress + 25)
+        // Get project description
+        function getProjectDescription(level) {
+            const descriptions = {
+                'maternal': 'Proyecto de acercamiento inicial a la tecnología mediante juegos interactivos simples.',
+                'preescolar': 'Desarrollo de historias interactivas que fomentan el pensamiento computacional.',
+                '1-3': 'Creación de videojuegos educativos que desarrollan habilidades de programación por bloques.',
+                '4-6': 'Implementación de sistemas automatizados que integran programación y electrónica.',
+                '7-9': 'Desarrollo de soluciones tecnológicas complejas integrando múltiples áreas del conocimiento.'
             };
+            return descriptions[level] || 'Proyecto tecnológico adaptado al nivel del estudiante.';
+        }
+        
+        // Generate PNFT competency analysis
+        function generatePNFTCompetencyAnalysis(student) {
+            const competencies = getPNFTCompetencies(student.level);
             
             let html = '';
-            for (const [competency, value] of Object.entries(competencies)) {
+            for (const competency of competencies) {
+                const value = calculateCompetencyValue(student, competency);
                 html += `
                     <div style="margin-bottom: 10px;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span>${competency.replace('_', ' ').toUpperCase()}</span>
-                            <span>${value}%</span>
+                            <span style="font-size: 13px;">${competency.name}</span>
+                            <span style="font-weight: 600; font-size: 13px;">${value}%</span>
                         </div>
                         <div class="progress">
                             <div class="progress-bar" style="width: ${value}%;"></div>
@@ -1454,20 +1542,103 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
             return html;
         }
         
+        // Get PNFT competencies by level
+        function getPNFTCompetencies(level) {
+            const competencies = {
+                'maternal': [
+                    { name: 'Reconocimiento tecnológico', weight: 0.3 },
+                    { name: 'Interacción básica', weight: 0.4 },
+                    { name: 'Curiosidad digital', weight: 0.3 }
+                ],
+                'preescolar': [
+                    { name: 'Uso de herramientas digitales', weight: 0.25 },
+                    { name: 'Pensamiento algorítmico', weight: 0.25 },
+                    { name: 'Creación digital básica', weight: 0.25 },
+                    { name: 'Colaboración tecnológica', weight: 0.25 }
+                ],
+                '1-3': [
+                    { name: 'Programación por bloques', weight: 0.3 },
+                    { name: 'Diseño digital', weight: 0.2 },
+                    { name: 'Resolución de problemas', weight: 0.3 },
+                    { name: 'Comunicación digital', weight: 0.2 }
+                ],
+                '4-6': [
+                    { name: 'Programación textual', weight: 0.25 },
+                    { name: 'Diseño 3D', weight: 0.2 },
+                    { name: 'Robótica básica', weight: 0.25 },
+                    { name: 'Análisis de datos simple', weight: 0.15 },
+                    { name: 'Proyectos colaborativos', weight: 0.15 }
+                ],
+                '7-9': [
+                    { name: 'Desarrollo de software', weight: 0.2 },
+                    { name: 'Inteligencia Artificial', weight: 0.2 },
+                    { name: 'Internet de las Cosas', weight: 0.2 },
+                    { name: 'Análisis de datos avanzado', weight: 0.2 },
+                    { name: 'Innovación tecnológica', weight: 0.2 }
+                ]
+            };
+            return competencies[level] || [{ name: 'Competencias generales', weight: 1 }];
+        }
+        
+        // Calculate competency value
+        function calculateCompetencyValue(student, competency) {
+            // Base value from student progress plus some variation
+            const base = student.progress || 0;
+            const variation = Math.random() * 20 - 10; // -10 to +10
+            return Math.max(0, Math.min(100, Math.round(base + variation)));
+        }
+        
         // Generate all portfolios
         function generateAllPortfolios() {
             showNotification('🚀 Generando portafolios digitales para todos los estudiantes...', 'info');
             
             // Simulate portfolio generation
             setTimeout(() => {
+                const students = getStudents();
+                students.forEach(student => {
+                    if (!student.portfolio) {
+                        student.portfolio = true;
+                        student.lastUpdated = new Date().toISOString();
+                    }
+                });
+                saveStudents(students);
                 showNotification('✅ Portafolios digitales generados exitosamente', 'success');
             }, 2000);
         }
         
         // Export portfolio as PDF
         function exportPortfolio(studentId) {
-            showNotification('📤 Preparando exportación del portafolio en formato PDF...', 'info');
+            showNotification('📤 Preparando exportación del portafolio en formato PDF MEP...', 'info');
             // In a real implementation, this would generate and download a PDF
+            setTimeout(() => {
+                showNotification('✅ Portafolio exportado en formato PDF', 'success');
+            }, 1500);
+        }
+        
+        // Generate activity plan
+        function generateActivityPlan(studentId) {
+            const students = getStudents();
+            const student = students.find(s => s.id === studentId);
+            
+            if (student) {
+                const plan = `Plan de actividades tecnológicas para ${student.name} (${getLevelName(student.level)})
+                
+                📋 ACTIVIDADES SEMANALES:
+                1. Ejercicio de programación básica (30 min)
+                2. Proyecto práctico de tecnología (45 min)
+                3. Revisión de portafolio digital (20 min)
+                4. Actividad colaborativa (40 min)
+                
+                🎯 OBJETIVOS:
+                • Mejorar competencia en ${student.techAreas?.[0] || 'tecnología'}
+                • Completar proyecto principal
+                • Desarrollar pensamiento computacional
+                
+                📅 DURACIÓN: 4 semanas
+                📊 EVALUACIÓN: Seguimiento continuo mediante portafolio`;
+                
+                alert(plan);
+            }
         }
         
         // Generate AI recommendations
@@ -1479,53 +1650,77 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
             let recommendations = '';
             
             if (atRisk.length > 0) {
-                recommendations += `<p>⚠️ <strong>${atRisk.length} estudiantes requieren atención inmediata</strong>. Revise sus portafolios para intervención pedagógica.</p>`;
+                recommendations += `<p>⚠️ <strong>${atRisk.length} estudiantes requieren atención inmediata</strong>. Revise sus portafolios para intervención pedagógica según PNFT.</p>`;
             }
             
             if (lowProgress.length > 0) {
-                recommendations += `<p>📉 <strong>${lowProgress.length} estudiantes con progreso bajo (<50%)</strong>. Considere actividades diferenciadas.</p>`;
+                recommendations += `<p>📉 <strong>${lowProgress.length} estudiantes con progreso bajo (<50%)</strong>. Considere actividades diferenciadas en las áreas tecnológicas correspondientes.</p>`;
             }
             
             if (noPortfolio.length > 0) {
-                recommendations += `<p>📁 <strong>${noPortfolio.length} estudiantes sin portafolio digital</strong>. Genere portafolios para seguimiento completo.</p>`;
+                recommendations += `<p>📁 <strong>${noPortfolio.length} estudiantes sin portafolio digital</strong>. Genere portafolios para seguimiento completo según estándares MEP.</p>`;
             }
             
             if (!recommendations) {
-                recommendations = '<p>✅ Todos los estudiantes están progresando adecuadamente. Continúe con el plan actual.</p>';
+                recommendations = '<p>✅ Todos los estudiantes están progresando adecuadamente según estándares PNFT. Continúe con el plan actual.</p>';
             }
             
-            // Add personalized recommendations
-            recommendations += `<p style="margin-top: 15px;"><strong>🎯 Recomendación personalizada:</strong> ${getPersonalizedRecommendation(students)}</p>`;
+            // Add personalized recommendations based on PNFT
+            recommendations += `<p style="margin-top: 15px;"><strong>🎯 Recomendación PNFT:</strong> ${getPNFTRecommendation(students)}</p>`;
             
             document.getElementById('aiRecommendations').innerHTML = recommendations;
         }
         
-        // Get personalized recommendation
-        function getPersonalizedRecommendation(students) {
+        // Get PNFT recommendation
+        function getPNFTRecommendation(students) {
             const levels = students.map(s => s.level);
             const uniqueLevels = [...new Set(levels)];
             
             if (uniqueLevels.length === 1) {
-                return `Grupo homogéneo de ${getLevelName(uniqueLevels[0])}. Implemente proyectos colaborativos.`;
+                return `Grupo homogéneo de ${getLevelName(uniqueLevels[0])}. Implemente proyectos colaborativos según PNFT nivel ${getPNFTLevelNumber(uniqueLevels[0])}.`;
             }
             
-            return `Grupo multinivel detectado. Implemente aprendizaje diferenciado por estaciones tecnológicas.`;
+            const techAreaCount = {};
+            students.forEach(student => {
+                student.techAreas?.forEach(area => {
+                    techAreaCount[area] = (techAreaCount[area] || 0) + 1;
+                });
+            });
+            
+            const mostCommonArea = Object.keys(techAreaCount).reduce((a, b) => 
+                techAreaCount[a] > techAreaCount[b] ? a : b, 'Apropiación');
+            
+            return `Grupo multinivel detectado. Implemente aprendizaje diferenciado por estaciones tecnológicas, enfocado en ${mostCommonArea}.`;
+        }
+        
+        // Get PNFT level number
+        function getPNFTLevelNumber(level) {
+            const levelMap = {
+                'maternal': 0,
+                'preescolar': 1,
+                '1-3': 2,
+                '4-6': 3,
+                '7-9': 4
+            };
+            return levelMap[level] || 0;
         }
         
         // Export data to CSV
         function exportData() {
             const students = getStudents();
-            const headers = ['ID', 'Nombre', 'Nivel', 'Edad', 'Email', 'Progreso', 'Estado'];
+            const headers = ['ID', 'Nombre', 'Nivel', 'PNFT_Nivel', 'Edad', 'Email', 'Progreso', 'Estado', 'Areas_Tecnologicas'];
             const csv = [
                 headers.join(','),
                 ...students.map(s => [
                     s.id,
                     `"${s.name}"`,
                     s.level,
+                    s.pnftLevel,
                     s.age,
                     s.email || '',
                     s.progress,
-                    s.status
+                    s.status,
+                    `"${s.techAreas?.join(';') || ''}"`
                 ].join(','))
             ].join('\n');
             
@@ -1533,12 +1728,12 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `estudiantes_tecnologia_${new Date().toISOString().slice(0,10)}.csv`;
+            a.download = `estudiantes_tecnologia_mep_${new Date().toISOString().slice(0,10)}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             
-            showNotification('📤 Datos exportados en formato CSV', 'success');
+            showNotification('📤 Datos exportados en formato CSV MEP', 'success');
         }
         
         // Import CSV data
@@ -1558,15 +1753,19 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                 
                 for (let i = 1; i < lines.length; i++) {
                     const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+                    const level = values[3]?.toLowerCase() || '1-3';
+                    
                     const student = {
                         id: values[0] || `IMP${Date.now()}${i}`,
                         name: values[1] || 'Estudiante Importado',
-                        level: values[3]?.toLowerCase() || '1-3',
+                        level: level,
                         age: parseInt(values[4]) || 8,
                         email: values[5] || '',
                         progress: 0,
                         portfolio: false,
                         status: 'active',
+                        techAreas: getDefaultTechAreas(level),
+                        pnftLevel: getPNFTLevel(level),
                         imported: true,
                         createdAt: new Date().toISOString()
                     };
@@ -1578,11 +1777,11 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                 saveStudents(allStudents);
                 
                 closeModal('importModal');
-                showNotification(`✅ ${newStudents.length} estudiantes importados exitosamente`, 'success');
+                showNotification(`✅ ${newStudents.length} estudiantes importados exitosamente según formato MEP`, 'success');
                 document.getElementById('csvData').value = '';
                 
             } catch (error) {
-                showNotification('❌ Error al importar datos CSV. Verifique el formato.', 'error');
+                showNotification('❌ Error al importar datos CSV. Verifique el formato MEP.', 'error');
                 console.error('Import error:', error);
             }
         }
@@ -1698,7 +1897,8 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
                             </div>
                         </div>
                         <div style="font-size: 13px; color: var(--gray); margin-bottom: 15px;">
-                            <strong>Nivel:</strong> ${getLevelName(student.level)}
+                            <strong>Nivel PNFT:</strong> ${student.pnftLevel}<br>
+                            <strong>Áreas:</strong> ${student.techAreas?.slice(0,2).join(', ')}
                         </div>
                         <div style="display: flex; gap: 10px;">
                             <button class="btn btn-primary btn-sm" onclick="viewPortfolio('${student.id}')" style="flex: 1;">
@@ -1728,15 +1928,31 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
             const lowPerformers = students.filter(s => s.progress < 50);
             
             if (highPerformers.length > 0) {
-                predictionHTML += `<p>🏆 <strong>${highPerformers.length} estudiantes de alto desempeño</strong>: Podrían liderar proyectos avanzados.</p>`;
+                predictionHTML += `<p>🏆 <strong>${highPerformers.length} estudiantes de alto desempeño</strong>: Podrían liderar proyectos avanzados según PNFT.</p>`;
             }
             
             if (mediumPerformers.length > 0) {
-                predictionHTML += `<p>📈 <strong>${mediumPerformers.length} estudiantes con desempeño medio</strong>: Con apoyo adecuado, pueden alcanzar nivel alto.</p>`;
+                predictionHTML += `<p>📈 <strong>${mediumPerformers.length} estudiantes con desempeño medio</strong>: Con apoyo adecuado, pueden alcanzar nivel alto en tecnología.</p>`;
             }
             
             if (lowPerformers.length > 0) {
-                predictionHTML += `<p>📊 <strong>${lowPerformers.length} estudiantes con bajo desempeño</strong>: Requieren intervención diferenciada.</p>`;
+                predictionHTML += `<p>📊 <strong>${lowPerformers.length} estudiantes con bajo desempeño</strong>: Requieren intervención diferenciada en áreas tecnológicas específicas.</p>`;
+            }
+            
+            // Add PNFT analysis
+            const techAreaDistribution = {};
+            students.forEach(student => {
+                student.techAreas?.forEach(area => {
+                    techAreaDistribution[area] = (techAreaDistribution[area] || 0) + 1;
+                });
+            });
+            
+            if (Object.keys(techAreaDistribution).length > 0) {
+                predictionHTML += '<p style="margin-top: 15px;"><strong>📊 Distribución por Área PNFT:</strong></p>';
+                for (const [area, count] of Object.entries(techAreaDistribution)) {
+                    const percentage = Math.round((count / students.length) * 100);
+                    predictionHTML += `<p>• ${area}: ${count} estudiantes (${percentage}%)</p>`;
+                }
             }
             
             predictionHTML += '</div>';
@@ -1749,17 +1965,28 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
             
             if (riskStudents.length > 0) {
                 alertsHTML += '<div style="background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">';
-                alertsHTML += '<strong>⚠️ ALERTAS ACTIVAS</strong><br>';
+                alertsHTML += '<strong>⚠️ ALERTAS TEMPRANAS PNFT</strong><br>';
                 riskStudents.slice(0, 3).forEach(student => {
                     alertsHTML += `<div style="margin-top: 10px;">
                         <strong>${student.name}</strong> (${getLevelName(student.level)})<br>
-                        <span style="font-size: 12px; color: var(--danger);">Progreso: ${student.progress}% - Requiere atención inmediata</span>
+                        <span style="font-size: 12px; color: var(--danger);">Progreso: ${student.progress}% - Áreas: ${student.techAreas?.join(', ') || 'No definidas'}</span>
                     </div>`;
                 });
                 alertsHTML += '</div>';
             } else {
-                alertsHTML += '<p style="color: var(--success);">✅ No hay alertas activas. Todos los estudiantes progresan adecuadamente.</p>';
+                alertsHTML += '<p style="color: var(--success);">✅ No hay alertas activas. Todos los estudiantes progresan adecuadamente según estándares PNFT.</p>';
             }
+            
+            // Add recommendations
+            alertsHTML += '<div style="background: rgba(37, 99, 235, 0.1); padding: 15px; border-radius: 10px; margin-top: 15px;">';
+            alertsHTML += '<strong>🎯 Recomendaciones de Intervención:</strong><br>';
+            alertsHTML += '<ul style="padding-left: 20px; margin-top: 10px; font-size: 13px;">';
+            alertsHTML += '<li>Implementar proyectos colaborativos por áreas tecnológicas</li>';
+            alertsHTML += '<li>Realizar evaluaciones diagnósticas según PNFT</li>';
+            alertsHTML += '<li>Diversificar estrategias según nivel tecnológico</li>';
+            alertsHTML += '<li>Integrar herramientas tecnológicas específicas por área</li>';
+            alertsHTML += '</ul>';
+            alertsHTML += '</div>';
             
             alertsHTML += '</div>';
             document.getElementById('earlyAlerts').innerHTML = alertsHTML;
@@ -1791,13 +2018,13 @@ ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
             const header = document.querySelector('.page-header');
             const testBtn = document.createElement('button');
             testBtn.className = 'btn btn-secondary';
-            testBtn.innerHTML = '🧪 Cargar datos de prueba';
+            testBtn.innerHTML = '🧪 Cargar datos de prueba PNFT';
             testBtn.onclick = function() {
                 localStorage.removeItem(DB_NAME);
                 initializeDatabase();
                 updateDashboard();
                 renderStudentsTable();
-                showNotification('🧪 Datos de prueba cargados exitosamente', 'success');
+                showNotification('🧪 Datos de prueba PNFT cargados exitosamente', 'success');
             };
             header.appendChild(testBtn);
         });
