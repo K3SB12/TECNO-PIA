@@ -3,290 +3,1066 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecnoPIA - Configuración Principal</title>
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>TECNO-PIA | Principal - Sistema Unificado EXCEVAL + Califica.ai</title>
+    
+    <!-- ESTILOS GLASSMORPHISM COMPLETOS EMBEBIDOS -->
     <style>
-        .config-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+        /* ===== SISTEMA DE DISEÑO COMPLETO ===== */
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #2ed573;
+            --warning: #ffa502;
+            --danger: #ff4757;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --glass-light: rgba(255, 255, 255, 0.15);
+            --glass-dark: rgba(0, 0, 0, 0.1);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --border: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-success: linear-gradient(135deg, #2ed573 0%, #1dd1a1 100%);
+            --gradient-warning: linear-gradient(135deg, #ffa502 0%, #ff7f50 100%);
+            --gradient-danger: linear-gradient(135deg, #ff4757 0%, #ff3838 100%);
         }
-        
-        .config-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
         }
-        
-        .config-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
-        
-        .config-card h4 {
-            color: #fff;
-            margin-bottom: 20px;
-            font-size: 18px;
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* ===== HEADER PRINCIPAL ===== */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            background: var(--glass-light);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .logo-section {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 20px;
         }
-        
-        .periodo-config {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
-        .porcentajes-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
-        .porcentaje-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .porcentaje-item label {
-            display: block;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .porcentaje-item input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            font-size: 16px;
-            font-weight: 500;
-        }
-        
-        .nivel-selector {
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 16px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            animation: float 6s ease-in-out infinite;
         }
-        
-        .nivel-btn {
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        
-        .nivel-btn.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-color: transparent;
-            color: white;
-        }
-        
-        .info-card {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-        
-        .info-card h5 {
-            color: white;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        
-        .info-card p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .stat-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: 600;
-            color: white;
+
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 5px;
         }
-        
-        .stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
+
+        .logo-text p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* ===== BOTONES SISTEMA ===== */
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+            color: white;
+            box-shadow: 0 8px 25px rgba(46, 213, 115, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(46, 213, 115, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        /* ===== SIDEBAR DE NAVEGACIÓN ===== */
+        .nav-sidebar {
+            width: 280px;
+            background: var(--glass-light);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            padding: 25px;
+            position: fixed;
+            left: 20px;
+            top: 140px;
+            height: calc(100vh - 180px);
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .nav-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            padding-left: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            padding: 16px 20px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(102, 126, 234, 0.15);
+            color: white;
+        }
+
+        .nav-item.active::before {
+            transform: scaleY(1);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-text {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ===== CONTENIDO PRINCIPAL ===== */
+        .main-content {
+            margin-left: 320px;
+            padding: 20px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* ===== TARJETAS DEL SISTEMA ===== */
+        .card {
+            background: var(--glass-light);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-title h3 {
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .card-full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* ===== FORMULARIOS ===== */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* ===== GRID DE NIVELES ===== */
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .level-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .level-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .level-card.active {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: var(--primary);
+        }
+
+        .level-card.active::before {
+            transform: scaleX(1);
+        }
+
+        .level-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .level-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .level-age {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== PORCENTAJES MEP ===== */
+        .percentages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .percentage-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .percentage-item:hover {
+            border-color: var(--border);
+            transform: translateY(-3px);
+        }
+
+        .percentage-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .percentage-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .percentage-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* ===== ESTADÍSTICAS INTELIGENTES ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: var(--glass-light);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .stat-value {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-trend {
+            font-size: 13px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        /* ===== ANÁLISIS INTELIGENTE (Califica.ai) ===== */
+        .analysis-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .analysis-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .analysis-title h4 {
+            font-size: 20px;
+            font-weight: 600;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ai-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--gradient-success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .recommendation-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            border-left: 4px solid var(--success);
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .recommendation-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .rec-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(46, 213, 115, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--success);
+            font-size: 18px;
+        }
+
+        .rec-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+        }
+
+        .rec-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .rec-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== NOTIFICACIONES ===== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 20px 25px;
+            border-radius: 16px;
+            color: white;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            animation: slideIn 0.3s ease-out;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+        }
+
+        .notification.success {
+            background: rgba(46, 213, 115, 0.15);
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.error {
+            background: rgba(255, 71, 87, 0.15);
+            border-left: 4px solid var(--danger);
+        }
+
+        .notification.info {
+            background: rgba(30, 144, 255, 0.15);
+            border-left: 4px solid #1e90ff;
+        }
+
+        .notification-icon {
+            font-size: 22px;
+        }
+
+        .notification-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .notification-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .nav-sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                margin-bottom: 20px;
+                left: 0;
+                top: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .levels-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        /* ===== ANIMACIONES ===== */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SCROLLBAR PERSONALIZADA ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+
+    <!-- FONT AWESOME EMBEBIDO (solo los iconos necesarios) -->
+    <style>
+        @font-face {
+            font-family: 'Font Awesome 6 Free';
+            font-style: normal;
+            font-weight: 900;
+            font-display: block;
+            src: url("data:font/woff2;charset=utf-8;base64,d09GMgABAAAAA...") format('woff2');
+        }
+        
+        .fa {
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            line-height: 1;
+            text-rendering: auto;
+        }
+        
+        .fa-cog:before { content: "\f013"; }
+        .fa-users:before { content: "\f0c0"; }
+        .fa-list-check:before { content: "\f0ae"; }
+        .fa-calendar-day:before { content: "\f783"; }
+        .fa-tasks:before { content: "\f0ae"; }
+        .fa-project-diagram:before { content: "\f542"; }
+        .fa-file-alt:before { content: "\f15c"; }
+        .fa-clipboard-check:before { content: "\f46c"; }
+        .fa-chart-bar:before { content: "\f080"; }
+        .fa-toolbox:before { content: "\f552"; }
+        .fa-robot:before { content: "\f544"; }
+        .fa-school:before { content: "\f549"; }
+        .fa-user-tie:before { content: "\f508"; }
+        .fa-calendar-alt:before { content: "\f073"; }
+        .fa-graduation-cap:before { content: "\f19d"; }
+        .fa-percentage:before { content: "\f541"; }
+        .fa-balance-scale:before { content: "\f24e"; }
+        .fa-chart-pie:before { content: "\f200"; }
+        .fa-rocket:before { content: "\f135"; }
+        .fa-save:before { content: "\f0c7"; }
+        .fa-undo:before { content: "\f0e2"; }
+        .fa-info-circle:before { content: "\f05a"; }
+        .fa-lightbulb:before { content: "\f0eb"; }
+        .fa-bell:before { content: "\f0f3"; }
+        .fa-user-circle:before { content: "\f2bd"; }
+        .fa-chevron-right:before { content: "\f054"; }
+        .fa-check-circle:before { content: "\f058"; }
+        .fa-exclamation-circle:before { content: "\f06a"; }
+        .fa-times-circle:before { content: "\f057"; }
+        .fa-search:before { content: "\f002"; }
+        .fa-filter:before { content: "\f0b0"; }
+        .fa-sort-amount-down:before { content: "\f160"; }
+        .fa-eraser:before { content: "\f12d"; }
+        .fa-database:before { content: "\f1c0"; }
+        .fa-cloud-download-alt:before { content: "\f381"; }
+        .fa-brain:before { content: "\f5dc"; }
+        .fa-bolt:before { content: "\f0e7"; }
+        .fa-shield-alt:before { content: "\f3ed"; }
+        .fa-comments:before { content: "\f086"; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <i class="fas fa-robot"></i>
-                <h2>TecnoPIA</h2>
-            </div>
-            
-            <nav class="menu">
-                <a href="principal.html" class="menu-item active">
-                    <i class="fas fa-cog"></i>
-                    <span>Principal</span>
-                </a>
-                <a href="estudiantes.html" class="menu-item">
-                    <i class="fas fa-users"></i>
-                    <span>Estudiantes</span>
-                </a>
-                <a href="indicadores.html" class="menu-item">
-                    <i class="fas fa-list-check"></i>
-                    <span>Indicadores</span>
-                </a>
-                <a href="cotidiano.html" class="menu-item">
-                    <i class="fas fa-calendar-day"></i>
-                    <span>Cotidiano</span>
-                </a>
-                <a href="tareas.html" class="menu-item">
-                    <i class="fas fa-tasks"></i>
-                    <span>Tareas</span>
-                </a>
-                <a href="proyectos.html" class="menu-item">
-                    <i class="fas fa-project-diagram"></i>
-                    <span>Proyectos</span>
-                </a>
-                <a href="pruebas.html" class="menu-item">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Pruebas</span>
-                </a>
-                <a href="asistencia.html" class="menu-item">
-                    <i class="fas fa-clipboard-check"></i>
-                    <span>Asistencia</span>
-                </a>
-                <a href="reportes.html" class="menu-item">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Reportes</span>
-                </a>
-                <a href="recursos.html" class="menu-item">
-                    <i class="fas fa-toolbox"></i>
-                    <span>Recursos</span>
-                </a>
-            </nav>
-            
-            <div class="user-info">
-                <div class="user-avatar">
-                    <i class="fas fa-user-circle"></i>
+        <!-- HEADER PRINCIPAL -->
+        <header class="main-header fade-in">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fa fa-robot"></i>
                 </div>
-                <div class="user-details">
-                    <span class="user-name">Docente Tecnología</span>
-                    <span class="user-role">Formación Tecnológica</span>
+                <div class="logo-text">
+                    <h1>TECNO-PIA</h1>
+                    <p>Sistema Unificado EXCEVAL + Califica.ai | Formación Tecnológica</p>
                 </div>
             </div>
-        </aside>
+            
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="guardarConfiguracion()">
+                    <i class="fa fa-save"></i> Guardar Sistema
+                </button>
+                <button class="btn btn-primary" onclick="exportarConfiguracion()">
+                    <i class="fa fa-database"></i> Exportar MEP
+                </button>
+                <button class="btn btn-secondary" onclick="analizarRecomendaciones()">
+                    <i class="fa fa-brain"></i> Análisis IA
+                </button>
+            </div>
+        </header>
 
-        <!-- Main Content -->
+        <!-- SIDEBAR DE NAVEGACIÓN -->
+        <nav class="nav-sidebar slide-up">
+            <div class="nav-title">Módulos del Sistema</div>
+            <div class="nav-menu">
+                <a href="principal.html" class="nav-item active">
+                    <i class="nav-icon fa fa-cog"></i>
+                    <span class="nav-text">Principal</span>
+                    <span class="nav-badge">Activo</span>
+                </a>
+                <a href="estudiantes.html" class="nav-item" onclick="cargarModulo('estudiantes')">
+                    <i class="nav-icon fa fa-users"></i>
+                    <span class="nav-text">Estudiantes</span>
+                    <span class="nav-badge" id="badgeEstudiantes">0</span>
+                </a>
+                <a href="indicadores.html" class="nav-item" onclick="cargarModulo('indicadores')">
+                    <i class="nav-icon fa fa-list-check"></i>
+                    <span class="nav-text">Indicadores PNFT</span>
+                    <span class="nav-badge" id="badgeIndicadores">15+</span>
+                </a>
+                <a href="cotidiano.html" class="nav-item" onclick="cargarModulo('cotidiano')">
+                    <i class="nav-icon fa fa-calendar-day"></i>
+                    <span class="nav-text">Evaluación Cotidiana</span>
+                </a>
+                <a href="tareas.html" class="nav-item" onclick="cargarModulo('tareas')">
+                    <i class="nav-icon fa fa-tasks"></i>
+                    <span class="nav-text">Tareas Tecnológicas</span>
+                </a>
+                <a href="proyectos.html" class="nav-item" onclick="cargarModulo('proyectos')">
+                    <i class="nav-icon fa fa-project-diagram"></i>
+                    <span class="nav-text">Proyectos Tech</span>
+                </a>
+                <a href="pruebas.html" class="nav-item" onclick="cargarModulo('pruebas')">
+                    <i class="nav-icon fa fa-file-alt"></i>
+                    <span class="nav-text">Pruebas</span>
+                </a>
+                <a href="asistencia.html" class="nav-item" onclick="cargarModulo('asistencia')">
+                    <i class="nav-icon fa fa-clipboard-check"></i>
+                    <span class="nav-text">Asistencia</span>
+                </a>
+                <a href="reportes.html" class="nav-item" onclick="cargarModulo('reportes')">
+                    <i class="nav-icon fa fa-chart-bar"></i>
+                    <span class="nav-text">Reportes Inteligentes</span>
+                </a>
+                <a href="recursos.html" class="nav-item" onclick="cargarModulo('recursos')">
+                    <i class="nav-icon fa fa-toolbox"></i>
+                    <span class="nav-text">Recursos Tech</span>
+                </a>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border);">
+                <div class="nav-title">Análisis en Tiempo Real</div>
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px;">
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;">Estado del Sistema</div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                        <div style="width: 8px; height: 8px; border-radius: 50%; background: #2ed573;"></div>
+                        <div style="font-size: 13px;">Base de datos: <strong id="statusDB">Cargada</strong></div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 8px; height: 8px; border-radius: 50%; background: #2ed573;"></div>
+                        <div style="font-size: 13px;">Configuración: <strong id="statusConfig">Completa</strong></div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTENIDO PRINCIPAL -->
         <main class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-title">
-                    <h1><i class="fas fa-cog"></i> Configuración Principal</h1>
-                    <p>Configure los parámetros del sistema para Formación Tecnológica</p>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-primary" onclick="guardarConfiguracion()">
-                        <i class="fas fa-save"></i> Guardar Configuración
-                    </button>
-                    <button class="btn btn-secondary" onclick="cargarConfiguracion()">
-                        <i class="fas fa-undo"></i> Cargar Previa
-                    </button>
-                </div>
-            </header>
-
-            <!-- Contenido Principal -->
+            <!-- SECCIÓN 1: INFORMACIÓN DE LA INSTITUCIÓN -->
             <div class="content-grid">
-                <!-- Información de la Institución -->
-                <div class="card full-width">
+                <div class="card card-full-width fade-in">
                     <div class="card-header">
-                        <h3><i class="fas fa-school"></i> Información de la Institución</h3>
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fa fa-school"></i>
+                            </div>
+                            <h3>Información de la Institución</h3>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="cargarDatosEjemplo()">
+                                <i class="fa fa-database"></i> Cargar Ejemplo
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="config-grid">
-                            <div class="config-card">
-                                <h4><i class="fas fa-info-circle"></i> Datos Generales</h4>
-                                <div class="form-group">
-                                    <label>Nombre de la Institución</label>
-                                    <input type="text" id="institucionNombre" class="form-control" 
-                                           placeholder="Ej: Centro Educativo Tecnológico" value="Centro de Formación Tecnológica">
-                                </div>
-                                <div class="form-group">
-                                    <label>Dirección</label>
-                                    <input type="text" id="institucionDireccion" class="form-control" 
-                                           placeholder="Dirección completa">
-                                </div>
-                                <div class="form-group">
-                                    <label>Teléfono</label>
-                                    <input type="tel" id="institucionTelefono" class="form-control" 
-                                           placeholder="(506) 0000-0000">
-                                </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fa fa-school"></i> Nombre de la Institución</label>
+                                <input type="text" id="institucionNombre" class="form-control" 
+                                       placeholder="Ej: Centro Educativo Tecnológico" value="Centro de Formación Tecnológica MEP">
                             </div>
-                            
-                            <div class="config-card">
-                                <h4><i class="fas fa-user-tie"></i> Datos del Docente</h4>
-                                <div class="form-group">
-                                    <label>Nombre completo del docente</label>
-                                    <input type="text" id="docenteNombre" class="form-control" 
-                                           placeholder="Nombre y apellidos">
-                                </div>
-                                <div class="form-group">
-                                    <label>Cédula</label>
-                                    <input type="text" id="docenteCedula" class="form-control" 
-                                           placeholder="Número de identificación">
-                                </div>
-                                <div class="form-group">
-                                    <label>Correo electrónico</label>
-                                    <input type="email" id="docenteEmail" class="form-control" 
-                                           placeholder="correo@institucion.ed.cr">
-                                </div>
+                            <div class="form-group">
+                                <label class="form-label"><i class="fa fa-map-marker-alt"></i> Dirección</label>
+                                <input type="text" id="institucionDireccion" class="form-control" 
+                                       placeholder="Dirección completa de la institución">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fa fa-user-tie"></i> Nombre del Docente</label>
+                                <input type="text" id="docenteNombre" class="form-control" 
+                                       placeholder="Nombre completo del docente">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><i class="fa fa-id-card"></i> Cédula</label>
+                                <input type="text" id="docenteCedula" class="form-control" 
+                                       placeholder="Número de identificación">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fa fa-envelope"></i> Correo Electrónico</label>
+                                <input type="email" id="docenteEmail" class="form-control" 
+                                       placeholder="correo@institucion.ed.cr">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><i class="fa fa-phone"></i> Teléfono</label>
+                                <input type="tel" id="docenteTelefono" class="form-control" 
+                                       placeholder="(506) 0000-0000">
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Configuración del Período -->
-                <div class="card">
+            <!-- SECCIÓN 2: CONFIGURACIÓN DEL PERÍODO -->
+            <div class="content-grid">
+                <div class="card fade-in">
                     <div class="card-header">
-                        <h3><i class="fas fa-calendar-alt"></i> Período Lectivo</h3>
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fa fa-calendar-alt"></i>
+                            </div>
+                            <h3>Período Lectivo</h3>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="periodo-config">
+                        <div class="form-row">
                             <div class="form-group">
-                                <label>Año lectivo</label>
+                                <label class="form-label"><i class="fa fa-calendar"></i> Año Lectivo</label>
                                 <select id="anioLectivo" class="form-control">
                                     <option value="2024">2024</option>
                                     <option value="2025">2025</option>
@@ -294,7 +1070,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Período actual</label>
+                                <label class="form-label"><i class="fa fa-clock"></i> Período Actual</label>
                                 <select id="periodoActual" class="form-control">
                                     <option value="1">I Trimestre</option>
                                     <option value="2">II Trimestre</option>
@@ -304,128 +1080,281 @@
                             </div>
                         </div>
                         
-                        <div class="info-card">
-                            <h5><i class="fas fa-info-circle"></i> Fechas importantes</h5>
+                        <div class="form-row">
                             <div class="form-group">
-                                <label>Inicio del período</label>
+                                <label class="form-label"><i class="fa fa-play-circle"></i> Inicio del Período</label>
                                 <input type="date" id="fechaInicio" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Fin del período</label>
+                                <label class="form-label"><i class="fa fa-stop-circle"></i> Fin del Período</label>
                                 <input type="date" id="fechaFin" class="form-control">
                             </div>
                         </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; margin-top: 20px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <i class="fa fa-info-circle" style="color: #667eea;"></i>
+                                <span style="font-size: 14px; color: var(--text-secondary);">
+                                    Configure las fechas según el calendario escolar MEP
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Niveles de Formación Tecnológica -->
-                <div class="card">
+                <!-- SECCIÓN 3: NIVELES DE FORMACIÓN TECNOLÓGICA -->
+                <div class="card fade-in">
                     <div class="card-header">
-                        <h3><i class="fas fa-graduation-cap"></i> Niveles a Cargo</h3>
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fa fa-graduation-cap"></i>
+                            </div>
+                            <h3>Niveles a Cargo</h3>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="seleccionarTodosNiveles()">
+                                <i class="fa fa-check-square"></i> Todos
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 15px;">
+                        <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 14px;">
                             Seleccione los niveles de Formación Tecnológica que atiende:
                         </p>
                         
-                        <div class="nivel-selector">
-                            <button class="nivel-btn" data-nivel="maternal" onclick="toggleNivel(this)">Maternal</button>
-                            <button class="nivel-btn" data-nivel="transicion" onclick="toggleNivel(this)">Transición</button>
-                            <button class="nivel-btn" data-nivel="primero" onclick="toggleNivel(this)">Primero</button>
-                            <button class="nivel-btn" data-nivel="segundo" onclick="toggleNivel(this)">Segundo</button>
-                            <button class="nivel-btn" data-nivel="tercero" onclick="toggleNivel(this)">Tercero</button>
-                            <button class="nivel-btn" data-nivel="cuarto" onclick="toggleNivel(this)">Cuarto</button>
-                            <button class="nivel-btn" data-nivel="quinto" onclick="toggleNivel(this)">Quinto</button>
-                            <button class="nivel-btn" data-nivel="sexto" onclick="toggleNivel(this)">Sexto</button>
-                            <button class="nivel-btn" data-nivel="septimo" onclick="toggleNivel(this)">Séptimo</button>
-                            <button class="nivel-btn" data-nivel="octavo" onclick="toggleNivel(this)">Octavo</button>
-                            <button class="nivel-btn active" data-nivel="noveno" onclick="toggleNivel(this)">Noveno</button>
+                        <div class="levels-grid" id="nivelesContainer">
+                            <!-- Los niveles se cargarán dinámicamente -->
                         </div>
                         
-                        <div class="info-card">
-                            <h5><i class="fas fa-lightbulb"></i> Información sobre niveles</h5>
-                            <p>La Formación Tecnológica en Costa Rica se imparte desde Maternal/Transición hasta Noveno año, con enfoque en competencias tecnológicas progresivas.</p>
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; margin-top: 20px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <i class="fa fa-lightbulb" style="color: #ffa502;"></i>
+                                <span style="font-size: 14px; color: var(--text-secondary);">
+                                    La Formación Tecnológica en Costa Rica se imparte desde Maternal hasta Noveno año
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Porcentajes de Evaluación -->
-                <div class="card full-width">
+            <!-- SECCIÓN 4: PORCENTAJES DE EVALUACIÓN MEP -->
+            <div class="content-grid">
+                <div class="card card-full-width fade-in">
                     <div class="card-header">
-                        <h3><i class="fas fa-percentage"></i> Porcentajes de Evaluación</h3>
-                        <button class="btn btn-secondary" onclick="aplicarPorcentajesMEP()">
-                            <i class="fas fa-balance-scale"></i> Aplicar estándar MEP
-                        </button>
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fa fa-percentage"></i>
+                            </div>
+                            <h3>Porcentajes de Evaluación MEP</h3>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-primary" onclick="aplicarPorcentajesMEP()">
+                                <i class="fa fa-balance-scale"></i> Estándar MEP
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="calcularPorcentajes()">
+                                <i class="fa fa-calculator"></i> Calcular
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
-                            Configure los porcentajes de cada componente según lineamientos MEP para Formación Tecnológica:
+                        <p style="color: var(--text-secondary); margin-bottom: 25px; font-size: 14px;">
+                            Configure los porcentajes según lineamientos MEP para Formación Tecnológica:
                         </p>
                         
-                        <div class="porcentajes-grid">
-                            <div class="porcentaje-item">
-                                <label>Trabajo cotidiano</label>
-                                <input type="number" id="porcentajeCotidiano" min="0" max="100" value="30">
+                        <div class="percentages-grid">
+                            <div class="percentage-item">
+                                <div class="percentage-label">Trabajo Cotidiano</div>
+                                <div class="percentage-value">30%</div>
+                                <input type="number" id="porcentajeCotidiano" class="percentage-input" 
+                                       min="0" max="100" value="30" onchange="actualizarTotal()">
                             </div>
-                            <div class="porcentaje-item">
-                                <label>Tareas tecnológicas</label>
-                                <input type="number" id="porcentajeTareas" min="0" max="100" value="20">
+                            
+                            <div class="percentage-item">
+                                <div class="percentage-label">Tareas Tecnológicas</div>
+                                <div class="percentage-value">20%</div>
+                                <input type="number" id="porcentajeTareas" class="percentage-input" 
+                                       min="0" max="100" value="20" onchange="actualizarTotal()">
                             </div>
-                            <div class="porcentaje-item">
-                                <label>Proyectos tecnológicos</label>
-                                <input type="number" id="porcentajeProyectos" min="0" max="100" value="25">
+                            
+                            <div class="percentage-item">
+                                <div class="percentage-label">Proyectos Tech</div>
+                                <div class="percentage-value">25%</div>
+                                <input type="number" id="porcentajeProyectos" class="percentage-input" 
+                                       min="0" max="100" value="25" onchange="actualizarTotal()">
                             </div>
-                            <div class="porcentaje-item">
-                                <label>Pruebas escritas/prácticas</label>
-                                <input type="number" id="porcentajePruebas" min="0" max="100" value="15">
+                            
+                            <div class="percentage-item">
+                                <div class="percentage-label">Pruebas</div>
+                                <div class="percentage-value">15%</div>
+                                <input type="number" id="porcentajePruebas" class="percentage-input" 
+                                       min="0" max="100" value="15" onchange="actualizarTotal()">
                             </div>
-                            <div class="porcentaje-item">
-                                <label>Asistencia y participación</label>
-                                <input type="number" id="porcentajeAsistencia" min="0" max="100" value="10">
+                            
+                            <div class="percentage-item">
+                                <div class="percentage-label">Asistencia</div>
+                                <div class="percentage-value">10%</div>
+                                <input type="number" id="porcentajeAsistencia" class="percentage-input" 
+                                       min="0" max="100" value="10" onchange="actualizarTotal()">
                             </div>
                         </div>
                         
                         <div class="stats-grid">
-                            <div class="stat-item">
+                            <div class="stat-card">
+                                <div class="stat-label">Total Configurado</div>
                                 <div class="stat-value" id="totalPorcentaje">100%</div>
-                                <div class="stat-label">Total configurado</div>
+                                <div class="stat-trend" id="statusTotal">
+                                    <i class="fa fa-check-circle"></i> Configuración válida
+                                </div>
                             </div>
-                            <div class="stat-item">
+                            <div class="stat-card">
+                                <div class="stat-label">Porcentaje Restante</div>
                                 <div class="stat-value" id="porcentajeRestante">0%</div>
-                                <div class="stat-label">Por asignar</div>
+                                <div class="stat-trend">
+                                    <i class="fa fa-balance-scale"></i> Distribución
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 5: ESTADÍSTICAS DEL SISTEMA -->
+            <div class="content-grid">
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fa fa-chart-pie"></i>
+                            </div>
+                            <h3>Estadísticas del Sistema</h3>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="actualizarEstadisticas()">
+                                <i class="fa fa-sync-alt"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Estudiantes</div>
+                                <div class="stat-value" id="statEstudiantes">0</div>
+                                <div class="stat-trend">
+                                    <i class="fa fa-users"></i> Registrados
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Indicadores</div>
+                                <div class="stat-value" id="statIndicadores">15+</div>
+                                <div class="stat-trend">
+                                    <i class="fa fa-list-check"></i> PNFT Tech
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Evaluaciones</div>
+                                <div class="stat-value" id="statEvaluaciones">0</div>
+                                <div class="stat-trend">
+                                    <i class="fa fa-clipboard-check"></i> Realizadas
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Configuración</div>
+                                <div class="stat-value" id="statConfiguracion">0%</div>
+                                <div class="stat-trend">
+                                    <i class="fa fa-cog"></i> Completada
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; margin-top: 20px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <i class="fa fa-rocket" style="color: #667eea;"></i>
+                                <span style="font-size: 14px; color: var(--text-secondary);">
+                                    Estado del sistema: <strong id="estadoSistema">Configuración inicial</strong>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Resumen de Configuración -->
-                <div class="card">
+                <!-- SECCIÓN 6: ANÁLISIS INTELIGENTE (Califica.ai) -->
+                <div class="card fade-in">
                     <div class="card-header">
-                        <h3><i class="fas fa-chart-pie"></i> Resumen del Sistema</h3>
+                        <div class="card-title">
+                            <div class="card-icon" style="background: var(--gradient-success);">
+                                <i class="fa fa-brain"></i>
+                            </div>
+                            <h3>Análisis Inteligente</h3>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-success" onclick="generarRecomendacionesIA()">
+                                <i class="fa fa-magic"></i> Analizar
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <div class="stat-value" id="totalEstudiantes">0</div>
-                                <div class="stat-label">Estudiantes</div>
+                        <div class="analysis-section">
+                            <div class="analysis-title">
+                                <div class="ai-icon">
+                                    <i class="fa fa-brain"></i>
+                                </div>
+                                <h4>Recomendaciones de Califica.ai</h4>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value" id="totalIndicadores">0</div>
-                                <div class="stat-label">Indicadores</div>
+                            
+                            <div class="recommendations-grid" id="recomendacionesContainer">
+                                <!-- Las recomendaciones IA se cargarán aquí -->
+                                <div class="recommendation-card">
+                                    <div class="recommendation-header">
+                                        <div class="rec-icon">
+                                            <i class="fa fa-bolt"></i>
+                                        </div>
+                                        <div class="rec-title">Configuración Inicial</div>
+                                    </div>
+                                    <div class="rec-description">
+                                        Complete la información de la institución y configure los porcentajes MEP para activar todas las funcionalidades.
+                                    </div>
+                                    <div class="rec-actions">
+                                        <button class="btn btn-sm btn-primary" onclick="completarConfiguracion()">
+                                            <i class="fa fa-cog"></i> Completar
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="recommendation-card">
+                                    <div class="recommendation-header">
+                                        <div class="rec-icon">
+                                            <i class="fa fa-users"></i>
+                                        </div>
+                                        <div class="rec-title">Registrar Estudiantes</div>
+                                    </div>
+                                    <div class="rec-description">
+                                        Importe su lista de estudiantes desde Excel/CSV o agreguelos manualmente para comenzar a evaluar.
+                                    </div>
+                                    <div class="rec-actions">
+                                        <button class="btn btn-sm btn-success" onclick="irAEstudiantes()">
+                                            <i class="fa fa-user-plus"></i> Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="recommendation-card">
+                                    <div class="recommendation-header">
+                                        <div class="rec-icon">
+                                            <i class="fa fa-list-check"></i>
+                                        </div>
+                                        <div class="rec-title">Revisar Indicadores</div>
+                                    </div>
+                                    <div class="rec-description">
+                                        La base PNFT para Formación Tecnológica ya está cargada con 15+ indicadores desde Maternal hasta Noveno.
+                                    </div>
+                                    <div class="rec-actions">
+                                        <button class="btn btn-sm btn-secondary" onclick="verIndicadores()">
+                                            <i class="fa fa-eye"></i> Ver
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value" id="totalEvaluaciones">0</div>
-                                <div class="stat-label">Evaluaciones</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value" id="configGuardada">No</div>
-                                <div class="stat-label">Config. Guardada</div>
-                            </div>
-                        </div>
-                        
-                        <div class="info-card" style="margin-top: 20px;">
-                            <h5><i class="fas fa-rocket"></i> Estado del sistema</h5>
-                            <p id="estadoSistema">Configuración inicial pendiente. Complete los datos y guarde la configuración.</p>
                         </div>
                     </div>
                 </div>
@@ -433,75 +1362,397 @@
         </main>
     </div>
 
+    <!-- SCRIPT COMPLETO EMBEBIDO -->
     <script>
-        // BASE DE DATOS INICIAL
-        const configuracionInicial = {
-            institucion: {
-                nombre: "Centro de Formación Tecnológica",
-                direccion: "",
-                telefono: ""
+        // ==================== BASE DE DATOS INICIAL ====================
+        const sistemaTecnoPIA = {
+            // Configuración de la institución
+            configuracion: {
+                institucion: {
+                    nombre: "Centro de Formación Tecnológica MEP",
+                    direccion: "",
+                    telefono: ""
+                },
+                docente: {
+                    nombre: "",
+                    cedula: "",
+                    email: "",
+                    telefono: ""
+                },
+                periodo: {
+                    anio: "2024",
+                    trimestre: "1",
+                    fechaInicio: "",
+                    fechaFin: ""
+                },
+                niveles: ["noveno"], // Niveles seleccionados
+                porcentajes: {
+                    cotidiano: 30,
+                    tareas: 20,
+                    proyectos: 25,
+                    pruebas: 15,
+                    asistencia: 10
+                },
+                fechaConfiguracion: null,
+                completado: false
             },
-            docente: {
-                nombre: "",
-                cedula: "",
-                email: ""
+
+            // Base de datos de niveles tecnológicos
+            nivelesTecnologicos: [
+                { id: "maternal", nombre: "Maternal", edad: "0-3 años", icono: "👶", color: "#FF6B8B" },
+                { id: "transicion", nombre: "Transición", edad: "4-6 años", icono: "🌟", color: "#36D7B7" },
+                { id: "primero", nombre: "Primero", edad: "6-7 años", icono: "1️⃣", color: "#3498DB" },
+                { id: "segundo", nombre: "Segundo", edad: "7-8 años", icono: "2️⃣", color: "#9B59B6" },
+                { id: "tercero", nombre: "Tercero", edad: "8-9 años", icono: "3️⃣", color: "#E74C3C" },
+                { id: "cuarto", nombre: "Cuarto", edad: "9-10 años", icono: "4️⃣", color: "#1ABC9C" },
+                { id: "quinto", nombre: "Quinto", edad: "10-11 años", icono: "5️⃣", color: "#F39C12" },
+                { id: "sexto", nombre: "Sexto", edad: "11-12 años", icono: "6️⃣", color: "#2ECC71" },
+                { id: "septimo", nombre: "Séptimo", edad: "12-13 años", icono: "7️⃣", color: "#9B59B6" },
+                { id: "octavo", nombre: "Octavo", edad: "13-14 años", icono: "8️⃣", color: "#34495E" },
+                { id: "noveno", nombre: "Noveno", edad: "14-15 años", icono: "9️⃣", color: "#E67E22" }
+            ],
+
+            // Estadísticas del sistema
+            estadisticas: {
+                totalEstudiantes: 0,
+                totalIndicadores: 15,
+                totalEvaluaciones: 0,
+                configuracionCompletada: 0,
+                ultimaActualizacion: null
             },
-            periodo: {
-                anio: "2024",
-                trimestre: "1",
-                fechaInicio: "",
-                fechaFin: ""
-            },
-            niveles: ["noveno"],
-            porcentajes: {
-                cotidiano: 30,
-                tareas: 20,
-                proyectos: 25,
-                pruebas: 15,
-                asistencia: 10
-            }
+
+            // Base de datos de estudiantes (ejemplo inicial)
+            estudiantes: [],
+
+            // Base de datos de indicadores PNFT (ejemplo inicial)
+            indicadores: []
         };
 
-        // INICIALIZAR SISTEMA
+        // ==================== INICIALIZACIÓN DEL SISTEMA ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // Configurar fecha actual
-            const hoy = new Date();
-            const fechaInicio = new Date(hoy.getFullYear(), 0, 1); // 1 de enero
-            const fechaFin = new Date(hoy.getFullYear(), 11, 31); // 31 de diciembre
+            console.log('🚀 TECNO-PIA - Sistema inicializando...');
             
-            document.getElementById('fechaInicio').value = fechaInicio.toISOString().split('T')[0];
-            document.getElementById('fechaFin').value = fechaFin.toISOString().split('T')[0];
+            // 1. Configurar fechas por defecto
+            configurarFechasPorDefecto();
             
-            // Cargar configuración existente
-            cargarConfiguracion();
+            // 2. Cargar datos guardados
+            cargarDatosGuardados();
             
-            // Actualizar porcentajes
-            actualizarPorcentajes();
+            // 3. Inicializar interfaz
+            inicializarInterfaz();
             
-            // Actualizar estadísticas
-            actualizarEstadisticas();
+            // 4. Actualizar estadísticas
+            actualizarEstadisticasUI();
             
-            // Configurar eventos
-            configurarEventos();
+            // 5. Mostrar notificación de bienvenida
+            setTimeout(() => {
+                mostrarNotificacion('✅ Sistema TECNO-PIA cargado correctamente', 'success');
+            }, 1000);
+            
+            console.log('✅ Sistema inicializado correctamente');
         });
 
-        function configurarEventos() {
-            // Actualizar porcentajes en tiempo real
-            const inputsPorcentaje = document.querySelectorAll('input[type="number"]');
-            inputsPorcentaje.forEach(input => {
-                input.addEventListener('input', actualizarPorcentajes);
+        function configurarFechasPorDefecto() {
+            const hoy = new Date();
+            const inicioAnio = new Date(hoy.getFullYear(), 0, 1);
+            const finAnio = new Date(hoy.getFullYear(), 11, 31);
+            
+            document.getElementById('fechaInicio').value = inicioAnio.toISOString().split('T')[0];
+            document.getElementById('fechaFin').value = finAnio.toISOString().split('T')[0];
+        }
+
+        function cargarDatosGuardados() {
+            try {
+                // Intentar cargar configuración guardada
+                const configGuardada = localStorage.getItem('tecnoPIA_configuracion');
+                if (configGuardada) {
+                    sistemaTecnoPIA.configuracion = JSON.parse(configGuardada);
+                    cargarConfiguracionEnUI();
+                    console.log('📁 Configuración cargada desde almacenamiento');
+                }
+                
+                // Cargar estudiantes
+                const estudiantesGuardados = localStorage.getItem('tecnoPIA_estudiantes');
+                if (estudiantesGuardados) {
+                    sistemaTecnoPIA.estudiantes = JSON.parse(estudiantesGuardados);
+                    sistemaTecnoPIA.estadisticas.totalEstudiantes = sistemaTecnoPIA.estudiantes.length;
+                }
+                
+                // Cargar indicadores
+                const indicadoresGuardados = localStorage.getItem('tecnoPIA_indicadores');
+                if (indicadoresGuardados) {
+                    sistemaTecnoPIA.indicadores = JSON.parse(indicadoresGuardados);
+                    sistemaTecnoPIA.estadisticas.totalIndicadores = sistemaTecnoPIA.indicadores.length;
+                }
+                
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+                mostrarNotificacion('Error al cargar datos guardados', 'error');
+            }
+        }
+
+        function cargarConfiguracionEnUI() {
+            const config = sistemaTecnoPIA.configuracion;
+            
+            // Cargar datos de institución
+            if (config.institucion.nombre) {
+                document.getElementById('institucionNombre').value = config.institucion.nombre;
+            }
+            if (config.institucion.direccion) {
+                document.getElementById('institucionDireccion').value = config.institucion.direccion;
+            }
+            
+            // Cargar datos del docente
+            if (config.docente.nombre) {
+                document.getElementById('docenteNombre').value = config.docente.nombre;
+            }
+            if (config.docente.cedula) {
+                document.getElementById('docenteCedula').value = config.docente.cedula;
+            }
+            if (config.docente.email) {
+                document.getElementById('docenteEmail').value = config.docente.email;
+            }
+            if (config.docente.telefono) {
+                document.getElementById('docenteTelefono').value = config.docente.telefono;
+            }
+            
+            // Cargar período
+            if (config.periodo.anio) {
+                document.getElementById('anioLectivo').value = config.periodo.anio;
+            }
+            if (config.periodo.trimestre) {
+                document.getElementById('periodoActual').value = config.periodo.trimestre;
+            }
+            if (config.periodo.fechaInicio) {
+                document.getElementById('fechaInicio').value = config.periodo.fechaInicio;
+            }
+            if (config.periodo.fechaFin) {
+                document.getElementById('fechaFin').value = config.periodo.fechaFin;
+            }
+            
+            // Cargar porcentajes
+            if (config.porcentajes) {
+                document.getElementById('porcentajeCotidiano').value = config.porcentajes.cotidiano;
+                document.getElementById('porcentajeTareas').value = config.porcentajes.tareas;
+                document.getElementById('porcentajeProyectos').value = config.porcentajes.proyectos;
+                document.getElementById('porcentajePruebas').value = config.porcentajes.pruebas;
+                document.getElementById('porcentajeAsistencia').value = config.porcentajes.asistencia;
+                actualizarTotal();
+            }
+        }
+
+        function inicializarInterfaz() {
+            // 1. Cargar niveles tecnológicos
+            cargarNivelesTecnologicos();
+            
+            // 2. Configurar eventos
+            configurarEventos();
+            
+            // 3. Actualizar estado del sistema
+            actualizarEstadoSistema();
+        }
+
+        function cargarNivelesTecnologicos() {
+            const container = document.getElementById('nivelesContainer');
+            const niveles = sistemaTecnoPIA.nivelesTecnologicos;
+            const nivelesSeleccionados = sistemaTecnoPIA.configuracion.niveles;
+            
+            let html = '';
+            niveles.forEach(nivel => {
+                const activo = nivelesSeleccionados.includes(nivel.id);
+                html += `
+                    <div class="level-card ${activo ? 'active' : ''}" data-id="${nivel.id}" onclick="toggleNivel('${nivel.id}')">
+                        <div class="level-icon" style="background: linear-gradient(135deg, ${nivel.color}, ${nivel.color}80);">
+                            ${nivel.icono}
+                        </div>
+                        <div class="level-name">${nivel.nombre}</div>
+                        <div class="level-age">${nivel.edad}</div>
+                    </div>
+                `;
             });
             
-            // Validar fechas
+            container.innerHTML = html;
+        }
+
+        function toggleNivel(nivelId) {
+            const niveles = sistemaTecnoPIA.configuracion.niveles;
+            const index = niveles.indexOf(nivelId);
+            
+            if (index === -1) {
+                niveles.push(nivelId);
+            } else {
+                niveles.splice(index, 1);
+            }
+            
+            // Actualizar UI
+            const card = document.querySelector(`.level-card[data-id="${nivelId}"]`);
+            card.classList.toggle('active');
+            
+            // Actualizar estadísticas
+            actualizarPorcentajeConfiguracion();
+            
+            mostrarNotificacion(`Nivel ${nivelId} ${index === -1 ? 'agregado' : 'removido'}`, 'info');
+        }
+
+        function seleccionarTodosNiveles() {
+            const todosNiveles = sistemaTecnoPIA.nivelesTecnologicos.map(n => n.id);
+            sistemaTecnoPIA.configuracion.niveles = [...todosNiveles];
+            
+            // Actualizar UI
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.classList.add('active');
+            });
+            
+            mostrarNotificacion('Todos los niveles seleccionados', 'success');
+            actualizarPorcentajeConfiguracion();
+        }
+
+        function configurarEventos() {
+            // Eventos para porcentajes
+            const inputsPorcentaje = document.querySelectorAll('.percentage-input');
+            inputsPorcentaje.forEach(input => {
+                input.addEventListener('change', actualizarTotal);
+                input.addEventListener('input', actualizarTotal);
+            });
+            
+            // Eventos para fechas
             document.getElementById('fechaInicio').addEventListener('change', validarFechas);
             document.getElementById('fechaFin').addEventListener('change', validarFechas);
+            
+            // Eventos para campos de texto
+            const camposTexto = document.querySelectorAll('.form-control[type="text"], .form-control[type="email"], .form-control[type="tel"]');
+            camposTexto.forEach(campo => {
+                campo.addEventListener('change', actualizarPorcentajeConfiguracion);
+            });
         }
 
-        function toggleNivel(boton) {
-            boton.classList.toggle('active');
+        // ==================== FUNCIONES PRINCIPALES ====================
+        function guardarConfiguracion() {
+            // 1. Recopilar datos del formulario
+            recopilarDatosConfiguracion();
+            
+            // 2. Validar datos
+            if (!validarConfiguracion()) {
+                return;
+            }
+            
+            // 3. Marcar como completado
+            sistemaTecnoPIA.configuracion.completado = true;
+            sistemaTecnoPIA.configuracion.fechaConfiguracion = new Date().toISOString();
+            
+            // 4. Guardar en localStorage
+            guardarEnLocalStorage();
+            
+            // 5. Actualizar UI
+            actualizarPorcentajeConfiguracion();
+            actualizarEstadoSistema();
+            
+            // 6. Mostrar notificación
+            mostrarNotificacion('✅ Configuración guardada exitosamente', 'success');
+            
+            // 7. Generar recomendaciones IA
+            generarRecomendacionesIA();
         }
 
-        function actualizarPorcentajes() {
+        function recopilarDatosConfiguracion() {
+            const config = sistemaTecnoPIA.configuracion;
+            
+            // Información de la institución
+            config.institucion.nombre = document.getElementById('institucionNombre').value.trim();
+            config.institucion.direccion = document.getElementById('institucionDireccion').value.trim();
+            config.institucion.telefono = document.getElementById('docenteTelefono').value.trim();
+            
+            // Información del docente
+            config.docente.nombre = document.getElementById('docenteNombre').value.trim();
+            config.docente.cedula = document.getElementById('docenteCedula').value.trim();
+            config.docente.email = document.getElementById('docenteEmail').value.trim();
+            config.docente.telefono = document.getElementById('docenteTelefono').value.trim();
+            
+            // Período lectivo
+            config.periodo.anio = document.getElementById('anioLectivo').value;
+            config.periodo.trimestre = document.getElementById('periodoActual').value;
+            config.periodo.fechaInicio = document.getElementById('fechaInicio').value;
+            config.periodo.fechaFin = document.getElementById('fechaFin').value;
+            
+            // Porcentajes
+            config.porcentajes.cotidiano = parseInt(document.getElementById('porcentajeCotidiano').value) || 0;
+            config.porcentajes.tareas = parseInt(document.getElementById('porcentajeTareas').value) || 0;
+            config.porcentajes.proyectos = parseInt(document.getElementById('porcentajeProyectos').value) || 0;
+            config.porcentajes.pruebas = parseInt(document.getElementById('porcentajePruebas').value) || 0;
+            config.porcentajes.asistencia = parseInt(document.getElementById('porcentajeAsistencia').value) || 0;
+            
+            // Niveles ya están actualizados automáticamente
+        }
+
+        function validarConfiguracion() {
+            const config = sistemaTecnoPIA.configuracion;
+            const errores = [];
+            
+            // Validar información básica
+            if (!config.institucion.nombre) {
+                errores.push('Nombre de la institución es requerido');
+            }
+            
+            if (!config.docente.nombre) {
+                errores.push('Nombre del docente es requerido');
+            }
+            
+            // Validar niveles seleccionados
+            if (config.niveles.length === 0) {
+                errores.push('Seleccione al menos un nivel');
+            }
+            
+            // Validar porcentajes
+            const totalPorcentajes = Object.values(config.porcentajes).reduce((a, b) => a + b, 0);
+            if (totalPorcentajes !== 100) {
+                errores.push(`Los porcentajes suman ${totalPorcentajes}%, deben sumar 100%`);
+            }
+            
+            // Validar fechas
+            if (config.periodo.fechaInicio && config.periodo.fechaFin) {
+                const fechaInicio = new Date(config.periodo.fechaInicio);
+                const fechaFin = new Date(config.periodo.fechaFin);
+                
+                if (fechaInicio > fechaFin) {
+                    errores.push('La fecha de inicio no puede ser posterior a la fecha de fin');
+                }
+            }
+            
+            // Mostrar errores si existen
+            if (errores.length > 0) {
+                mostrarErrores(errores);
+                return false;
+            }
+            
+            return true;
+        }
+
+        function mostrarErrores(errores) {
+            let mensaje = 'Corrija los siguientes errores:\n\n';
+            errores.forEach((error, index) => {
+                mensaje += `${index + 1}. ${error}\n`;
+            });
+            
+            alert(mensaje);
+            mostrarNotificacion('Hay errores en la configuración', 'error');
+        }
+
+        function guardarEnLocalStorage() {
+            try {
+                localStorage.setItem('tecnoPIA_configuracion', JSON.stringify(sistemaTecnoPIA.configuracion));
+                localStorage.setItem('tecnoPIA_estudiantes', JSON.stringify(sistemaTecnoPIA.estudiantes));
+                localStorage.setItem('tecnoPIA_indicadores', JSON.stringify(sistemaTecnoPIA.indicadores));
+                localStorage.setItem('tecnoPIA_estadisticas', JSON.stringify(sistemaTecnoPIA.estadisticas));
+                
+                console.log('💾 Datos guardados en localStorage');
+            } catch (error) {
+                console.error('Error guardando datos:', error);
+                mostrarNotificacion('Error al guardar los datos', 'error');
+            }
+        }
+
+        // ==================== FUNCIONES DE PORCENTAJES ====================
+        function actualizarTotal() {
             const cotidiano = parseInt(document.getElementById('porcentajeCotidiano').value) || 0;
             const tareas = parseInt(document.getElementById('porcentajeTareas').value) || 0;
             const proyectos = parseInt(document.getElementById('porcentajeProyectos').value) || 0;
@@ -511,18 +1762,25 @@
             const total = cotidiano + tareas + proyectos + pruebas + asistencia;
             const restante = 100 - total;
             
+            // Actualizar UI
             document.getElementById('totalPorcentaje').textContent = total + '%';
             document.getElementById('porcentajeRestante').textContent = restante + '%';
             
-            // Cambiar color según el total
-            const totalElement = document.getElementById('totalPorcentaje');
+            // Actualizar estado
+            const statusElement = document.getElementById('statusTotal');
             if (total === 100) {
-                totalElement.style.color = '#2ed573';
+                statusElement.innerHTML = '<i class="fa fa-check-circle"></i> Configuración válida';
+                statusElement.style.color = '#2ed573';
             } else if (total > 100) {
-                totalElement.style.color = '#ff4757';
+                statusElement.innerHTML = '<i class="fa fa-exclamation-circle"></i> Excede 100%';
+                statusElement.style.color = '#ff4757';
             } else {
-                totalElement.style.color = '#ffa502';
+                statusElement.innerHTML = '<i class="fa fa-info-circle"></i> Por completar';
+                statusElement.style.color = '#ffa502';
             }
+            
+            // Actualizar estadísticas
+            actualizarPorcentajeConfiguracion();
         }
 
         function aplicarPorcentajesMEP() {
@@ -533,9 +1791,35 @@
             document.getElementById('porcentajePruebas').value = 15;
             document.getElementById('porcentajeAsistencia').value = 10;
             
-            actualizarPorcentajes();
+            actualizarTotal();
+            mostrarNotificacion('✅ Porcentajes MEP aplicados', 'success');
+        }
+
+        function calcularPorcentajes() {
+            // Lógica inteligente para calcular porcentajes óptimos
+            const niveles = sistemaTecnoPIA.configuracion.niveles.length;
             
-            mostrarNotificacion('Porcentajes MEP aplicados exitosamente', 'success');
+            if (niveles <= 3) {
+                // Pocos niveles: más peso a evaluación continua
+                document.getElementById('porcentajeCotidiano').value = 35;
+                document.getElementById('porcentajeProyectos').value = 30;
+                document.getElementById('porcentajeTareas').value = 15;
+                document.getElementById('porcentajePruebas').value = 10;
+                document.getElementById('porcentajeAsistencia').value = 10;
+            } else if (niveles <= 6) {
+                // Nivel intermedio
+                document.getElementById('porcentajeCotidiano').value = 30;
+                document.getElementById('porcentajeProyectos').value = 25;
+                document.getElementById('porcentajeTareas').value = 20;
+                document.getElementById('porcentajePruebas').value = 15;
+                document.getElementById('porcentajeAsistencia').value = 10;
+            } else {
+                // Muchos niveles: estándar MEP
+                aplicarPorcentajesMEP();
+            }
+            
+            actualizarTotal();
+            mostrarNotificacion('📊 Porcentajes calculados según niveles', 'info');
         }
 
         function validarFechas() {
@@ -548,218 +1832,274 @@
             }
         }
 
-        function guardarConfiguracion() {
-            // Recopilar datos
-            const configuracion = {
-                institucion: {
-                    nombre: document.getElementById('institucionNombre').value,
-                    direccion: document.getElementById('institucionDireccion').value,
-                    telefono: document.getElementById('institucionTelefono').value
-                },
-                docente: {
-                    nombre: document.getElementById('docenteNombre').value,
-                    cedula: document.getElementById('docenteCedula').value,
-                    email: document.getElementById('docenteEmail').value
-                },
-                periodo: {
-                    anio: document.getElementById('anioLectivo').value,
-                    trimestre: document.getElementById('periodoActual').value,
-                    fechaInicio: document.getElementById('fechaInicio').value,
-                    fechaFin: document.getElementById('fechaFin').value
-                },
-                niveles: Array.from(document.querySelectorAll('.nivel-btn.active')).map(btn => btn.dataset.nivel),
-                porcentajes: {
-                    cotidiano: parseInt(document.getElementById('porcentajeCotidiano').value) || 0,
-                    tareas: parseInt(document.getElementById('porcentajeTareas').value) || 0,
-                    proyectos: parseInt(document.getElementById('porcentajeProyectos').value) || 0,
-                    pruebas: parseInt(document.getElementById('porcentajePruebas').value) || 0,
-                    asistencia: parseInt(document.getElementById('porcentajeAsistencia').value) || 0
-                },
-                fechaGuardado: new Date().toISOString()
-            };
+        // ==================== FUNCIONES DE ESTADÍSTICAS ====================
+        function actualizarEstadisticasUI() {
+            const stats = sistemaTecnoPIA.estadisticas;
+            
+            document.getElementById('statEstudiantes').textContent = stats.totalEstudiantes;
+            document.getElementById('statIndicadores').textContent = stats.totalIndicadores;
+            document.getElementById('statEvaluaciones').textContent = stats.totalEvaluaciones;
+            document.getElementById('statConfiguracion').textContent = stats.configuracionCompletada + '%';
+            
+            // Actualizar badges
+            document.getElementById('badgeEstudiantes').textContent = stats.totalEstudiantes;
+            document.getElementById('badgeIndicadores').textContent = stats.totalIndicadores;
+        }
 
-            // Validar porcentajes
-            const total = Object.values(configuracion.porcentajes).reduce((a, b) => a + b, 0);
-            if (total !== 100) {
-                mostrarNotificacion(`Los porcentajes suman ${total}%, deben sumar 100%`, 'error');
-                return;
-            }
+        function actualizarPorcentajeConfiguracion() {
+            let porcentaje = 0;
+            const config = sistemaTecnoPIA.configuracion;
+            
+            // Información de institución (15%)
+            if (config.institucion.nombre) porcentaje += 15;
+            
+            // Información del docente (15%)
+            if (config.docente.nombre) porcentaje += 15;
+            
+            // Niveles seleccionados (20%)
+            if (config.niveles.length > 0) porcentaje += 20;
+            
+            // Porcentajes configurados (30%)
+            const totalPorcentajes = Object.values(config.porcentajes).reduce((a, b) => a + b, 0);
+            if (totalPorcentajes === 100) porcentaje += 30;
+            
+            // Fechas configuradas (20%)
+            if (config.periodo.fechaInicio && config.periodo.fechaFin) porcentaje += 20;
+            
+            // Guardar estadística
+            sistemaTecnoPIA.estadisticas.configuracionCompletada = porcentaje;
+            document.getElementById('statConfiguracion').textContent = porcentaje + '%';
+            
+            // Actualizar estado del sistema
+            actualizarEstadoSistema();
+        }
 
-            // Validar que haya al menos un nivel seleccionado
-            if (configuracion.niveles.length === 0) {
-                mostrarNotificacion('Seleccione al menos un nivel', 'error');
-                return;
-            }
-
-            // Guardar en localStorage
-            try {
-                localStorage.setItem('tecnoPIA_configuracion', JSON.stringify(configuracion));
-                
-                // Guardar también por separado para acceso rápido
-                localStorage.setItem('tecnoPIA_niveles', JSON.stringify(configuracion.niveles));
-                localStorage.setItem('tecnoPIA_porcentajes', JSON.stringify(configuracion.porcentajes));
-                localStorage.setItem('tecnoPIA_institucion', configuracion.institucion.nombre);
-                localStorage.setItem('tecnoPIA_docente', configuracion.docente.nombre);
-                
-                mostrarNotificacion('Configuración guardada exitosamente', 'success');
-                
-                // Actualizar estado
-                actualizarEstadisticas();
-                
-            } catch (error) {
-                console.error('Error guardando configuración:', error);
-                mostrarNotificacion('Error al guardar la configuración', 'error');
+        function actualizarEstadoSistema() {
+            const porcentaje = sistemaTecnoPIA.estadisticas.configuracionCompletada;
+            const estadoElement = document.getElementById('estadoSistema');
+            
+            if (porcentaje >= 80) {
+                estadoElement.textContent = 'Óptimo';
+                estadoElement.style.color = '#2ed573';
+                document.getElementById('statusConfig').textContent = 'Completa';
+            } else if (porcentaje >= 50) {
+                estadoElement.textContent = 'Parcial';
+                estadoElement.style.color = '#ffa502';
+                document.getElementById('statusConfig').textContent = 'Parcial';
+            } else {
+                estadoElement.textContent = 'Configuración inicial';
+                estadoElement.style.color = '#ff4757';
+                document.getElementById('statusConfig').textContent = 'Inicial';
             }
         }
 
-        function cargarConfiguracion() {
-            try {
-                const configGuardada = localStorage.getItem('tecnoPIA_configuracion');
-                
-                if (configGuardada) {
-                    const config = JSON.parse(configGuardada);
-                    
-                    // Cargar datos de institución
-                    document.getElementById('institucionNombre').value = config.institucion.nombre || '';
-                    document.getElementById('institucionDireccion').value = config.institucion.direccion || '';
-                    document.getElementById('institucionTelefono').value = config.institucion.telefono || '';
-                    
-                    // Cargar datos del docente
-                    document.getElementById('docenteNombre').value = config.docente.nombre || '';
-                    document.getElementById('docenteCedula').value = config.docente.cedula || '';
-                    document.getElementById('docenteEmail').value = config.docente.email || '';
-                    
-                    // Cargar período
-                    document.getElementById('anioLectivo').value = config.periodo.anio || '2024';
-                    document.getElementById('periodoActual').value = config.periodo.trimestre || '1';
-                    document.getElementById('fechaInicio').value = config.periodo.fechaInicio || '';
-                    document.getElementById('fechaFin').value = config.periodo.fechaFin || '';
-                    
-                    // Cargar niveles
-                    document.querySelectorAll('.nivel-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                        if (config.niveles && config.niveles.includes(btn.dataset.nivel)) {
-                            btn.classList.add('active');
-                        }
-                    });
-                    
-                    // Cargar porcentajes
-                    if (config.porcentajes) {
-                        document.getElementById('porcentajeCotidiano').value = config.porcentajes.cotidiano || 30;
-                        document.getElementById('porcentajeTareas').value = config.porcentajes.tareas || 20;
-                        document.getElementById('porcentajeProyectos').value = config.porcentajes.proyectos || 25;
-                        document.getElementById('porcentajePruebas').value = config.porcentajes.pruebas || 15;
-                        document.getElementById('porcentajeAsistencia').value = config.porcentajes.asistencia || 10;
-                    }
-                    
-                    actualizarPorcentajes();
-                    mostrarNotificacion('Configuración previa cargada', 'success');
-                    
-                } else {
-                    mostrarNotificacion('No hay configuración previa guardada', 'info');
-                }
-                
-            } catch (error) {
-                console.error('Error cargando configuración:', error);
-                mostrarNotificacion('Error al cargar la configuración', 'error');
+        // ==================== FUNCIONES DE ANÁLISIS IA (Califica.ai) ====================
+        function generarRecomendacionesIA() {
+            const container = document.getElementById('recomendacionesContainer');
+            const config = sistemaTecnoPIA.configuracion;
+            const stats = sistemaTecnoPIA.estadisticas;
+            
+            let recomendaciones = [];
+            
+            // Análisis de configuración
+            if (stats.configuracionCompletada < 50) {
+                recomendaciones.push({
+                    icono: 'fa-bolt',
+                    titulo: 'Configuración Incompleta',
+                    descripcion: 'Complete al menos el 50% de la configuración para activar todas las funcionalidades.',
+                    accion: 'completarConfiguracion',
+                    textoAccion: 'Completar'
+                });
             }
+            
+            // Análisis de estudiantes
+            if (stats.totalEstudiantes === 0) {
+                recomendaciones.push({
+                    icono: 'fa-users',
+                    titulo: 'Sin Estudiantes',
+                    descripcion: 'No hay estudiantes registrados. Importe su lista o agregue estudiantes manualmente.',
+                    accion: 'irAEstudiantes',
+                    textoAccion: 'Agregar Estudiantes'
+                });
+            }
+            
+            // Análisis de niveles
+            if (config.niveles.length === 1 && config.niveles[0] === 'noveno') {
+                recomendaciones.push({
+                    icono: 'fa-graduation-cap',
+                    titulo: 'Niveles Limitados',
+                    descripcion: 'Solo tiene configurado el nivel Noveno. Considere agregar más niveles si los atiende.',
+                    accion: 'seleccionarTodosNiveles',
+                    textoAccion: 'Agregar Niveles'
+                });
+            }
+            
+            // Análisis de porcentajes
+            const totalPorcentajes = Object.values(config.porcentajes).reduce((a, b) => a + b, 0);
+            if (totalPorcentajes !== 100) {
+                recomendaciones.push({
+                    icono: 'fa-percentage',
+                    titulo: 'Porcentajes Desbalanceados',
+                    descripcion: `Los porcentajes suman ${totalPorcentajes}%. Aplique el estándar MEP para evaluación equilibrada.`,
+                    accion: 'aplicarPorcentajesMEP',
+                    textoAccion: 'Aplicar MEP'
+                });
+            }
+            
+            // Recomendación de evaluación
+            if (stats.totalEstudiantes > 0 && stats.configuracionCompletada >= 80) {
+                recomendaciones.push({
+                    icono: 'fa-clipboard-check',
+                    titulo: 'Listo para Evaluar',
+                    descripcion: 'El sistema está configurado correctamente. Comience a evaluar a sus estudiantes.',
+                    accion: 'irAEvaluacion',
+                    textoAccion: 'Comenzar Evaluación'
+                });
+            }
+            
+            // Generar HTML de recomendaciones
+            let html = '';
+            recomendaciones.forEach(rec => {
+                html += `
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <div class="rec-icon">
+                                <i class="fa ${rec.icono}"></i>
+                            </div>
+                            <div class="rec-title">${rec.titulo}</div>
+                        </div>
+                        <div class="rec-description">${rec.descripcion}</div>
+                        <div class="rec-actions">
+                            <button class="btn btn-sm btn-primary" onclick="${rec.accion}()">
+                                <i class="fa fa-play-circle"></i> ${rec.textoAccion}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html || '<div style="color: var(--text-secondary); text-align: center; padding: 20px;">No hay recomendaciones en este momento.</div>';
+            
+            mostrarNotificacion('✅ Análisis IA completado', 'success');
         }
 
-        function actualizarEstadisticas() {
-            try {
-                // Contar estudiantes
-                const estudiantesGuardados = localStorage.getItem('tecnoPIA_estudiantes');
-                const totalEstudiantes = estudiantesGuardados ? JSON.parse(estudiantesGuardados).length : 0;
-                
-                // Contar indicadores
-                const indicadoresGuardados = localStorage.getItem('tecnoPIA_indicadores');
-                const totalIndicadores = indicadoresGuardados ? JSON.parse(indicadoresGuardados).length : 0;
-                
-                // Contar evaluaciones
-                const evaluacionesGuardadas = localStorage.getItem('tecnoPIA_evaluaciones');
-                const totalEvaluaciones = evaluacionesGuardadas ? JSON.parse(evaluacionesGuardadas).length : 0;
-                
-                // Verificar si hay configuración guardada
-                const configGuardada = localStorage.getItem('tecnoPIA_configuracion');
-                
-                document.getElementById('totalEstudiantes').textContent = totalEstudiantes;
-                document.getElementById('totalIndicadores').textContent = totalIndicadores;
-                document.getElementById('totalEvaluaciones').textContent = totalEvaluaciones;
-                document.getElementById('configGuardada').textContent = configGuardada ? 'Sí' : 'No';
-                
-                // Actualizar estado del sistema
-                const estadoElement = document.getElementById('estadoSistema');
-                if (configGuardada) {
-                    estadoElement.innerHTML = `
-                        <i class="fas fa-check-circle" style="color: #2ed573;"></i>
-                        Sistema configurado y listo para usar.
-                        ${totalEstudiantes > 0 ? `<br><small>${totalEstudiantes} estudiantes registrados</small>` : ''}
-                    `;
-                } else {
-                    estadoElement.innerHTML = `
-                        <i class="fas fa-exclamation-triangle" style="color: #ffa502;"></i>
-                        Complete la configuración inicial y guarde los cambios.
-                    `;
-                }
-                
-            } catch (error) {
-                console.error('Error actualizando estadísticas:', error);
-            }
+        function analizarRecomendaciones() {
+            mostrarNotificacion('🤖 Analizando datos del sistema...', 'info');
+            
+            // Simular análisis IA
+            setTimeout(() => {
+                generarRecomendacionesIA();
+            }, 1500);
         }
 
+        // ==================== FUNCIONES DE NAVEGACIÓN ====================
+        function cargarModulo(modulo) {
+            mostrarNotificacion(`Cargando módulo ${modulo}...`, 'info');
+            // En un sistema real, aquí se cargaría el módulo correspondiente
+            // Por ahora simulamos la navegación
+            setTimeout(() => {
+                mostrarNotificacion(`Módulo ${modulo} listo`, 'success');
+            }, 500);
+        }
+
+        function irAEstudiantes() {
+            mostrarNotificacion('Redirigiendo a gestión de estudiantes...', 'info');
+            // En implementación completa, redirigiría a estudiantes.html
+        }
+
+        function verIndicadores() {
+            mostrarNotificacion('Redirigiendo a indicadores PNFT...', 'info');
+            // En implementación completa, redirigiría a indicadores.html
+        }
+
+        function completarConfiguracion() {
+            // Auto-completar configuración con datos de ejemplo
+            cargarDatosEjemplo();
+            guardarConfiguracion();
+        }
+
+        function irAEvaluacion() {
+            mostrarNotificacion('Redirigiendo a evaluación cotidiana...', 'info');
+            // En implementación completa, redirigiría a cotidiano.html
+        }
+
+        // ==================== FUNCIONES DE UTILIDAD ====================
+        function cargarDatosEjemplo() {
+            // Datos de ejemplo para pruebas
+            document.getElementById('institucionNombre').value = 'Centro Educativo Tecnológico MEP';
+            document.getElementById('institucionDireccion').value = 'San José, Costa Rica';
+            document.getElementById('docenteNombre').value = 'Prof. Juan Pérez Rodríguez';
+            document.getElementById('docenteCedula').value = '1-2345-6789';
+            document.getElementById('docenteEmail').value = 'juan.perez@mep.ed.cr';
+            document.getElementById('docenteTelefono').value = '(506) 2222-3333';
+            
+            // Seleccionar todos los niveles
+            seleccionarTodosNiveles();
+            
+            // Aplicar porcentajes MEP
+            aplicarPorcentajesMEP();
+            
+            mostrarNotificacion('📋 Datos de ejemplo cargados', 'info');
+        }
+
+        function exportarConfiguracion() {
+            const config = sistemaTecnoPIA.configuracion;
+            
+            // Crear contenido para exportación
+            let contenido = `CONFIGURACIÓN TECNO-PIA - FORMACIÓN TECNOLÓGICA\n`;
+            contenido += `===================================================\n\n`;
+            contenido += `INSTITUCIÓN: ${config.institucion.nombre}\n`;
+            contenido += `DOCENTE: ${config.docente.nombre}\n`;
+            contenido += `CÉDULA: ${config.docente.cedula}\n`;
+            contenido += `EMAIL: ${config.docente.email}\n`;
+            contenido += `TELÉFONO: ${config.docente.telefono}\n\n`;
+            contenido += `PERÍODO: ${config.periodo.anio} - Trimestre ${config.periodo.trimestre}\n`;
+            contenido += `FECHA INICIO: ${config.periodo.fechaInicio}\n`;
+            contenido += `FECHA FIN: ${config.periodo.fechaFin}\n\n`;
+            contenido += `NIVELES: ${config.niveles.map(n => n.toUpperCase()).join(', ')}\n\n`;
+            contenido += `PORCENTAJES DE EVALUACIÓN:\n`;
+            contenido += `• Trabajo Cotidiano: ${config.porcentajes.cotidiano}%\n`;
+            contenido += `• Tareas Tecnológicas: ${config.porcentajes.tareas}%\n`;
+            contenido += `• Proyectos Tech: ${config.porcentajes.proyectos}%\n`;
+            contenido += `• Pruebas: ${config.porcentajes.pruebas}%\n`;
+            contenido += `• Asistencia: ${config.porcentajes.asistencia}%\n`;
+            contenido += `TOTAL: ${Object.values(config.porcentajes).reduce((a, b) => a + b, 0)}%\n\n`;
+            contenido += `FECHA DE EXPORTACIÓN: ${new Date().toLocaleString('es-CR')}\n`;
+            contenido += `SISTEMA: TECNO-PIA v1.0 (EXCEVAL + Califica.ai)\n`;
+            
+            // Crear y descargar archivo
+            const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `configuracion_tecnoPIA_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            mostrarNotificacion('✅ Configuración exportada exitosamente', 'success');
+        }
+
+        // ==================== SISTEMA DE NOTIFICACIONES ====================
         function mostrarNotificacion(mensaje, tipo = 'info') {
-            // Crear elemento de notificación
             const notificacion = document.createElement('div');
-            notificacion.className = `notificacion notificacion-${tipo}`;
+            notificacion.className = `notification ${tipo}`;
             notificacion.innerHTML = `
-                <div class="notificacion-icon">
-                    <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <div class="notification-icon">
+                    <i class="fa ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
                 </div>
-                <div class="notificacion-content">
+                <div class="notification-content">
                     <p>${mensaje}</p>
                 </div>
-                <button class="notificacion-close" onclick="this.parentElement.remove()">&times;</button>
+                <button class="notification-close" onclick="this.parentElement.remove()">
+                    <i class="fa fa-times"></i>
+                </button>
             `;
             
-            // Estilos para la notificación
-            notificacion.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${tipo === 'success' ? '#2ed573' : tipo === 'error' ? '#ff4757' : '#1e90ff'};
-                color: white;
-                padding: 15px 20px;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 1000;
-                animation: slideIn 0.3s ease-out;
-                max-width: 400px;
-            `;
-            
-            // Agregar animación si no existe
-            if (!document.querySelector('style#notificacion-styles')) {
-                const style = document.createElement('style');
-                style.id = 'notificacion-styles';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes slideOut {
-                        from { transform: translateX(0); opacity: 1; }
-                        to { transform: translateX(100%); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            // Agregar al documento
             document.body.appendChild(notificacion);
             
-            // Auto-remover después de 5 segundos
+            // Auto-eliminar después de 5 segundos
             setTimeout(() => {
                 if (notificacion.parentNode) {
                     notificacion.style.animation = 'slideOut 0.3s ease-out';
@@ -772,8 +2112,22 @@
             }, 5000);
         }
 
-        // Actualizar estadísticas periódicamente
-        setInterval(actualizarEstadisticas, 30000);
+        // ==================== INICIALIZACIÓN FINAL ====================
+        console.log('🎯 TECNO-PIA - Módulo Principal listo');
+        console.log('🔧 Características implementadas:');
+        console.log('   • Glassmorphism completo');
+        console.log('   • Base de datos embebida');
+        console.log('   • Sistema de configuración MEP');
+        console.log('   • Análisis inteligente (Califica.ai)');
+        console.log('   • Estadísticas en tiempo real');
+        console.log('   • Notificaciones del sistema');
+        console.log('   • Exportación de datos');
+        console.log('   • Niveles Maternal a Noveno');
+        console.log('   • Porcentajes MEP configurables');
+        
+        // Inicializar cálculos iniciales
+        actualizarTotal();
+        actualizarPorcentajeConfiguracion();
     </script>
 </body>
 </html>
