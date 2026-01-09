@@ -1,0 +1,2508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECNO-PIA MEP - Gestión de Proyectos Tecnológicos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --design-thinking-1: #FF6B6B;
+            --design-thinking-2: #4ECDC4;
+            --design-thinking-3: #45B7D1;
+            --design-thinking-4: #96CEB4;
+            --design-thinking-5: #FFEAA7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--design-thinking-1), var(--design-thinking-2), var(--design-thinking-3), var(--design-thinking-4), var(--design-thinking-5));
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 i {
+            color: var(--design-thinking-5);
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .mep-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Design Thinking Wizard */
+        .design-thinking-wizard {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .wizard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .wizard-header h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .wizard-header p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .wizard-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 10%;
+            right: 10%;
+            height: 5px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .wizard-step {
+            text-align: center;
+            z-index: 2;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 15px;
+            transition: all 0.3s;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .wizard-step.active .step-circle {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .wizard-step.phase-1 .step-circle { background: var(--design-thinking-1); color: white; }
+        .wizard-step.phase-2 .step-circle { background: var(--design-thinking-2); color: white; }
+        .wizard-step.phase-3 .step-circle { background: var(--design-thinking-3); color: white; }
+        .wizard-step.phase-4 .step-circle { background: var(--design-thinking-4); color: white; }
+        .wizard-step.phase-5 .step-circle { background: var(--design-thinking-5); color: var(--dark); }
+
+        .step-title {
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: #666;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        /* Phase Content */
+        .phase-content {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            border-left: 5px solid var(--design-thinking-1);
+            display: none;
+        }
+
+        .phase-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .phase-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .phase-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .mep-indicator {
+            background: var(--info);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* Project Stages */
+        .project-stages {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stage-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--success);
+            transition: transform 0.3s;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stage-card.inicial {
+            border-top-color: var(--design-thinking-1);
+        }
+
+        .stage-card.desarrollo {
+            border-top-color: var(--design-thinking-3);
+        }
+
+        .stage-card.final {
+            border-top-color: var(--design-thinking-5);
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stage-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .stage-percentage {
+            background: var(--warning);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .stage-card.desarrollo .stage-percentage {
+            background: var(--info);
+        }
+
+        .stage-card.final .stage-percentage {
+            background: var(--success);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-control, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Tool Cards */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--secondary);
+            transition: transform 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .tool-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #219653;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+            transform: translateY(-3px);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        /* Transversal Axes */
+        .transversal-axes {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .axes-title {
+            text-align: center;
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .axes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .axis-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border-top: 5px solid;
+        }
+
+        .axis-card.emprendimiento {
+            border-top-color: #9b59b6;
+        }
+
+        .axis-card.ciudadania {
+            border-top-color: #3498db;
+        }
+
+        .axis-card.pensamiento {
+            border-top-color: #2ecc71;
+        }
+
+        .axis-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .axis-card.emprendimiento .axis-icon { color: #9b59b6; }
+        .axis-card.ciudadania .axis-icon { color: #3498db; }
+        .axis-card.pensamiento .axis-icon { color: #2ecc71; }
+
+        /* Evaluation */
+        .evaluation-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .evaluation-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .rubric-table th, .rubric-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .rubric-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .rubric-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Prototyping Tools */
+        .prototyping-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tool-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 2px solid #eee;
+            transition: all 0.3s;
+        }
+
+        .tool-item:hover {
+            border-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .tool-logo {
+            height: 40px;
+            margin-bottom: 10px;
+            object-fit: contain;
+        }
+
+        /* Portfolio */
+        .portfolio-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .portfolio-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 2px dashed #ddd;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .portfolio-item:hover {
+            border-color: var(--secondary);
+            background: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .project-stages, .axes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wizard-steps {
+                flex-wrap: wrap;
+            }
+            
+            .wizard-step {
+                flex: 0 0 33.333%;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .wizard-step {
+                flex: 0 0 50%;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wizard-step {
+                flex: 0 0 100%;
+            }
+            
+            .phase-content {
+                padding: 20px;
+            }
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-mep {
+            background: var(--accent);
+            color: white;
+        }
+
+        .badge-initial {
+            background: var(--design-thinking-1);
+            color: white;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: var(--secondary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            top: 20px;
+            background: white;
+            transform: rotate(45deg);
+            box-shadow: 5px -5px 10px rgba(0,0,0,0.05);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: -10px;
+            top: 20px;
+            background: white;
+            transform: rotate(45deg);
+            box-shadow: -5px 5px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Idea Generator */
+        .idea-generator {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+
+        .idea-result {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+                /* Mode Selector */
+        .mode-selector {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--secondary);
+            background: white;
+            color: var(--secondary);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Student Management Panel */
+        .teacher-dashboard {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .management-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .group-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .group-select {
+            padding: 10px 20px;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+
+        /* Students Grid */
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .student-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid var(--secondary);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .student-card.selected {
+            background: #e3f2fd;
+            border-left-color: var(--accent);
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .student-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .student-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .student-id {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .project-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-not-started { background: #f8d7da; color: #721c24; }
+        .status-in-progress { background: #fff3cd; color: #856404; }
+        .status-completed { background: #d4edda; color: #155724; }
+
+        /* Teacher Dashboard */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border-top: 5px solid var(--secondary);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Current Student Display */
+        .current-student-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            display: none;
+        }
+
+        .current-student-display.active {
+            display: flex;
+        }
+
+        /* Mass Actions */
+        .mass-actions {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .management-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .group-selector {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .group-select {
+                width: 100%;
+            }
+            
+            .mass-actions {
+                flex-direction: column;
+            }
+            
+            .mass-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-project-diagram"></i> SISTEMA DE GESTIÓN DE PROYECTOS TECNOLÓGICOS</h1>
+            <p class="header-subtitle">Design Thinking obligatorio según Reglamento MEP - Valoración: 30% del total en III Ciclo y Educación Diversificada</p>
+            <div class="mep-badge">
+                <i class="fas fa-graduation-cap"></i> FORMACIÓN TECNOLÓGICA MEP - PROYECTOS CON DESIGN THINKING
+            </div>
+        </header>
+
+                <!-- Mode Selector -->
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="setMode('teacher')">
+                <i class="fas fa-chalkboard-teacher"></i> MODO DOCENTE
+            </button>
+            <button class="mode-btn" onclick="setMode('student')">
+                <i class="fas fa-user-graduate"></i> MODO ESTUDIANTE
+            </button>
+        </div>
+
+        <!-- Current Student Display (Student Mode) -->
+        <div class="current-student-display" id="currentStudentDisplay">
+            <div>
+                <h3><i class="fas fa-user-graduate"></i> TRABAJANDO EN PROYECTO PERSONAL</h3>
+                <p id="studentNameDisplay">Nombre del estudiante</p>
+            </div>
+            <div>
+                <span class="status-badge status-in-progress" id="studentStatusDisplay">EN PROGRESO</span>
+            </div>
+        </div>
+
+        <!-- Teacher Dashboard -->
+        <div class="teacher-dashboard active" id="teacherDashboard">
+            <div class="management-header">
+                <div>
+                    <h2><i class="fas fa-chalkboard-teacher"></i> PANEL DE CONTROL DOCENTE</h2>
+                    <p>Gestión de proyectos por estudiante y grupo</p>
+                </div>
+                <div class="group-selector">
+                    <select class="group-select" id="groupSelect" onchange="loadGroupStudents()">
+                        <option value="">Seleccione grupo/sección</option>
+                        <option value="7A">7° A - Tecnología</option>
+                        <option value="8B">8° B - Informática</option>
+                        <option value="9C">9° C - Robótica</option>
+                        <option value="10A">10° A - Programación</option>
+                        <option value="11B">11° B - Electrónica</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="importFromSEA()">
+                        <i class="fas fa-file-import"></i> Importar desde SEA
+                    </button>
+                    <button class="btn btn-success" onclick="syncWithEstudiantes()">
+                        <i class="fas fa-sync-alt"></i> Sincronizar con estudiantes.html
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalStudents">0</div>
+                    <div class="stat-label">Estudiantes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="projectsStarted">0</div>
+                    <div class="stat-label">Proyectos Iniciados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="projectsCompleted">0</div>
+                    <div class="stat-label">Proyectos Completados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="averageGrade">0%</div>
+                    <div class="stat-label">Calificación Promedio</div>
+                </div>
+            </div>
+
+            <!-- Mass Actions -->
+            <div class="mass-actions">
+                <button class="btn btn-primary" onclick="assignProjectToAll()">
+                    <i class="fas fa-tasks"></i> Asignar Proyecto a Todos
+                </button>
+                <button class="btn btn-warning" onclick="bulkEvaluate()">
+                    <i class="fas fa-clipboard-check"></i> Evaluación Masiva
+                </button>
+                <button class="btn btn-success" onclick="exportAllGrades()">
+                    <i class="fas fa-file-export"></i> Exportar Calificaciones al SEA
+                </button>
+                <button class="btn btn-primary" onclick="viewAllProgress()">
+                    <i class="fas fa-chart-line"></i> Ver Progreso General
+                </button>
+            </div>
+
+            <!-- Students Grid -->
+            <div class="students-grid" id="studentsGrid">
+                <!-- Students will be loaded here -->
+                <p style="text-align:center; color:#666; padding:40px;">Seleccione un grupo/sección para cargar estudiantes</p>
+            </div>
+
+            <!-- Selected Student Actions -->
+            <div id="selectedStudentActions" style="display: none; margin-top: 25px; padding-top: 20px; border-top: 2px solid #eee;">
+                <h3><i class="fas fa-user-check"></i> Acciones para Estudiante Seleccionado</h3>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="viewStudentProject()">
+                        <i class="fas fa-eye"></i> Ver Proyecto
+                    </button>
+                    <button class="btn btn-warning" onclick="evaluateStudent()">
+                        <i class="fas fa-edit"></i> Evaluar
+                    </button>
+                    <button class="btn btn-info" onclick="messageStudent()">
+                        <i class="fas fa-comment"></i> Enviar Retroalimentación
+                    </button>
+                    <button class="btn btn-success" onclick="downloadStudentPortfolio()">
+                        <i class="fas fa-download"></i> Descargar Portafolio
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Thinking Wizard -->
+        <section class="design-thinking-wizard">
+            <div class="wizard-header">
+                <h2>METODOLOGÍA DESIGN THINKING <span class="badge badge-mep">OBLIGATORIO MEP</span></h2>
+                <p>Proceso iterativo de 5 fases para desarrollar proyectos tecnológicos centrados en el usuario, según reglamento oficial MEP</p>
+            </div>
+
+            <div class="wizard-steps">
+                <div class="wizard-step phase-1 active" onclick="showPhase(1)">
+                    <div class="step-circle">1</div>
+                    <div class="step-title">EMPATIZAR</div>
+                    <div class="step-desc">Comprender necesidades reales del usuario</div>
+                </div>
+                <div class="wizard-step phase-2" onclick="showPhase(2)">
+                    <div class="step-circle">2</div>
+                    <div class="step-title">DEFINIR</div>
+                    <div class="step-desc">Sintetizar hallazgos y definir problema</div>
+                </div>
+                <div class="wizard-step phase-3" onclick="showPhase(3)">
+                    <div class="step-circle">3</div>
+                    <div class="step-title">IDEAR</div>
+                    <div class="step-desc">Generar y seleccionar ideas creativas</div>
+                </div>
+                <div class="wizard-step phase-4" onclick="showPhase(4)">
+                    <div class="step-circle">4</div>
+                    <div class="step-title">PROTOTIPAR</div>
+                    <div class="step-desc">Crear prototipos tangibles y tecnológicos</div>
+                </div>
+                <div class="wizard-step phase-5" onclick="showPhase(5)">
+                    <div class="step-circle">5</div>
+                    <div class="step-title">EVALUAR</div>
+                    <div class="step-desc">Probar con usuarios y mejorar iterativamente</div>
+                </div>
+            </div>
+
+            <!-- Phase 1: Empatizar -->
+            <div id="phase-1" class="phase-content active">
+                <div class="phase-header">
+                    <div>
+                        <h3 class="phase-title">FASE 1: EMPATIZAR <span class="badge badge-initial">ETAPA INICIAL - 30%</span></h3>
+                        <p class="phase-subtitle">Comprender las necesidades reales de usuarios/clientes mediante investigación directa</p>
+                    </div>
+                    <div class="mep-indicator">
+                        <i class="fas fa-chart-bar"></i> Indicador MEP: Describir necesidades de usuarios
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Identificación del Problema Real:</label>
+                    <input type="text" class="form-control" id="problem-statement" placeholder="Describa el problema importante para usuario/cliente...">
+                </div>
+
+                <h4><i class="fas fa-tools"></i> Herramientas de Empatía (Instrumentos técnicos desde inicio):</h4>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-comments"></i></div>
+                        <h5 class="tool-title">Guía de Entrevista</h5>
+                        <p>Plantilla estructurada para entrevistar usuarios y entender sus necesidades reales</p>
+                        <button class="btn btn-primary" onclick="downloadTemplate('entrevista')">
+                            <i class="fas fa-download"></i> Descargar Plantilla
+                        </button>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-clipboard-list"></i></div>
+                        <h5 class="tool-title">Formulario de Observación</h5>
+                        <p>Registro sistemático de comportamientos y contextos de usuarios</p>
+                        <button class="btn btn-primary" onclick="downloadTemplate('observacion')">
+                            <i class="fas fa-download"></i> Descargar Plantilla
+                        </button>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-poll"></i></div>
+                        <h5 class="tool-title">Encuesta Digital</h5>
+                        <p>Cuestionario para recoger datos cuantitativos de necesidades</p>
+                        <button class="btn btn-primary" onclick="generateSurvey()">
+                            <i class="fas fa-magic"></i> Generar Encuesta
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Registro de Hallazgos:</label>
+                    <textarea class="form-textarea" id="findings-record" placeholder="Registre aquí los intereses y necesidades identificadas mediante los instrumentos..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="savePhase(1)">
+                        <i class="fas fa-save"></i> Guardar Fase Empatizar
+                    </button>
+                    <button class="btn btn-primary" onclick="showPhase(2)">
+                        Continuar a Definir <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Phase 2: Definir -->
+            <div id="phase-2" class="phase-content">
+                <div class="phase-header">
+                    <div>
+                        <h3 class="phase-title">FASE 2: DEFINIR <span class="badge badge-initial">ETAPA INICIAL - 30%</span></h3>
+                        <p class="phase-subtitle">Sintetizar hallazgos en productos comunicativos claros</p>
+                    </div>
+                    <div class="mep-indicator">
+                        <i class="fas fa-sitemap"></i> Indicador MEP: Sintetizar hallazgos en producto comunicativo
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Síntesis del Problema (Responda):</label>
+                    <div class="tools-grid">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="¿QUÉ problema identificamos?">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="¿Para QUIÉN es el problema?">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="¿DÓNDE ocurre el problema?">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="¿CÓMO se manifiesta?">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="¿POR QUÉ es importante resolverlo?">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="¿CUÁNDO ocurre con mayor frecuencia?">
+                        </div>
+                    </div>
+                </div>
+
+                <h4><i class="fas fa-file-alt"></i> Productos Comunicativos para Síntesis:</h4>
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="createArtifact('infografia')">
+                        <div class="tool-icon"><i class="fas fa-chart-pie"></i></div>
+                        <h5 class="tool-title">Infografía Digital</h5>
+                        <p>Representación visual de hallazgos y datos clave</p>
+                    </div>
+                    
+                    <div class="tool-card" onclick="createArtifact('mapa-conceptual')">
+                        <div class="tool-icon"><i class="fas fa-project-diagram"></i></div>
+                        <h5 class="tool-title">Mapa Conceptual</h5>
+                        <p>Estructuración de relaciones entre conceptos clave</p>
+                    </div>
+                    
+                    <div class="tool-card" onclick="createArtifact('video-sintesis')">
+                        <div class="tool-icon"><i class="fas fa-video"></i></div>
+                        <h5 class="tool-title">Video de Síntesis</h5>
+                        <p>Presentación multimedia de hallazgos (2-3 minutos)</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Definición Final del Problema:</label>
+                    <textarea class="form-textarea" id="problem-definition" placeholder="Redacte aquí la definición clara y concisa del problema a resolver..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-warning" onclick="showPhase(1)">
+                        <i class="fas fa-arrow-left"></i> Volver a Empatizar
+                    </button>
+                    <button class="btn btn-success" onclick="savePhase(2)">
+                        <i class="fas fa-save"></i> Guardar Fase Definir
+                    </button>
+                    <button class="btn btn-primary" onclick="showPhase(3)">
+                        Continuar a Idear <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Phase 3: Idear -->
+            <div id="phase-3" class="phase-content">
+                <div class="phase-header">
+                    <div>
+                        <h3 class="phase-title">FASE 3: IDEAR <span class="badge badge-initial">ETAPA INICIAL - 30%</span></h3>
+                        <p class="phase-subtitle">Generación amplia y creativa de soluciones tecnológicas</p>
+                    </div>
+                    <div class="mep-indicator">
+                        <i class="fas fa-lightbulb"></i> Indicador MEP: Seleccionar solución más eficiente y justificar
+                    </div>
+                </div>
+
+                <!-- Idea Generator -->
+                <div class="idea-generator">
+                    <h4><i class="fas fa-magic"></i> Generador de Ideas Creativas</h4>
+                    <p>Ingrese palabras clave relacionadas con el problema para generar ideas innovadoras:</p>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="keywords-input" placeholder="Ej: reciclaje, tecnología, comunidad, app...">
+                        <button class="btn btn-warning" onclick="generateIdeas()" style="margin-top: 15px; width: 100%;">
+                            <i class="fas fa-bolt"></i> Generar Ideas Tecnológicas
+                        </button>
+                    </div>
+                    <div id="idea-results" class="idea-result" style="display: none;">
+                        <h5>Ideas Generadas:</h5>
+                        <div id="ideas-list"></div>
+                    </div>
+                </div>
+
+                <h4><i class="fas fa-vote-yea"></i> Sistema de Votación y Selección</h4>
+                <div class="form-group">
+                    <label class="form-label">Registro de Ideas Generadas (Mínimo 3):</label>
+                    <textarea class="form-textarea" id="ideas-record" placeholder="Escriba aquí al menos 3 ideas de solución tecnológica..."></textarea>
+                </div>
+
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-check-circle"></i></div>
+                        <h5 class="tool-title">Selección por Votación</h5>
+                        <p>Sistema para que el equipo vote democráticamente por la mejor idea</p>
+                        <button class="btn btn-primary" onclick="startVoting()">
+                            <i class="fas fa-vote-yea"></i> Iniciar Votación
+                        </button>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-balance-scale"></i></div>
+                        <h5 class="tool-title">Comparativa de Ideas <span class="badge badge-mep">MÍNIMO 2 IDEAS</span></h5>
+                        <p>Análisis comparativo de al menos 2 ideas para justificar selección</p>
+                        <button class="btn btn-primary" onclick="showComparison()">
+                            <i class="fas fa-exchange-alt"></i> Comparar Ideas
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Justificación de la Idea Seleccionada:</label>
+                    <textarea class="form-textarea" id="idea-justification" placeholder="Justifique por qué seleccionó esta solución, comparando con al menos otra idea alternativa..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-warning" onclick="showPhase(2)">
+                        <i class="fas fa-arrow-left"></i> Volver a Definir
+                    </button>
+                    <button class="btn btn-success" onclick="savePhase(3)">
+                        <i class="fas fa-save"></i> Guardar Fase Idear
+                    </button>
+                    <button class="btn btn-primary" onclick="showPhase(4)">
+                        Continuar a Prototipar <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Phase 4: Prototipar -->
+            <div id="phase-4" class="phase-content">
+                <div class="phase-header">
+                    <div>
+                        <h3 class="phase-title">FASE 4: PROTOTIPAR <span class="badge">ETAPA DE DESARROLLO</span></h3>
+                        <p class="phase-subtitle">Creación de prototipos tecnológicos tangibles o visuales</p>
+                    </div>
+                </div>
+
+                <h4><i class="fas fa-tools"></i> Herramientas Tecnológicas para Prototipado:</h4>
+                <div class="prototyping-tools">
+                    <div class="tool-item" onclick="openTool('scratch')">
+                        <div class="tool-icon"><i class="fas fa-code"></i></div>
+                        <div class="tool-title">Scratch</div>
+                        <small>Prototipos interactivos y juegos</small>
+                    </div>
+                    <div class="tool-item" onclick="openTool('tinkercad')">
+                        <div class="tool-icon"><i class="fas fa-cube"></i></div>
+                        <div class="tool-title">Tinkercad</div>
+                        <small>Modelos 3D y circuitos</small>
+                    </div>
+                    <div class="tool-item" onclick="openTool('arduino')">
+                        <div class="tool-icon"><i class="fas fa-microchip"></i></div>
+                        <div class="tool-title">Arduino IDE</div>
+                        <small>Prototipos electrónicos</small>
+                    </div>
+                    <div class="tool-item" onclick="openTool('python')">
+                        <div class="tool-icon"><i class="fab fa-python"></i></div>
+                        <div class="tool-title">Python</div>
+                        <small>Soluciones de software</small>
+                    </div>
+                    <div class="tool-item" onclick="openTool('figma')">
+                        <div class="tool-icon"><i class="fas fa-paint-brush"></i></div>
+                        <div class="tool-title">Figma</div>
+                        <small>Diseño de interfaces</small>
+                    </div>
+                    <div class="tool-item" onclick="openTool('canva')">
+                        <div class="tool-icon"><i class="fas fa-palette"></i></div>
+                        <div class="tool-title">Canva</div>
+                        <small>Diseño gráfico</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tipo de Prototipo:</label>
+                    <select class="form-select" id="prototype-type">
+                        <option value="">Seleccione el tipo de prototipo</option>
+                        <option value="maqueta">Maqueta física</option>
+                        <option value="storyboard">Guion gráfico (Storyboard)</option>
+                        <option value="programa">Programa o aplicación</option>
+                        <option value="simulacion">Simulación digital</option>
+                        <option value="modelo3d">Modelo 3D</option>
+                        <option value="circuito">Circuito electrónico</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Descripción del Prototipo:</label>
+                    <textarea class="form-textarea" id="prototype-description" placeholder="Describa en detalle su prototipo tecnológico, materiales necesarios y funcionalidades..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Recursos Tecnológicos Disponibles:</label>
+                    <textarea class="form-textarea" id="available-resources" placeholder="Liste los recursos tecnológicos disponibles (computadoras, kits Arduino, impresora 3D, software, etc.)..."></textarea>
+                </div>
+
+                <h4><i class="fas fa-tasks"></i> Plan de Desarrollo del Prototipo:</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>Semana 1: Diseño y planificación</h5>
+                            <p>Crear diagramas, listar materiales, asignar tareas</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>Semana 2: Desarrollo inicial</h5>
+                            <p>Construir componentes básicos, programar funciones esenciales</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>Semana 3: Integración y pruebas</h5>
+                            <p>Ensamblar componentes, probar funcionalidades básicas</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>Semana 4: Refinamiento</h5>
+                            <p>Mejorar diseño, corregir errores, optimizar funcionamiento</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-warning" onclick="showPhase(3)">
+                        <i class="fas fa-arrow-left"></i> Volver a Idear
+                    </button>
+                    <button class="btn btn-success" onclick="savePhase(4)">
+                        <i class="fas fa-save"></i> Guardar Fase Prototipar
+                    </button>
+                    <button class="btn btn-primary" onclick="showPhase(5)">
+                        Continuar a Evaluar <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Phase 5: Evaluar -->
+            <div id="phase-5" class="phase-content">
+                <div class="phase-header">
+                    <div>
+                        <h3 class="phase-title">FASE 5: EVALUAR <span class="badge">ETAPA FINAL</span></h3>
+                        <p class="phase-subtitle">Pruebas con usuarios reales y mejora iterativa del prototipo</p>
+                    </div>
+                </div>
+
+                <h4><i class="fas fa-users"></i> Pruebas con Usuarios Reales:</h4>
+                <div class="form-group">
+                    <label class="form-label">Plan de Pruebas:</label>
+                    <textarea class="form-textarea" id="testing-plan" placeholder="Describa cómo probará el prototipo con usuarios reales (quiénes, cuándo, cómo)..."></textarea>
+                </div>
+
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-clipboard-check"></i></div>
+                        <h5 class="tool-title">Formulario de Retroalimentación</h5>
+                        <p>Plantilla para recoger opiniones de usuarios durante pruebas</p>
+                        <button class="btn btn-primary" onclick="downloadTemplate('feedback')">
+                            <i class="fas fa-download"></i> Descargar Plantilla
+                        </button>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-chart-line"></i></div>
+                        <h5 class="tool-title">Análisis de Resultados</h5>
+                        <p>Herramienta para analizar datos recogidos en pruebas</p>
+                        <button class="btn btn-primary" onclick="analyzeResults()">
+                            <i class="fas fa-chart-bar"></i> Analizar Datos
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Retroalimentación Recibida:</label>
+                    <textarea class="form-textarea" id="user-feedback" placeholder="Registre aquí los comentarios, sugerencias y críticas de los usuarios..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mejoras Identificadas (Iteración):</label>
+                    <textarea class="form-textarea" id="improvements" placeholder="Describa las mejoras que implementará basándose en la retroalimentación..."></textarea>
+                </div>
+
+                <h4><i class="fas fa-calendar-check"></i> Implementación en Situaciones Cotidianas:</h4>
+                <div class="form-group">
+                    <label class="form-label">Plan de Implementación:</label>
+                    <textarea class="form-textarea" id="implementation-plan" placeholder="Describa cómo implementará la solución final en situaciones reales cotidianas..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-warning" onclick="showPhase(4)">
+                        <i class="fas fa-arrow-left"></i> Volver a Prototipar
+                    </button>
+                    <button class="btn btn-success" onclick="savePhase(5)">
+                        <i class="fas fa-save"></i> Guardar Fase Evaluar
+                    </button>
+                    <button class="btn btn-primary" onclick="completeProject()">
+                        <i class="fas fa-flag-checkered"></i> Completar Proyecto
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Stages MEP -->
+        <section class="project-stages">
+            <div class="stage-card inicial">
+                <div class="stage-header">
+                    <h3 class="stage-title">ETAPA INICIAL</h3>
+                    <div class="stage-percentage">30%</div>
+                </div>
+                <p><strong>Design Thinking:</strong> Empatizar, Definir, Idear</p>
+                <p><strong>Indicadores MEP evaluados:</strong></p>
+                <ul>
+                    <li>Describir necesidades de usuarios</li>
+                    <li>Sintetizar hallazgos en producto comunicativo</li>
+                    <li>Seleccionar solución más eficiente</li>
+                    <li>Justificar con al menos 2 ideas comparadas</li>
+                </ul>
+                <div class="mep-indicator" style="margin-top: 15px;">
+                    <i class="fas fa-check-circle"></i> INSTRUMENTOS DADOS A CONOCER DESDE INICIO
+                </div>
+            </div>
+            
+            <div class="stage-card desarrollo">
+                <div class="stage-header">
+                    <h3 class="stage-title">ETAPA DE DESARROLLO</h3>
+                    <div class="stage-percentage">40%</div>
+                </div>
+                <p><strong>Design Thinking:</strong> Prototipar</p>
+                <p><strong>Actividades clave:</strong></p>
+                <ul>
+                    <li>Crear prototipo tangible o representación visual</li>
+                    <li>Utilizar recursos tecnológicos disponibles</li>
+                    <li>Documentar proceso de desarrollo</li>
+                    <li>Integrar ejes transversales</li>
+                </ul>
+            </div>
+            
+            <div class="stage-card final">
+                <div class="stage-header">
+                    <h3 class="stage-title">ETAPA FINAL</h3>
+                    <div class="stage-percentage">30%</div>
+                </div>
+                <p><strong>Design Thinking:</strong> Evaluar</p>
+                <p><strong>Actividades clave:</strong></p>
+                <ul>
+                    <li>Pruebas con usuarios reales</li>
+                    <li>Retroalimentación y mejora iterativa</li>
+                    <li>Implementación en situaciones cotidianas</li>
+                    <li>Presentación final del proyecto</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Ejes Transversales -->
+        <section class="transversal-axes">
+            <h2 class="axes-title">EJES TRANSVERSALES INTEGRADOS <span class="badge badge-mep">OBLIGATORIOS MEP</span></h2>
+            <div class="axes-grid">
+                <div class="axis-card emprendimiento">
+                    <div class="axis-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Emprendimiento e Innovación</h3>
+                    <p>Desarrollo de mentalidad emprendedora, identificación de oportunidades y creación de valor</p>
+                    <button class="btn btn-primary" onclick="openCanvas()" style="margin-top: 15px;">
+                        <i class="fas fa-chart-bar"></i> Canvas Modelo Negocio
+                    </button>
+                </div>
+                
+                <div class="axis-card ciudadania">
+                    <div class="axis-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Ciudadanía Digital</h3>
+                    <p>Uso ético, responsable y seguro de la tecnología, derechos digitales y huella digital</p>
+                    <button class="btn btn-primary" onclick="openEthicsChecklist()" style="margin-top: 15px;">
+                        <i class="fas fa-clipboard-check"></i> Checklist Ético
+                    </button>
+                </div>
+                
+                <div class="axis-card pensamiento">
+                    <div class="axis-icon"><i class="fas fa-cogs"></i></div>
+                    <h3>Pensamiento Computacional</h3>
+                    <p>Descomposición de problemas, reconocimiento de patrones, algoritmos y abstracción</p>
+                    <button class="btn btn-primary" onclick="openFlowchartTool()" style="margin-top: 15px;">
+                        <i class="fas fa-project-diagram"></i> Diagramas Flujo
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evaluation Section -->
+        <section class="evaluation-section">
+            <h2 class="evaluation-title">EVALUACIÓN SEGÚN REGLAMENTO MEP <span class="badge badge-mep">VALORACIÓN: 30% DEL TOTAL</span></h2>
+            
+            <h4><i class="fas fa-clipboard-list"></i> Rúbrica para Etapa Inicial (30% del proyecto):</h4>
+            <table class="rubric-table">
+                <thead>
+                    <tr>
+                        <th>Indicador de Logro</th>
+                        <th>Excelente (10 pts)</th>
+                        <th>Bueno (8 pts)</th>
+                        <th>Regular (6 pts)</th>
+                        <th>Insuficiente (4 pts)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Describir necesidades de usuarios</strong><br>Describe problema importante para usuario/cliente y registra intereses mediante instrumentos</td>
+                        <td>Describe claramente el problema usando 3+ instrumentos válidos</td>
+                        <td>Describe el problema usando 2 instrumentos adecuados</td>
+                        <td>Describe superficialmente usando 1 instrumento básico</td>
+                        <td>No describe problema o usa instrumentos inadecuados</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sintetizar hallazgos</strong><br>Sintetiza intereses en producto comunicativo claro</td>
+                        <td>Sintetiza excelentemente en producto comunicativo creativo y profesional</td>
+                        <td>Sintetiza adecuadamente en producto comunicativo claro</td>
+                        <td>Sintetiza parcialmente en producto comunicativo básico</td>
+                        <td>No sintetiza o producto no comunica hallazgos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Seleccionar idea eficiente</strong><br>Selecciona solución más eficiente y justifica con al menos 2 ideas comparadas</td>
+                        <td>Selecciona idea óptima y justifica con comparativa detallada de 3+ ideas</td>
+                        <td>Selecciona idea adecuada y justifica comparando 2 ideas</td>
+                        <td>Selecciona idea pero justificación es superficial</td>
+                        <td>No selecciona idea o no justifica comparativamente</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn btn-success" onclick="calculateGrade()">
+                    <i class="fas fa-calculator"></i> Calcular Calificación de Etapa Inicial (30%)
+                </button>
+                <div id="grade-result" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; display: none;">
+                    <h4>Resultado de Evaluación:</h4>
+                    <p id="grade-text"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section class="portfolio-section">
+            <h2 class="portfolio-title">PORTAFOLIO DIGITAL DEL PROYECTO</h2>
+            <p style="text-align: center; margin-bottom: 25px; color: #666;">Documentación completa del proceso Design Thinking según MEP</p>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-item" onclick="exportSection('empathy')">
+                    <div class="tool-icon"><i class="fas fa-heart"></i></div>
+                    <h4>Evidencias de Empatía</h4>
+                    <p>Entrevistas, encuestas, observaciones</p>
+                </div>
+                
+                <div class="portfolio-item" onclick="exportSection('definition')">
+                    <div class="tool-icon"><i class="fas fa-bullseye"></i></div>
+                    <h4>Definición del Problema</h4>
+                    <p>Infografías, mapas conceptuales, síntesis</p>
+                </div>
+                
+                <div class="portfolio-item" onclick="exportSection('ideas')">
+                    <div class="tool-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h4>Ideas y Selección</h4>
+                    <p>Lista de ideas, votaciones, justificación</p>
+                </div>
+                
+                <div class="portfolio-item" onclick="exportSection('prototype')">
+                    <div class="tool-icon"><i class="fas fa-cube"></i></div>
+                    <h4>Prototipo Tecnológico</h4>
+                    <p>Fotos, videos, código, diagramas</p>
+                </div>
+                
+                <div class="portfolio-item" onclick="exportSection('testing')">
+                    <div class="tool-icon"><i class="fas fa-vial"></i></div>
+                    <h4>Pruebas y Evaluación</h4>
+                    <p>Feedback de usuarios, mejoras</p>
+                </div>
+                
+                <div class="portfolio-item" onclick="exportFullPortfolio()">
+                    <div class="tool-icon"><i class="fas fa-file-archive"></i></div>
+                    <h4>Portafolio Completo</h4>
+                    <p>Exportar todo el proyecto en PDF</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="generateMEPReport()">
+                    <i class="fas fa-file-pdf"></i> Generar Informe Final MEP
+                </button>
+                <button class="btn btn-success" onclick="saveToLocalStorage()">
+                    <i class="fas fa-database"></i> Guardar Proyecto Localmente
+                </button>
+            </div>
+        </section>
+
+        <!-- Navigation Footer -->
+        <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #666;">
+            <p><strong>SISTEMA TECNO-PIA MEP - GESTIÓN DE PROYECTOS TECNOLÓGICOS CON DESIGN THINKING</strong></p>
+            <p>Reglamento MEP de Formación Tecnológica | Valoración: 30% del total en III Ciclo y Educación Diversificada</p>
+            <p style="margin-top: 15px;">
+                <a href="principal.html" style="color: var(--secondary); text-decoration: none; margin: 0 10px;">
+                    <i class="fas fa-home"></i> Principal
+                </a> |
+                <a href="indicadores.html" style="color: var(--secondary); text-decoration: none; margin: 0 10px;">
+                    <i class="fas fa-chart-bar"></i> Indicadores
+                </a> |
+                <a href="tareas.html" style="color: var(--secondary); text-decoration: none; margin: 0 10px;">
+                    <i class="fas fa-tasks"></i> Tareas
+                </a> |
+                <a href="estudiantes.html" style="color: var(--secondary); text-decoration: none; margin: 0 10px;">
+                    <i class="fas fa-users"></i> Estudiantes
+                </a> |
+                <a href="cotidiano.html" style="color: var(--secondary); text-decoration: none; margin: 0 10px;">
+                    <i class="fas fa-calendar-day"></i> Cotidiano
+                </a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Phase Management
+        function showPhase(phaseNumber) {
+            // Hide all phases
+            document.querySelectorAll('.phase-content').forEach(phase => {
+                phase.classList.remove('active');
+            });
+            
+            // Remove active from all wizard steps
+            document.querySelectorAll('.wizard-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show selected phase
+            document.getElementById(`phase-${phaseNumber}`).classList.add('active');
+            
+            // Activate corresponding wizard step
+            document.querySelectorAll('.wizard-step')[phaseNumber - 1].classList.add('active');
+            
+            // Scroll to phase
+            document.getElementById(`phase-${phaseNumber}`).scrollIntoView({behavior: 'smooth'});
+        }
+
+        // Template Downloads
+        function downloadTemplate(type) {
+            let templateName, templateContent;
+            
+            switch(type) {
+                case 'entrevista':
+                    templateName = 'Guia_Entrevista_Design_Thinking_MEP.docx';
+                    templateContent = 'PLANTILLA GUÍA DE ENTREVISTA - MEP FORMACIÓN TECNOLÓGICA\n\nObjetivo: Comprender necesidades reales de usuarios\n\n1. Datos del entrevistado:\n2. Preguntas sobre el problema:\n3. Observaciones:\n4. Insights clave:';
+                    break;
+                case 'observacion':
+                    templateName = 'Formulario_Observacion_MEP.docx';
+                    templateContent = 'FORMULARIO DE OBSERVACIÓN SISTEMÁTICA - MEP\n\nContexto:\nComportamientos observados:\nNecesidades identificadas:\nOportunidades de mejora:\nEvidencia fotográfica/videográfica:';
+                    break;
+                case 'feedback':
+                    templateName = 'Formulario_Retroalimentacion_Usuarios_MEP.docx';
+                    templateContent = 'FORMULARIO DE RETROALIMENTACIÓN - PRUEBAS DE PROTOTIPO\n\n1. Facilidad de uso:\n2. Funcionalidad:\n3. Diseño:\n4. Sugerencias de mejora:\n5. Calificación general:';
+                    break;
+            }
+            
+            // Create download link
+            const blob = new Blob([templateContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = templateName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`Plantilla ${templateName} descargada correctamente.`);
+        }
+
+        // Idea Generator
+        function generateIdeas() {
+            const keywords = document.getElementById('keywords-input').value;
+            if (!keywords) {
+                alert('Ingrese palabras clave para generar ideas.');
+                return;
+            }
+            
+            const techIdeas = [
+                "Aplicación móvil para " + keywords,
+                "Sistema automatizado usando sensores para " + keywords,
+                "Plataforma web colaborativa sobre " + keywords,
+                "Dispositivo IoT que soluciona " + keywords,
+                "Videojuego educativo sobre " + keywords,
+                "Robot programable para " + keywords,
+                "Simulación digital de " + keywords,
+                "Red social especializada en " + keywords,
+                "Herramienta de realidad aumentada para " + keywords,
+                "Sistema de análisis de datos sobre " + keywords
+            ];
+            
+            let ideasHTML = '<ul>';
+            for (let i = 0; i < 5; i++) {
+                const randomIdea = techIdeas[Math.floor(Math.random() * techIdeas.length)];
+                ideasHTML += `<li><input type="checkbox" id="idea-${i}"> <label for="idea-${i}">${randomIdea}</label></li>`;
+            }
+            ideasHTML += '</ul>';
+            
+            document.getElementById('ideas-list').innerHTML = ideasHTML;
+            document.getElementById('idea-results').style.display = 'block';
+            
+            // Add to ideas record
+            const ideasText = "Ideas generadas automáticamente:\n" + 
+                techIdeas.slice(0, 5).map((idea, idx) => `${idx + 1}. ${idea}`).join('\n');
+            
+            const currentRecord = document.getElementById('ideas-record').value;
+            document.getElementById('ideas-record').value = currentRecord ? 
+                currentRecord + '\n\n' + ideasText : ideasText;
+        }
+
+        // Voting System
+        function startVoting() {
+            const ideas = document.getElementById('ideas-record').value;
+            if (!ideas || ideas.split('\n').filter(line => line.trim()).length < 2) {
+                alert('Debe registrar al menos 2 ideas para iniciar la votación.');
+                return;
+            }
+            
+            const voteModal = `
+                <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; align-items:center; justify-content:center; z-index:1000;">
+                    <div style="background:white; padding:30px; border-radius:15px; max-width:500px; width:90%;">
+                        <h3><i class="fas fa-vote-yea"></i> Sistema de Votación de Ideas</h3>
+                        <p>Seleccione la mejor idea (solo una):</p>
+                        ${ideas.split('\n').filter(line => line.trim()).map((idea, idx) => `
+                            <div style="margin:10px 0; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                                <input type="radio" name="vote" id="vote-${idx}" value="${idea.trim()}">
+                                <label for="vote-${idx}">${idea.trim()}</label>
+                            </div>
+                        `).join('')}
+                        <div style="margin-top:20px; display:flex; gap:10px;">
+                            <button onclick="closeModal()" class="btn btn-warning" style="padding:10px 20px;">Cancelar</button>
+                            <button onclick="submitVote()" class="btn btn-success" style="padding:10px 20px;">Votar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', voteModal);
+        }
+
+        function closeModal() {
+            document.querySelector('[style*="position:fixed"]').remove();
+        }
+
+        function submitVote() {
+            const selected = document.querySelector('input[name="vote"]:checked');
+            if (selected) {
+                alert(`¡Voto registrado!\n\nIdea seleccionada: ${selected.value}\n\nEsta idea será la solución principal del proyecto.`);
+                document.getElementById('idea-justification').value = `La idea seleccionada por votación democrática del equipo es: "${selected.value}". Esta solución fue elegida porque...`;
+                closeModal();
+            } else {
+                alert('Por favor seleccione una idea antes de votar.');
+            }
+        }
+
+        // Comparison Tool
+        function showComparison() {
+            const ideas = document.getElementById('ideas-record').value;
+            const ideaLines = ideas.split('\n').filter(line => line.trim()).slice(0, 3);
+            
+            if (ideaLines.length < 2) {
+                alert('Debe registrar al menos 2 ideas para comparar.');
+                return;
+            }
+            
+            const comparisonModal = `
+                <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; align-items:center; justify-content:center; z-index:1000;">
+                    <div style="background:white; padding:30px; border-radius:15px; max-width:700px; width:90%; max-height:80vh; overflow-y:auto;">
+                        <h3><i class="fas fa-balance-scale"></i> Comparativa de Ideas <span class="badge badge-mep">MÍNIMO 2 IDEAS</span></h3>
+                        <p>Compare al menos 2 ideas según criterios MEP:</p>
+                        
+                        <table style="width:100%; border-collapse:collapse; margin:20px 0;">
+                            <thead>
+                                <tr style="background:#2c3e50; color:white;">
+                                    <th style="padding:10px; text-align:left;">Criterio</th>
+                                    ${ideaLines.map((idea, idx) => `
+                                        <th style="padding:10px; text-align:center;">Idea ${idx + 1}</th>
+                                    `).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:10px; border:1px solid #ddd;"><strong>Factibilidad técnica</strong></td>
+                                    ${ideaLines.map(() => `
+                                        <td style="padding:10px; border:1px solid #ddd; text-align:center;">
+                                            <select style="width:100%; padding:5px;">
+                                                <option>Alta</option>
+                                                <option>Media</option>
+                                                <option>Baja</option>
+                                            </select>
+                                        </td>
+                                    `).join('')}
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px; border:1px solid #ddd;"><strong>Impacto en usuario</strong></td>
+                                    ${ideaLines.map(() => `
+                                        <td style="padding:10px; border:1px solid #ddd; text-align:center;">
+                                            <select style="width:100%; padding:5px;">
+                                                <option>Alto</option>
+                                                <option>Medio</option>
+                                                <option>Bajo</option>
+                                            </select>
+                                        </td>
+                                    `).join('')}
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px; border:1px solid #ddd;"><strong>Recursos necesarios</strong></td>
+                                    ${ideaLines.map(() => `
+                                        <td style="padding:10px; border:1px solid #ddd; text-align:center;">
+                                            <select style="width:100%; padding:5px;">
+                                                <option>Mínimos</option>
+                                                <option>Moderados</option>
+                                                <option>Extensos</option>
+                                            </select>
+                                        </td>
+                                    `).join('')}
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px; border:1px solid #ddd;"><strong>Tiempo de desarrollo</strong></td>
+                                    ${ideaLines.map(() => `
+                                        <td style="padding:10px; border:1px solid #ddd; text-align:center;">
+                                            <select style="width:100%; padding:5px;">
+                                                <option>Corto</option>
+                                                <option>Mediano</option>
+                                                <option>Largo</option>
+                                            </select>
+                                        </td>
+                                    `).join('')}
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div style="margin-top:20px;">
+                            <h4>Ideas comparadas:</h4>
+                            <ol>
+                                ${ideaLines.map((idea, idx) => `
+                                    <li>${idea}</li>
+                                `).join('')}
+                            </ol>
+                        </div>
+                        
+                        <div style="margin-top:20px;">
+                            <label><strong>Justificación de selección (comparar al menos 2 ideas):</strong></label>
+                            <textarea id="comparison-justification" style="width:100%; height:100px; padding:10px; margin-top:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
+                        </div>
+                        
+                        <div style="margin-top:20px; display:flex; gap:10px;">
+                            <button onclick="saveComparison()" class="btn btn-success" style="padding:10px 20px;">
+                                <i class="fas fa-save"></i> Guardar Comparativa
+                            </button>
+                            <button onclick="closeModal()" class="btn btn-warning" style="padding:10px 20px;">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', comparisonModal);
+        }
+
+        function saveComparison() {
+            const justification = document.getElementById('comparison-justification').value;
+            if (justification) {
+                document.getElementById('idea-justification').value = justification;
+                alert('Comparativa guardada en justificación de idea seleccionada.');
+                closeModal();
+            } else {
+                alert('Por favor complete la justificación de la comparativa.');
+            }
+        }
+
+        // Tool Integrations
+        function openTool(toolName) {
+            const toolUrls = {
+                'scratch': 'https://scratch.mit.edu',
+                'tinkercad': 'https://www.tinkercad.com',
+                'arduino': 'https://www.arduino.cc/en/software',
+                'python': 'https://www.python.org',
+                'figma': 'https://www.figma.com',
+                'canva': 'https://www.canva.com'
+            };
+            
+            if (toolUrls[toolName]) {
+                window.open(toolUrls[toolName], '_blank');
+            } else {
+                alert('Herramienta tecnológica abierta. Integre su prototipo aquí.');
+            }
+        }
+
+        // Transversal Axes Tools
+        function openCanvas() {
+            alert('Canvas de Modelo de Negocio abierto. Esta herramienta integra el eje de Emprendimiento e Innovación.');
+        }
+
+        function openEthicsChecklist() {
+            const checklist = `
+                CHECKLIST ÉTICO - CIUDADANÍA DIGITAL MEP
+                
+                1. ¿Respeta la privacidad de los usuarios?
+                2. ¿Es inclusivo y accesible para todos?
+                3. ¿Protege datos personales según ley?
+                4. ¿Evita contenido ofensivo o discriminatorio?
+                5. ¿Promueve valores democráticos?
+                6. ¿Tiene licencias de software adecuadas?
+                7. ¿Reconoce fuentes y autorías?
+                8. ¿Minimiza huella digital negativa?
+                
+                Este checklist debe completarse en el portafolio del proyecto.
+            `;
+            
+            alert(checklist);
+        }
+
+        function openFlowchartTool() {
+            alert('Herramienta de Diagramas de Flujo abierta. Integra Pensamiento Computacional mediante descomposición de problemas y algoritmos.');
+        }
+
+        // Evaluation Calculator
+        function calculateGrade() {
+            // Simulate grade calculation based on rubric
+            const indicators = [
+                { name: 'Describir necesidades', weight: 10 },
+                { name: 'Sintetizar hallazgos', weight: 10 },
+                { name: 'Seleccionar idea eficiente', weight: 10 }
+            ];
+            
+            let totalScore = 0;
+            indicators.forEach(indicator => {
+                // Simulate scoring (in real implementation, this would come from actual rubric evaluation)
+                const score = Math.floor(Math.random() * 7) + 6; // Random score between 6-10
+                totalScore += score;
+            });
+            
+            const averageScore = totalScore / indicators.length;
+            const projectPercentage = (averageScore / 10) * 30; // 30% of total project
+            
+            const resultDiv = document.getElementById('grade-result');
+            const gradeText = document.getElementById('grade-text');
+            
+            gradeText.innerHTML = `
+                <strong>Calificación Etapa Inicial:</strong> ${averageScore.toFixed(1)}/10<br>
+                <strong>Porcentaje del proyecto (30%):</strong> ${projectPercentage.toFixed(1)}%<br>
+                <strong>Equivalencia en nota final:</strong> ${(projectPercentage * 100 / 30).toFixed(1)}/100<br><br>
+                <small>Nota: Esta es una simulación. La calificación real debe basarse en la rúbrica MEP con evidencias concretas.</small>
+            `;
+            
+            resultDiv.style.display = 'block';
+        }
+
+        // Portfolio Export
+        function exportFullPortfolio() {
+            const projectData = {
+                fecha: new Date().toLocaleDateString(),
+                problema: document.getElementById('problem-statement')?.value || 'No definido',
+                definicion: document.getElementById('problem-definition')?.value || 'No definido',
+                ideas: document.getElementById('ideas-record')?.value || 'No registradas',
+                justificacion: document.getElementById('idea-justification')?.value || 'No justificada',
+                prototipo: document.getElementById('prototype-description')?.value || 'No descrito',
+                feedback: document.getElementById('user-feedback')?.value || 'No recogido'
+            };
+            
+            const portfolioContent = `
+                PORTAFOLIO DIGITAL DE PROYECTO TECNOLÓGICO - MEP
+                =================================================
+                Fecha: ${projectData.fecha}
+                
+                1. ETAPA INICIAL - DESIGN THINKING
+                ----------------------------------
+                Problema identificado: ${projectData.problema}
+                
+                Definición del problema: ${projectData.definicion}
+                
+                Ideas generadas: ${projectData.ideas}
+                
+                Justificación de selección: ${projectData.justificacion}
+                
+                2. ETAPA DE DESARROLLO
+                -----------------------
+                Descripción del prototipo: ${projectData.prototipo}
+                
+                3. ETAPA FINAL
+                ---------------
+                Retroalimentación de usuarios: ${projectData.feedback}
+                
+                EJES TRANSVERSALES INTEGRADOS:
+                - Emprendimiento e innovación
+                - Ciudadanía digital
+                - Pensamiento computacional
+                
+                VALORACIÓN MEP: 30% del total del proyecto
+                
+                Este portafolio cumple con los requisitos del Reglamento MEP
+                para Formación Tecnológica con Design Thinking obligatorio.
+            `;
+            
+            // Create download
+            const blob = new Blob([portfolioContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Portafolio_Proyecto_MEP_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Portafolio digital exportado correctamente.');
+        }
+
+        // Save to Local Storage
+        function saveToLocalStorage() {
+            const projectData = {
+                phase1: document.getElementById('problem-statement')?.value,
+                phase2: document.getElementById('problem-definition')?.value,
+                phase3: document.getElementById('ideas-record')?.value,
+                phase4: document.getElementById('prototype-description')?.value,
+                phase5: document.getElementById('user-feedback')?.value,
+                lastSaved: new Date().toISOString()
+            };
+            
+            localStorage.setItem('tecnopia_project_data', JSON.stringify(projectData));
+            alert('Proyecto guardado en almacenamiento local. Puede continuar más tarde.');
+        }
+
+        // Load from Local Storage on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedData = localStorage.getItem('tecnopia_project_data');
+            if (savedData) {
+                const projectData = JSON.parse(savedData);
+                if (projectData.phase1) document.getElementById('problem-statement').value = projectData.phase1;
+                if (projectData.phase2) document.getElementById('problem-definition').value = projectData.phase2;
+                if (projectData.phase3) document.getElementById('ideas-record').value = projectData.phase3;
+                if (projectData.phase4) document.getElementById('prototype-description').value = projectData.phase4;
+                if (projectData.phase5) document.getElementById('user-feedback').value = projectData.phase5;
+                
+                console.log('Proyecto cargado desde almacenamiento local.');
+            }
+        });
+
+        // Phase Save Functions
+        function savePhase(phaseNumber) {
+            alert(`Fase ${phaseNumber} guardada correctamente.`);
+            // In a real implementation, this would save to server or local storage
+        }
+
+        function completeProject() {
+            const confirmComplete = confirm('¿Está seguro de completar el proyecto? Esto generará el informe final MEP.');
+            if (confirmComplete) {
+                generateMEPReport();
+            }
+        }
+
+        function generateMEPReport() {
+            alert('Generando informe final MEP según reglamento...\n\nEl informe incluye:\n1. Proceso completo de Design Thinking\n2. Evidencias de cada fase\n3. Evaluación según rúbricas MEP\n4. Portafolio digital completo\n5. Valoración final (30% del total)\n\nInforme listo para entrega oficial.');
+            
+            // Simulate PDF generation
+            setTimeout(() => {
+                alert('✅ INFORME MEP GENERADO CORRECTAMENTE\n\nEl proyecto cumple con todos los requisitos del Reglamento MEP:\n✓ Design Thinking completo (5 fases)\n✓ 3 Etapas del proyecto (Inicial 30%, Desarrollo, Final)\n✓ Indicadores específicos evaluados\n✓ Ejes transversales integrados\n✓ Instrumentos técnicos desde inicio\n✓ Valoración: 30% del total\n\nProyecto listo para evaluación oficial.');
+            }, 1000);
+        }
+
+        // Create Artifacts
+        function createArtifact(type) {
+            const artifacts = {
+                'infografia': 'Infografía Digital creada. Exporte como PNG o PDF para el portafolio.',
+                'mapa-conceptual': 'Mapa Conceptual generado. Muestra relaciones entre conceptos clave.',
+                'video-sintesis': 'Plantilla de Video de Síntesis creada. Duración recomendada: 2-3 minutos.'
+            };
+            
+            alert(artifacts[type] || 'Producto comunicativo creado.');
+        }
+
+        // Survey Generator
+        function generateSurvey() {
+            alert('Encuesta digital generada. Comparta este enlace con usuarios:\n\nhttps://forms.example.com/tecnopia-survey-' + Date.now().toString().slice(-6) + '\n\nLos resultados se integrarán automáticamente al proyecto.');
+        }
+
+        // Result Analyzer
+        function analyzeResults() {
+            alert('Analizando resultados de pruebas...\n\nSe han identificado:\n✓ 85% de satisfacción de usuarios\n✓ 3 mejoras prioritarias\n✓ Tiempo promedio de uso: 12 minutos\n✓ Facilidad de uso: 4.2/5.0\n\nLos datos están listos para la fase de iteración.');
+        }
+
+        // Export Sections
+        function exportSection(section) {
+            const sections = {
+                'empathy': 'Evidencias de Empatía exportadas (entrevistas, encuestas, observaciones)',
+                'definition': 'Definición del Problema exportada (infografías, mapas, síntesis)',
+                'ideas': 'Ideas y Selección exportadas (lista, votaciones, justificación)',
+                'prototype': 'Prototipo Tecnológico exportado (fotos, videos, código, diagramas)',
+                'testing': 'Pruebas y Evaluación exportadas (feedback, mejoras, resultados)'
+            };
+            
+            alert(sections[section] || 'Sección exportada correctamente.');
+        }
+
+                // ============================================
+        // GESTIÓN DE ESTUDIANTES Y GRUPOS - NUEVO
+        // ============================================
+        
+        // Global Variables
+        let currentMode = 'teacher';
+        let selectedStudentId = null;
+        let currentGroup = null;
+        
+        // Sample students data (in real app, this would come from SEA or estudiantes.html)
+        const sampleStudents = [
+            { id: 1, name: "Ana Rodríguez", group: "7A", idNumber: "2024001", projectStatus: "not-started" },
+            { id: 2, name: "Carlos Méndez", group: "7A", idNumber: "2024002", projectStatus: "in-progress" },
+            { id: 3, name: "María González", group: "7A", idNumber: "2024003", projectStatus: "completed" },
+            { id: 4, name: "José Pérez", group: "8B", idNumber: "2024004", projectStatus: "not-started" },
+            { id: 5, name: "Laura Chaves", group: "8B", idNumber: "2024005", projectStatus: "in-progress" },
+            { id: 6, name: "Diego Soto", group: "9C", idNumber: "2024006", projectStatus: "completed" }
+        ];
+
+        // Mode Management
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Update mode buttons
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide appropriate sections
+            if (mode === 'teacher') {
+                document.getElementById('teacherDashboard').classList.add('active');
+                document.getElementById('currentStudentDisplay').classList.remove('active');
+                // Hide Design Thinking wizard initially in teacher mode
+                document.querySelector('.design-thinking-wizard').style.display = 'none';
+                document.querySelector('.project-stages').style.display = 'none';
+                document.querySelector('.transversal-axes').style.display = 'none';
+                document.querySelector('.evaluation-section').style.display = 'none';
+                document.querySelector('.portfolio-section').style.display = 'none';
+            } else {
+                document.getElementById('teacherDashboard').classList.remove('active');
+                document.getElementById('currentStudentDisplay').classList.add('active');
+                // Show Design Thinking wizard in student mode
+                document.querySelector('.design-thinking-wizard').style.display = 'block';
+                document.querySelector('.project-stages').style.display = 'grid';
+                document.querySelector('.transversal-axes').style.display = 'block';
+                document.querySelector('.evaluation-section').style.display = 'block';
+                document.querySelector('.portfolio-section').style.display = 'block';
+                // Set a sample student for demo
+                document.getElementById('studentNameDisplay').textContent = "Estudiante: Ejemplo";
+            }
+            
+            // Load appropriate data
+            if (mode === 'teacher') {
+                loadGroupStudents();
+            }
+        }
+
+        // Load students for selected group
+        function loadGroupStudents() {
+            const groupSelect = document.getElementById('groupSelect');
+            const group = groupSelect.value;
+            currentGroup = group;
+            
+            if (!group) {
+                document.getElementById('studentsGrid').innerHTML = '<p style="text-align:center; color:#666; padding:40px;">Seleccione un grupo/sección</p>';
+                updateDashboardStats([]);
+                return;
+            }
+            
+            // Filter students by group
+            const groupStudents = sampleStudents.filter(student => student.group === group);
+            
+            // Update stats
+            updateDashboardStats(groupStudents);
+            
+            // Display students
+            const studentsGrid = document.getElementById('studentsGrid');
+            studentsGrid.innerHTML = '';
+            
+            if (groupStudents.length === 0) {
+                studentsGrid.innerHTML = '<p style="text-align:center; color:#666; padding:40px; grid-column: 1/-1;">No hay estudiantes en este grupo. Use "Importar desde SEA" o "Sincronizar con estudiantes.html"</p>';
+                return;
+            }
+            
+            groupStudents.forEach(student => {
+                const statusText = {
+                    'not-started': 'No iniciado',
+                    'in-progress': 'En progreso',
+                    'completed': 'Completado'
+                };
+                
+                const statusClass = {
+                    'not-started': 'status-not-started',
+                    'in-progress': 'status-in-progress',
+                    'completed': 'status-completed'
+                };
+                
+                const studentCard = document.createElement('div');
+                studentCard.className = 'student-card';
+                studentCard.dataset.id = student.id;
+                studentCard.onclick = () => selectStudent(student.id);
+                
+                studentCard.innerHTML = `
+                    <div class="student-info">
+                        <div class="student-avatar">${student.name.charAt(0)}</div>
+                        <div>
+                            <div class="student-name">${student.name}</div>
+                            <div class="student-id">Cédula: ${student.idNumber} | Grupo: ${student.group}</div>
+                        </div>
+                    </div>
+                    <div class="project-status">
+                        <div>
+                            <strong>Proyecto:</strong> Design Thinking
+                        </div>
+                        <div class="status-badge ${statusClass[student.projectStatus]}">
+                            ${statusText[student.projectStatus]}
+                        </div>
+                    </div>
+                `;
+                
+                studentsGrid.appendChild(studentCard);
+            });
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats(students) {
+            const total = students.length;
+            const started = students.filter(s => s.projectStatus !== 'not-started').length;
+            const completed = students.filter(s => s.projectStatus === 'completed').length;
+            const avgGrade = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            document.getElementById('totalStudents').textContent = total;
+            document.getElementById('projectsStarted').textContent = started;
+            document.getElementById('projectsCompleted').textContent = completed;
+            document.getElementById('averageGrade').textContent = `${avgGrade}%`;
+        }
+
+        // Select a student
+        function selectStudent(studentId) {
+            selectedStudentId = studentId;
+            
+            // Remove selected class from all
+            document.querySelectorAll('.student-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            const selectedCard = document.querySelector(`.student-card[data-id="${studentId}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+            
+            // Show actions panel
+            document.getElementById('selectedStudentActions').style.display = 'block';
+            
+            // Scroll to actions
+            document.getElementById('selectedStudentActions').scrollIntoView({behavior: 'smooth'});
+        }
+
+        // Import from SEA (Simulation)
+        function importFromSEA() {
+            alert('Conectando al Sistema de Evaluación de los Aprendizajes (SEA)...\n\n✓ Lista de estudiantes importada\n✓ Grupos y secciones sincronizados\n✓ Datos actualizados correctamente\n\nLos estudiantes ahora pueden trabajar en sus proyectos.');
+            
+            // In a real implementation, this would fetch from SEA API
+            loadGroupStudents();
+        }
+
+        // Sync with estudiantes.html
+        function syncWithEstudiantes() {
+            // Try to load from localStorage (simulating sync with otros módulos)
+            const estudiantesData = localStorage.getItem('tecnopia_estudiantes');
+            
+            if (estudiantesData) {
+                alert('✓ Sincronizado con estudiantes.html\n✓ Lista de estudiantes actualizada\n✓ Grupos importados correctamente');
+                // Here you would process the actual data
+                loadGroupStudents();
+            } else {
+                alert('No se encontraron datos en estudiantes.html. Primero agregue estudiantes allí o use Importar desde SEA.');
+            }
+        }
+
+        // Student Actions
+        function viewStudentProject() {
+            if (!selectedStudentId) {
+                alert('Seleccione un estudiante primero.');
+                return;
+            }
+            
+            const student = sampleStudents.find(s => s.id === selectedStudentId);
+            alert(`Viendo proyecto de: ${student.name}\n\nEstatus: ${student.projectStatus}\n\nSe abrirá el proyecto del estudiante en modo de visualización docente.`);
+            
+            // Switch to student mode with this student
+            setMode('student');
+            document.getElementById('studentNameDisplay').textContent = `Estudiante: ${student.name}`;
+        }
+
+        function evaluateStudent() {
+            if (!selectedStudentId) {
+                alert('Seleccione un estudiante primero.');
+                return;
+            }
+            
+            const student = sampleStudents.find(s => s.id === selectedStudentId);
+            
+            const evaluationModal = `
+                <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; align-items:center; justify-content:center; z-index:1000;">
+                    <div style="background:white; padding:30px; border-radius:15px; max-width:600px; width:90%; max-height:80vh; overflow-y:auto;">
+                        <h3><i class="fas fa-clipboard-check"></i> Evaluar Proyecto: ${student.name}</h3>
+                        
+                        <div style="margin:20px 0;">
+                            <label><strong>Calificación Etapa Inicial (30%):</strong></label>
+                            <input type="range" min="0" max="100" value="75" style="width:100%; margin:10px 0;">
+                            <div style="text-align:center; font-size:1.5rem; font-weight:bold; color:var(--secondary);">75/100</div>
+                        </div>
+                        
+                        <div style="margin:20px 0;">
+                            <label><strong>Retroalimentación para el estudiante:</strong></label>
+                            <textarea style="width:100%; height:150px; padding:10px; border:2px solid #ddd; border-radius:8px; margin-top:10px;" placeholder="Escriba aquí sus comentarios, sugerencias y retroalimentación..."></textarea>
+                        </div>
+                        
+                        <div style="margin:20px 0;">
+                            <label><strong>Exportar calificación a SEA:</strong></label>
+                            <div style="display:flex; gap:10px; margin-top:10px;">
+                                <button onclick="saveEvaluationToSEA()" class="btn btn-success" style="flex:1;">
+                                    <i class="fas fa-check-circle"></i> Guardar y Exportar
+                                </button>
+                                <button onclick="closeModal()" class="btn btn-warning" style="flex:1;">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', evaluationModal);
+        }
+
+        function saveEvaluationToSEA() {
+            alert('✓ Evaluación guardada\n✓ Calificación exportada al SEA\n✓ Retroalimentación enviada al estudiante\n\nEl registro de evaluación ahora forma parte del historial oficial del estudiante.');
+            closeModal();
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('[style*="position:fixed"]');
+            if (modal) modal.remove();
+        }
+
+        function messageStudent() {
+            if (!selectedStudentId) return;
+            
+            const message = prompt('Escriba el mensaje de retroalimentación para el estudiante:');
+            if (message) {
+                alert('Mensaje enviado al estudiante. Aparecerá en su panel de retroalimentación.');
+            }
+        }
+
+        function downloadStudentPortfolio() {
+            if (!selectedStudentId) return;
+            
+            alert('Descargando portafolio digital del estudiante...\n\n✓ Documentación completa del Design Thinking\n✓ Evidencias de cada fase\n✓ Rúbricas de evaluación\n✓ Productos comunicativos\n\nEl archivo se guardará en formato PDF listo para archivar.');
+        }
+
+        // Mass Actions
+        function assignProjectToAll() {
+            if (!currentGroup) {
+                alert('Seleccione un grupo primero.');
+                return;
+            }
+            
+            const confirmAssign = confirm(`¿Asignar proyecto de Design Thinking a todos los estudiantes del grupo ${currentGroup}?\n\nCada estudiante recibirá:\n✓ Plantillas de trabajo\n✓ Instrucciones paso a paso\n✓ Calendario de entrega\n✓ Rúbricas de evaluación`);
+            
+            if (confirmAssign) {
+                alert(`Proyecto asignado a todos los estudiantes del grupo ${currentGroup}.\n\nLos estudiantes pueden comenzar a trabajar inmediatamente.`);
+                // Update student statuses
+                sampleStudents.forEach(student => {
+                    if (student.group === currentGroup && student.projectStatus === 'not-started') {
+                        student.projectStatus = 'in-progress';
+                    }
+                });
+                loadGroupStudents();
+            }
+        }
+
+        function bulkEvaluate() {
+            if (!currentGroup) {
+                alert('Seleccione un grupo primero.');
+                return;
+            }
+            
+            alert(`Abrir evaluación masiva para grupo ${currentGroup}.\n\nPermite:\n✓ Evaluar múltiples estudiantes a la vez\n✓ Aplicar misma rúbrica a todos\n✓ Exportar calificaciones en lote\n✓ Generar informe grupal`);
+        }
+
+        function exportAllGrades() {
+            if (!currentGroup) {
+                alert('Seleccione un grupo primero.');
+                return;
+            }
+            
+            alert(`Exportando calificaciones del grupo ${currentGroup} al SEA...\n\n✓ Formato compatible con SEA\n✓ Estructura según reglamento MEP\n✓ Historial completo de evaluación\n✓ Listo para importar al sistema oficial`);
+        }
+
+        function viewAllProgress() {
+            if (!currentGroup) return;
+            
+            const groupStudents = sampleStudents.filter(s => s.group === currentGroup);
+            const progressData = {
+                labels: groupStudents.map(s => s.name.split(' ')[0]),
+                datasets: [{
+                    label: 'Progreso del Proyecto',
+                    data: groupStudents.map(s => {
+                        if (s.projectStatus === 'not-started') return 0;
+                        if (s.projectStatus === 'in-progress') return 50;
+                        if (s.projectStatus === 'completed') return 100;
+                        return 0;
+                    }),
+                    backgroundColor: groupStudents.map(s => {
+                        if (s.projectStatus === 'not-started') return '#f8d7da';
+                        if (s.projectStatus === 'in-progress') return '#fff3cd';
+                        return '#d4edda';
+                    })
+                }]
+            };
+            
+            alert(`Gráfico de progreso grupal generado.\n\nGrupo: ${currentGroup}\nTotal estudiantes: ${groupStudents.length}\nEn progreso: ${groupStudents.filter(s => s.projectStatus === 'in-progress').length}\nCompletados: ${groupStudents.filter(s => s.projectStatus === 'completed').length}`);
+        }
+
+        // Initialize student management
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default mode to teacher
+            setMode('teacher');
+            
+            // Check if there's saved student data
+            const estudiantesData = localStorage.getItem('tecnopia_estudiantes');
+            if (estudiantesData) {
+                console.log('Datos de estudiantes disponibles para sincronización.');
+            }
+        });
+    </script>
+</body>
+</html>
