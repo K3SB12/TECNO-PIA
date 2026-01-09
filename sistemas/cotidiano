@@ -1,0 +1,2107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECNO-PIA | Evaluación Cotidiana</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #fef7ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-tab {
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: var(--primary);
+        }
+        
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 800px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--light);
+            border-right: 1px solid var(--border);
+            padding: 30px 0;
+        }
+        
+        .sidebar-section {
+            padding: 0 25px;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .sidebar-menu a:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+        
+        .sidebar-menu a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Content Area */
+        .content {
+            padding: 30px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .page-subtitle {
+            color: var(--gray);
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Evaluation Form */
+        .evaluation-form {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        /* Performance Indicators */
+        .performance-indicators {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .indicator-item {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .indicator-label {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+        
+        .indicator-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        /* Feedback Box */
+        .feedback-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .feedback-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Performance Scale */
+        .performance-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 10px;
+            background: var(--light);
+            border-radius: 10px;
+        }
+        
+        .scale-item {
+            text-align: center;
+            padding: 10px;
+            flex: 1;
+        }
+        
+        .scale-value {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .scale-label {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        /* Assessment Grid */
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .assessment-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .assessment-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(37, 99, 235, 0.1);
+        }
+        
+        .assessment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .assessment-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* Progress Bars */
+        .progress {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .badge-info { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        /* MEP Configuration */
+        .mep-config {
+            background: linear-gradient(135deg, #fef7ff 0%, #f0f9ff 100%);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .mep-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+            
+            .nav-tabs {
+                width: 100%;
+                overflow-x: auto;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .assessment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <h1>TECNO-PIA</h1>
+                <div class="logo-badge">Sistema de Evaluación Tecnológica</div>
+            </div>
+            <div class="nav-tabs">
+                <a href="principal.html" class="nav-tab">Principal</a>
+                <a href="estudiantes.html" class="nav-tab">Estudiantes</a>
+                <a href="indicadores.html" class="nav-tab">Indicadores</a>
+                <a href="cotidiano.html" class="nav-tab active">Cotidiano</a>
+                <a href="tareas.html" class="nav-tab">Tareas</a>
+                <a href="proyectos.html" class="nav-tab">Proyectos</a>
+                <a href="pruebas.html" class="nav-tab">Pruebas</a>
+                <a href="asistencia.html" class="nav-tab">Asistencia</a>
+                <a href="reportes.html" class="nav-tab">Reportes</a>
+                <a href="recursos.html" class="nav-tab">Recursos</a>
+                <a href="inteligencia.html" class="nav-tab">Inteligencia</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Evaluación según MEP</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active">
+                            <span>📝 Evaluación Cotidiana</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🏷️ Criterios de Desempeño</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📊 Registro por Estudiante</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🎯 Indicadores PNFT</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📈 Análisis de Progreso</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🔄 Retroalimentación</span>
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Ciclos MEP</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#"><span>👶 Materno/Transición</span></a></li>
+                        <li><a href="#"><span>🧒 I Ciclo (1°-3°)</span></a></li>
+                        <li><a href="#"><span>👦 II Ciclo (4°-6°)</span></a></li>
+                        <li><a href="#"><span>👱 III Ciclo (7°-9°)</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Áreas PNFT</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#"><span>💻 Apropiación Tecnológica</span></a></li>
+                        <li><a href="#"><span>⚙️ Programación</span></a></li>
+                        <li><a href="#"><span>🤖 Computación Física</span></a></li>
+                        <li><a href="#"><span>📊 Ciencia de Datos</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Retroalimentación IA</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#"><span>🤖 Sugerencias Automáticas</span></a></li>
+                        <li><a href="#"><span>🎯 Mejoras Personalizadas</span></a></li>
+                        <li><a href="#"><span>⚠️ Alertas de Riesgo</span></a></li>
+                        <li><a href="#"><span>📈 Predicción de Desempeño</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Evaluación Cotidiana</h1>
+                        <p class="page-subtitle">Registro de desempeño tecnológico según normativa MEP</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary" onclick="exportEvaluations()">
+                            📤 Exportar Registros
+                        </button>
+                        <button class="btn btn-primary" onclick="showNewEvaluationModal()">
+                            📝 Nueva Evaluación
+                        </button>
+                        <button class="btn btn-success" onclick="generateFeedbackReports()">
+                            🤖 Generar Retroalimentación
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MEP Configuration Display -->
+                <div class="mep-config">
+                    <div class="mep-title">
+                        <span>⚖️</span>
+                        <span>Configuración MEP por Ciclo</span>
+                    </div>
+                    <div class="performance-indicators">
+                        <div class="indicator-item">
+                            <div class="indicator-label">Materno/Transición</div>
+                            <div class="indicator-value">100% formativo</div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 100%; background: var(--primary);"></div>
+                            </div>
+                        </div>
+                        <div class="indicator-item">
+                            <div class="indicator-label">I y II Ciclo</div>
+                            <div class="indicator-value">Cotidiano 60%</div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 60%; background: var(--success);"></div>
+                            </div>
+                        </div>
+                        <div class="indicator-item">
+                            <div class="indicator-label">III Ciclo</div>
+                            <div class="indicator-value">Cotidiano 50%</div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 50%; background: var(--warning);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('evaluate')">📋 Evaluar Estudiantes</div>
+                    <div class="tab" onclick="switchTab('records')">📊 Registros Diarios</div>
+                    <div class="tab" onclick="switchTab('progress')">📈 Progreso por Área</div>
+                    <div class="tab" onclick="switchTab('feedback')">🔄 Retroalimentación</div>
+                </div>
+
+                <!-- Tab Content: Evaluate -->
+                <div id="tab-evaluate" class="tab-content active">
+                    <div class="evaluation-form">
+                        <div class="form-header">
+                            <div class="form-title">Evaluación Cotidiana de Desempeño Tecnológico</div>
+                            <div>
+                                <select id="evaluationCycle" class="form-control" style="width: 200px;" onchange="loadCycleConfiguration()">
+                                    <option value="">Seleccionar ciclo</option>
+                                    <option value="materno">Materno/Transición</option>
+                                    <option value="ciclo1">I Ciclo (1°-3°)</option>
+                                    <option value="ciclo2">II Ciclo (4°-6°)</option>
+                                    <option value="ciclo3">III Ciclo (7°-9°)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Seleccionar Estudiante</label>
+                                <select id="studentSelect" class="form-control" onchange="loadStudentIndicators()">
+                                    <option value="">Seleccionar estudiante</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Fecha de Evaluación</label>
+                                <input type="date" id="evaluationDate" class="form-control" value="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Área PNFT</label>
+                                <select id="areaSelect" class="form-control" onchange="loadAreaIndicators()">
+                                    <option value="">Seleccionar área</option>
+                                    <option value="apropiacion">Apropiación Tecnológica</option>
+                                    <option value="programacion">Programación y Algoritmos</option>
+                                    <option value="computacion">Computación Física</option>
+                                    <option value="ciencia">Ciencia de Datos</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Performance Scale -->
+                        <div class="performance-scale">
+                            <div class="scale-item">
+                                <div class="scale-value" style="color: var(--danger);">1-69</div>
+                                <div class="scale-label">Insuficiente</div>
+                            </div>
+                            <div class="scale-item">
+                                <div class="scale-value" style="color: var(--warning);">70-79</div>
+                                <div class="scale-label">Satisfactorio</div>
+                            </div>
+                            <div class="scale-item">
+                                <div class="scale-value" style="color: var(--success);">80-89</div>
+                                <div class="scale-label">Bueno</div>
+                            </div>
+                            <div class="scale-item">
+                                <div class="scale-value" style="color: var(--primary);">90-100</div>
+                                <div class="scale-label">Excelente</div>
+                            </div>
+                        </div>
+
+                        <!-- Indicators Container -->
+                        <div id="indicatorsContainer" style="margin-top: 25px;">
+                            <p style="color: var(--gray); text-align: center; padding: 40px;">
+                                Seleccione un ciclo, estudiante y área para cargar los indicadores PNFT correspondientes
+                            </p>
+                        </div>
+
+                        <div id="evaluationActions" style="display: none; margin-top: 25px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong id="calculatedScore">Puntuación calculada: 0/100</strong>
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button class="btn btn-secondary" onclick="clearEvaluation()">
+                                        🔄 Limpiar
+                                    </button>
+                                    <button class="btn btn-success" onclick="saveEvaluation()">
+                                        💾 Guardar Evaluación
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Records -->
+                <div id="tab-records" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">📊 Historial de Evaluaciones Cotidianas</div>
+                            <div>
+                                <input type="date" id="filterDate" class="form-control" style="width: 150px;" onchange="filterEvaluations()">
+                                <select id="filterArea" class="form-control" style="width: 150px; margin-left: 10px;" onchange="filterEvaluations()">
+                                    <option value="">Todas las áreas</option>
+                                    <option value="apropiacion">Apropiación</option>
+                                    <option value="programacion">Programación</option>
+                                    <option value="computacion">Computación</option>
+                                    <option value="ciencia">Ciencia de Datos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="evaluationsTable" style="min-height: 400px;">
+                            <!-- Evaluations will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Progress -->
+                <div id="tab-progress" class="tab-content">
+                    <div class="assessment-grid">
+                        <!-- Progress by Area -->
+                        <div class="assessment-card">
+                            <div class="assessment-header">
+                                <div class="assessment-title">Progreso por Área PNFT</div>
+                                <span class="badge badge-info">Promedio</span>
+                            </div>
+                            <div id="areaProgressChart">
+                                <!-- Progress chart will be generated here -->
+                            </div>
+                        </div>
+
+                        <!-- Performance Trends -->
+                        <div class="assessment-card">
+                            <div class="assessment-header">
+                                <div class="assessment-title">Tendencia de Desempeño</div>
+                                <span class="badge badge-success">Último mes</span>
+                            </div>
+                            <div id="performanceTrends">
+                                <!-- Trends will be generated here -->
+                            </div>
+                        </div>
+
+                        <!-- Competency Analysis -->
+                        <div class="assessment-card">
+                            <div class="assessment-header">
+                                <div class="assessment-title">Análisis de Competencias</div>
+                                <span class="badge badge-warning">Fortalezas/Debilidades</span>
+                            </div>
+                            <div id="competencyAnalysis">
+                                <!-- Competency analysis will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Feedback -->
+                <div id="tab-feedback" class="tab-content">
+                    <div class="feedback-box">
+                        <div class="feedback-header">
+                            <div style="font-size: 20px;">🤖</div>
+                            <div class="feedback-title">Retroalimentación Inteligente Generada</div>
+                        </div>
+                        <div id="intelligentFeedback">
+                            <p style="color: var(--gray); text-align: center; padding: 40px;">
+                                Las retroalimentaciones se generan automáticamente basadas en los registros de evaluación
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="assessment-grid" style="margin-top: 25px;">
+                        <div class="assessment-card">
+                            <div class="assessment-header">
+                                <div class="assessment-title">Sugerencias de Mejora</div>
+                                <span class="badge badge-primary">Personalizadas</span>
+                            </div>
+                            <div id="improvementSuggestions">
+                                <!-- Suggestions will be generated here -->
+                            </div>
+                        </div>
+
+                        <div class="assessment-card">
+                            <div class="assessment-header">
+                                <div class="assessment-title">Recursos Recomendados</div>
+                                <span class="badge badge-success">Basados en desempeño</span>
+                            </div>
+                            <div id="recommendedResources">
+                                <!-- Resources will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: New Evaluation -->
+    <div id="newEvaluationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-size: 20px; font-weight: 600;">📝 Nueva Evaluación Grupal</h2>
+                <button onclick="closeModal('newEvaluationModal')" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray);">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="groupEvaluationForm" onsubmit="saveGroupEvaluation(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Ciclo/Grado</label>
+                            <select class="form-control" id="groupCycle" required>
+                                <option value="">Seleccionar ciclo</option>
+                                <option value="materno">Materno/Transición</option>
+                                <option value="1">1° Grado</option>
+                                <option value="2">2° Grado</option>
+                                <option value="3">3° Grado</option>
+                                <option value="4">4° Grado</option>
+                                <option value="5">5° Grado</option>
+                                <option value="6">6° Grado</option>
+                                <option value="7">7° Grado</option>
+                                <option value="8">8° Grado</option>
+                                <option value="9">9° Grado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Área PNFT</label>
+                            <select class="form-control" id="groupArea" required>
+                                <option value="">Seleccionar área</option>
+                                <option value="apropiacion">Apropiación Tecnológica</option>
+                                <option value="programacion">Programación y Algoritmos</option>
+                                <option value="computacion">Computación Física</option>
+                                <option value="ciencia">Ciencia de Datos</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Módulo</label>
+                            <select class="form-control" id="groupModule" required>
+                                <option value="">Seleccionar módulo</option>
+                                <option value="1">Módulo 1</option>
+                                <option value="2">Módulo 2</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" class="form-control" id="groupDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Indicador a Evaluar</label>
+                        <select class="form-control" id="groupIndicator" required onchange="loadIndicatorDetails()">
+                            <option value="">Seleccionar indicador</option>
+                        </select>
+                    </div>
+
+                    <div id="indicatorDetails" style="display: none; background: var(--light); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <!-- Indicator details will be loaded here -->
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Actividad Realizada</label>
+                        <textarea class="form-control" id="groupActivity" rows="3" required></textarea>
+                    </div>
+
+                    <div style="margin-top: 25px;">
+                        <button type="submit" class="btn btn-success" style="width: 100%;">
+                            👥 Iniciar Evaluación Grupal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database initialization
+        const EVALUATIONS_DB = 'TECNO_PIA_EVALUATIONS';
+        const STUDENTS_DB = 'TECNO_PIA_STUDENTS';
+        const INDICATORS_DB = 'TECNO_PIA_INDICATORS';
+
+        // Base de datos REAL del PNFT
+        const PNFT_DATA = {
+            // ========== MATERNO INFANTIL / TRANSICIÓN ==========
+            "Materno Infantil (Grupo Interactivo II) y Transición": {
+                "Módulo 1": {
+                    "Apropiación tecnológica y Digital": {
+                        saberes: [
+                            { nombre: "Computadora", indicadores: ["Identificar qué es una computadora y algunas de sus características, a partir de experiencias prácticas de interacción con dispositivos digitales."] },
+                            { nombre: "Software", indicadores: ["Reconocer elementos visuales básicos de la interfaz de software (iconos, botones, ventanas), interactuando con ellos mediante el uso guiado de dispositivos digitales."] },
+                            { nombre: "Herramientas de creación de contenido multimedia", indicadores: ["Reconocer las herramientas de creación de contenido multimedia según su utilidad: editor gráfico, grabadora de audio y video, en la creación de recursos digitales."] }
+                        ]
+                    },
+                    "Programación y Algoritmos": {
+                        saberes: [
+                            { nombre: "Entorno de programación iconográfico", indicadores: ["Reconocer el entorno de programación iconográfico, interactuando con bloques de la interfaz, como desplazamiento, apariencia o sonido, mediante el uso guiado del docente."] },
+                            { nombre: "Lateralidad y orientación espacial", indicadores: ["Reconocer los conceptos de lateralidad y orientación espacial en la construcción de secuencias de acciones para la solución de retos de programación."] },
+                            { nombre: "Evento", indicadores: ["Reconocer que un evento desencadena una acción, identificando la relación de causa y efecto en juegos o actividades."] }
+                        ]
+                    }
+                },
+                "Módulo 2": {
+                    "Apropiación tecnológica y Digital": {
+                        saberes: [
+                            { nombre: "Hardware", indicadores: ["Reconocer componentes básicos del hardware, como dispositivos de entrada y salida de datos, explorando su función al encender, usar o interactuar con la computadora en actividades cotidianas."] },
+                            { nombre: "Internet", indicadores: ["Reconocer qué es Internet y los requerimientos de un dispositivo para conectarse a Internet, realizando una exploración dirigida."] },
+                            { nombre: "Conexión entre dispositivos", indicadores: ["Reconocer la conexión entre dispositivos por bluetooth y los requerimientos de dispositivos digitales para conectarse, a través de una exploración dirigida."] }
+                        ]
+                    },
+                    "Programación y Algoritmos": {
+                        saberes: [
+                            { nombre: "Estado", indicadores: ["Reconocer el concepto de estado programando objetos que modifican las propiedades de orientación y/o dirección."] },
+                            { nombre: "Algoritmo", indicadores: ["Reconocer el concepto de algoritmo mediante secuencias de acciones lógicas y ordenadas, en la construcción de soluciones a desafíos propuestos."] },
+                            { nombre: "Dato", indicadores: ["Reconocer la importancia del dato en contexto físico y en contexto digital mientras soluciona desafíos propuestos."] },
+                            { nombre: "Estructuras repetitivas", indicadores: ["Reconocer estructuras repetitivas en secuencias de acciones durante la programación guiada de objetos digitales, distinguiendo si una acción se repite un número limitado o ilimitado de veces."] }
+                        ]
+                    },
+                    "Computación física y Robótica": {
+                        saberes: [
+                            { nombre: "Robot", indicadores: ["Reconocer qué es un robot, sus componentes y algunos de sus usos, mediante actividades lúdicas de exploración o programación guiada."] }
+                        ]
+                    },
+                    "Ciencia de datos e Inteligencia artificial": {
+                        saberes: [
+                            { nombre: "Dato", indicadores: ["Identificar el dato y su importancia en situaciones cotidianas, reconociendo diferentes tipos como texto, imagen, sonido o video."] },
+                            { nombre: "Estrategias para presentar datos", indicadores: ["Reconocer gráficos pictóricos como estrategia para representar datos recolectados en actividades lúdicas."] },
+                            { nombre: "Visualización de datos", indicadores: ["Interpretar gráficos pictóricos como parte de la visualización de datos (colores, formas, cantidades), con apoyo del docente, relacionándolos con datos conocidos del entorno."] },
+                            { nombre: "Realidad aumentada", indicadores: ["Experimentar con realidad aumentada en entornos físicos mediante actividades sensoriales y lúdicas, con acompañamiento del docente."] }
+                        ]
+                    }
+                }
+            },
+            // ========== PRIMER GRADO ==========
+            "1°": {
+                "Módulo 1": {
+                    "Apropiación tecnológica y Digital": {
+                        saberes: [
+                            { nombre: "Computadora", indicadores: ["Reconocer la computadora como una herramienta tecnológica, identificando sus características básicas, funciones e importancia en la vida cotidiana, por medio de la observación y manipulación práctica."] },
+                            { nombre: "Hardware", indicadores: ["Identificar el hardware básico de una computadora, reconociendo dispositivos de entrada, salida y las acciones de encendido y apagado, mediante actividades prácticas guiadas."] },
+                            { nombre: "Software", indicadores: ["Identificar el software de una computadora, reconociendo los elementos básicos de la interfaz de usuario mediante actividades prácticas guiadas."] }
+                        ]
+                    },
+                    "Programación y Algoritmos": {
+                        saberes: [
+                            { nombre: "Entorno de programación iconográfico", indicadores: ["Reconocer elementos básicos de un entorno de programación iconográfico, como bloques de desplazamiento, orientación, apariencia, sonido, eventos y control, mediante la navegación en la interfaz con actividades guiadas."] },
+                            { nombre: "Reconocimiento de patrones", indicadores: ["Reconocer patrones de movimiento en secuencias de instrucciones simples para que un personaje siga una ruta desde un punto de inicio hasta un punto de llegada."] },
+                            { nombre: "Estado", indicadores: ["Reconocer el estado de un objeto digital en relación con su orientación, dirección y tamaño, identificando variaciones en dichos atributos, mediante secuencias de programaciones simples."] },
+                            { nombre: "Algoritmo", indicadores: ["Identificar un algoritmo en situaciones de la vida diaria, reconociendo secuencias lógicas y ordenadas de acciones, para ser representadas de forma analógica (dibujos, tarjetas, gestos) y/o digital (entorno iconográfico)."] },
+                            { nombre: "Evento", indicadores: ["Reconocer el evento como relación de causa y efecto al participar en juegos analógicos, identificando cómo una acción provoca una respuesta o cambio observable durante la dinámica."] }
+                        ]
+                    }
+                },
+                "Módulo 2": {
+                    "Apropiación tecnológica y Digital": {
+                        saberes: [
+                            { nombre: "Herramientas de creación de contenido multimedia (audio, imágenes)", indicadores: ["Utilizar herramientas de creación de contenido multimedia para la creación de audios e imágenes durante actividades guiadas de producción digital en el aula."] },
+                            { nombre: "Conexión entre dispositivos (bluetooth)", indicadores: ["Reconocer el bluetooth como medio de conexión entre dispositivos utilizando dispositivos digitales en el aula."] },
+                            { nombre: "Internet", indicadores: ["Reconocer los dispositivos y programas que permiten la conexión para la navegación en Internet."] }
+                        ]
+                    },
+                    "Programación y Algoritmos": {
+                        saberes: [
+                            { nombre: "Estructuras repetitivas", indicadores: ["Reconocer estructuras repetitivas al identificar ciclos finitos (como una canción o rutina) e infinitos (como el tic-tac del reloj o el movimiento del ventilador) en situaciones de la vida diaria."] },
+                            { nombre: "Dato", indicadores: ["Identificar el dato en situaciones de la vida diaria, reconociendo información valiosa en contextos físicos (como etiquetas, señales, objetos) y digitales (como imágenes, íconos o pantallas interactivas)."] }
+                        ]
+                    },
+                    "Ciencia de datos e Inteligencia artificial": {
+                        saberes: [
+                            { nombre: "Fundamentos de la IA", indicadores: ["Reconocer los fundamentos de la inteligencia artificial a través de objetos o situaciones del entorno donde esta tecnología está presente, mediante actividades guiadas con apoyo visual o audiovisual."] },
+                            { nombre: "Asistentes virtuales", indicadores: ["Reconocer qué es un asistente virtual y sus funciones a partir de demostraciones guiadas o videos educativos."] }
+                        ]
+                    }
+                }
+            },
+            // ========== SEGUNDO GRADO ==========
+            "2°": {
+                "Módulo 1": {
+                    "Apropiación tecnológica y Digital": {
+                        saberes: [
+                            { nombre: "Hardware", indicadores: ["Identificar el funcionamiento de los componentes básicos del hardware, reconociendo cómo cuidarlos mientras utilizan la computadora en la cotidianidad."] },
+                            { nombre: "Software (programas)", indicadores: ["Explorar el funcionamiento de diferentes programas de software según la tarea escolar asignada durante el trabajo en aula."] },
+                            { nombre: "Herramienta de productividad (procesador de texto)", indicadores: ["Utilizar herramientas de productividad como el procesador de texto, reconociendo la cinta de opciones, pestañas y comandos básicos, así como sus funciones por teclado, durante la creación de textos sencillos."] },
+                            { nombre: "Herramientas de creación de contenido multimedia (grabadora de audio y editores de gráficos)", indicadores: ["Utilizar herramientas de creación de contenido multimedia, como la grabadora de audio y editores de gráficos, aplicando funciones básicas como crear, editar y guardar archivos, durante actividades guiadas de producción digital en el aula."] }
+                        ]
+                    },
+                    "Programación y Algoritmos": {
+                        saberes: [
+                            { nombre: "Entorno de programación por bloques", indicadores: ["Aplicar el uso del entorno de programación por bloques, explorando la interfaz y el área de bloques mientras construye secuencias de acciones que representen historias cotidianas."] },
+                            { nombre: "Algoritmo", indicadores: ["Diseñar un algoritmo en lenguaje natural como una secuencia ordenada que resuelve situaciones de la vida cotidiana."] },
+                            { nombre: "Dato", indicadores: ["Clasificar el dato como numérico o de texto en ejemplos de la vida cotidiana, valorando su uso en actividades del entorno cercano."] },
+                            { nombre: "Variable", indicadores: ["Identificar una variable in contextos de la vida cotidiana, observando elementos que cambian en relación con otros (como edad, cantidad, clima o tiempo de actividad)."] },
+                            { nombre: "Evento", indicadores: ["Reconocer el evento en un entorno de programación por bloques que activa una acción o cambio visible en un objeto del programa."] }
+                        ]
+                    }
+                },
+                "Módulo 2": {
+                    "Apropiación tecnológica y Digital": {
+                        saberes: [
+                            { nombre: "Conexión entre dispositivos (wifi)", indicadores: ["Reconocer el wifi como medio de conexión entre dispositivos conectando dispositivos digitales en el aula."] },
+                            { nombre: "Internet", indicadores: ["Aplicar normas básicas de navegación por internet, para acceder a páginas educativas seguras, bajo acompañamiento del docente."] }
+                        ]
+                    },
+                    "Programación y Algoritmos": {
+                        saberes: [
+                            { nombre: "Estructuras repetitivas", indicadores: ["Identificar estructuras repetitivas en actividades programadas, diferenciando entre ciclos finitos e infinitos según la cantidad de repeticiones requeridas."] },
+                            { nombre: "Estructuras condicionales", indicadores: ["Aplicar estructuras condicionales simples en un entorno de programación por bloques en la resolución de un ejercicio programado."] },
+                            { nombre: "Operadores aritméticos", indicadores: ["Reconocer los operadores aritméticos de suma y resta en situaciones de la vida cotidiana y su uso en un entorno de programación por bloques."] },
+                            { nombre: "Operador relacional", indicadores: ["Reconocer el operador relacional \"igual que\" en situaciones de la vida cotidiana y su uso en un entorno de programación por bloques."] }
+                        ]
+                    },
+                    "Ciencia de datos e Inteligencia artificial": {
+                        saberes: [
+                            { nombre: "Fundamentos de la IA", indicadores: ["Describir los fundamentos de la inteligencia artificial en situaciones cotidianas, utilizando ejemplos guiados y preguntas orientadoras."] },
+                            { nombre: "Asistentes virtuales", indicadores: ["Reconocer el uso de asistentes virtuales en situaciones cotidianas, mediante ejemplos guiados que permitan la interacción."] }
+                        ]
+                    }
+                }
+            }
+            // Nota: Se incluyen solo los primeros niveles por brevedad, en el sistema completo están todos
+        };
+
+        // MEP Configuration by Cycle
+        const MEP_CONFIG = {
+            materno: { cotidiano: 100, pruebas: 0, proyectos: 0, tareas: 0, asistencia: 0 },
+            ciclo1: { cotidiano: 60, pruebas: 20, proyectos: 0, tareas: 10, asistencia: 10 },
+            ciclo2: { cotidiano: 60, pruebas: 20, proyectos: 0, tareas: 10, asistencia: 10 },
+            ciclo3: { cotidiano: 50, pruebas: 0, proyectos: 30, tareas: 10, asistencia: 10 }
+        };
+
+        // Initialize database
+        function initializeEvaluationsDatabase() {
+            if (!localStorage.getItem(EVALUATIONS_DB)) {
+                const sampleEvaluations = [
+                    {
+                        id: 'EVAL-001',
+                        studentId: '20241001',
+                        studentName: 'Ana Sofía Rodríguez',
+                        cycle: 'ciclo2',
+                        grade: '4°',
+                        area: 'programacion',
+                        indicator: 'Programación en Python básico',
+                        score: 85,
+                        maxScore: 100,
+                        date: new Date().toISOString().split('T')[0],
+                        feedback: 'Excelente comprensión de variables y condicionales. Mejorar en el uso de bucles anidados.',
+                        activity: 'Creación de un programa para calcular promedios',
+                        teacherNotes: 'Muestra gran interés en la programación',
+                        autoFeedback: 'Sugerir ejercicios de bucles complejos para próximo nivel'
+                    },
+                    {
+                        id: 'EVAL-002',
+                        studentId: '20241002',
+                        studentName: 'Carlos Enrique Pérez',
+                        cycle: 'ciclo1',
+                        grade: '2°',
+                        area: 'apropiacion',
+                        indicator: 'Uso de herramientas de productividad',
+                        score: 70,
+                        maxScore: 100,
+                        date: new Date(Date.now() - 86400000).toISOString().split('T')[0],
+                        feedback: 'Básico en el uso del procesador de texto. Necesita práctica con formatos.',
+                        activity: 'Creación de una carta digital',
+                        teacherNotes: 'Requiere apoyo individual',
+                        autoFeedback: 'Recomendar tutoriales de Word básico'
+                    }
+                ];
+                localStorage.setItem(EVALUATIONS_DB, JSON.stringify(sampleEvaluations));
+            }
+        }
+
+        // Get evaluations
+        function getEvaluations() {
+            const evaluations = localStorage.getItem(EVALUATIONS_DB);
+            return evaluations ? JSON.parse(evaluations) : [];
+        }
+
+        // Get students
+        function getStudents() {
+            const students = localStorage.getItem(STUDENTS_DB);
+            return students ? JSON.parse(students) : [];
+        }
+
+        // Get indicators
+        function getIndicators() {
+            const indicators = localStorage.getItem(INDICATORS_DB);
+            return indicators ? JSON.parse(indicators) : [];
+        }
+
+        // Save evaluation
+        function saveEvaluationToDB(evaluation) {
+            const evaluations = getEvaluations();
+            evaluations.push(evaluation);
+            localStorage.setItem(EVALUATIONS_DB, JSON.stringify(evaluations));
+            updateDashboard();
+        }
+
+        // Load cycle configuration
+        function loadCycleConfiguration() {
+            const cycle = document.getElementById('evaluationCycle').value;
+            if (!cycle) return;
+
+            // Update student dropdown
+            const students = getStudents();
+            const studentSelect = document.getElementById('studentSelect');
+            studentSelect.innerHTML = '<option value="">Seleccionar estudiante</option>';
+
+            students.forEach(student => {
+                // Filter students by cycle
+                let studentCycle = '';
+                if (student.level === 'maternal' || student.level === 'preescolar') {
+                    studentCycle = 'materno';
+                } else if (student.level === '1-3') {
+                    studentCycle = 'ciclo1';
+                } else if (student.level === '4-6') {
+                    studentCycle = 'ciclo2';
+                } else if (student.level === '7-9') {
+                    studentCycle = 'ciclo3';
+                }
+
+                if (studentCycle === cycle) {
+                    const option = document.createElement('option');
+                    option.value = student.id;
+                    option.textContent = `${student.name} (${getLevelName(student.level)})`;
+                    studentSelect.appendChild(option);
+                }
+            });
+
+            // Show MEP configuration
+            const config = MEP_CONFIG[cycle];
+            document.querySelector('.mep-config').innerHTML = `
+                <div class="mep-title">
+                    <span>⚖️</span>
+                    <span>Configuración MEP - ${getCycleName(cycle)}</span>
+                </div>
+                <div class="performance-indicators">
+                    <div class="indicator-item">
+                        <div class="indicator-label">Evaluación Cotidiana</div>
+                        <div class="indicator-value">${config.cotidiano}%</div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${config.cotidiano}%; background: var(--primary);"></div>
+                        </div>
+                    </div>
+                    ${config.pruebas > 0 ? `
+                    <div class="indicator-item">
+                        <div class="indicator-label">Pruebas</div>
+                        <div class="indicator-value">${config.pruebas}%</div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${config.pruebas}%; background: var(--success);"></div>
+                        </div>
+                    </div>
+                    ` : ''}
+                    ${config.proyectos > 0 ? `
+                    <div class="indicator-item">
+                        <div class="indicator-label">Proyectos</div>
+                        <div class="indicator-value">${config.proyectos}%</div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${config.proyectos}%; background: var(--warning);"></div>
+                        </div>
+                    </div>
+                    ` : ''}
+                    <div class="indicator-item">
+                        <div class="indicator-label">Tareas</div>
+                        <div class="indicator-value">${config.tareas}%</div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${config.tareas}%; background: var(--info);"></div>
+                        </div>
+                    </div>
+                    <div class="indicator-item">
+                        <div class="indicator-label">Asistencia</div>
+                        <div class="indicator-value">${config.asistencia}%</div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${config.asistencia}%; background: var(--gray);"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get cycle name
+        function getCycleName(cycle) {
+            const names = {
+                'materno': 'Materno/Transición',
+                'ciclo1': 'I Ciclo (1°-3°)',
+                'ciclo2': 'II Ciclo (4°-6°)',
+                'ciclo3': 'III Ciclo (7°-9°)'
+            };
+            return names[cycle] || cycle;
+        }
+
+        // Get level name
+        function getLevelName(level) {
+            const names = {
+                'maternal': 'Maternal',
+                'preescolar': 'Preescolar',
+                '1-3': '1°-3° Primaria',
+                '4-6': '4°-6° Primaria',
+                '7-9': '7°-9° Secundaria'
+            };
+            return names[level] || level;
+        }
+
+        // Get area name
+        function getAreaName(area) {
+            const names = {
+                'apropiacion': 'Apropiación Tecnológica',
+                'programacion': 'Programación y Algoritmos',
+                'computacion': 'Computación Física',
+                'ciencia': 'Ciencia de Datos'
+            };
+            return names[area] || area;
+        }
+
+        // Load student indicators
+        function loadStudentIndicators() {
+            const studentId = document.getElementById('studentSelect').value;
+            const area = document.getElementById('areaSelect').value;
+            const cycle = document.getElementById('evaluationCycle').value;
+
+            if (!studentId || !area || !cycle) {
+                document.getElementById('indicatorsContainer').innerHTML = `
+                    <p style="color: var(--gray); text-align: center; padding: 40px;">
+                        Seleccione un ciclo, estudiante y área para cargar los indicadores PNFT correspondientes
+                    </p>
+                `;
+                return;
+            }
+
+            const students = getStudents();
+            const student = students.find(s => s.id === studentId);
+            if (!student) return;
+
+            // Get indicators based on student level and area
+            const indicators = getPNFTIndicators(student.level, area);
+            
+            let indicatorsHTML = `
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: var(--dark);">Indicadores PNFT - ${getAreaName(area)}</h4>
+                    <p style="color: var(--gray); font-size: 14px;">Estudiante: ${student.name} | Nivel: ${getLevelName(student.level)}</p>
+                </div>
+            `;
+
+            indicators.forEach((indicator, index) => {
+                indicatorsHTML += `
+                    <div style="margin-bottom: 25px; padding: 20px; border: 1px solid var(--border); border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                            <div>
+                                <strong>${indicator.nombre}</strong>
+                                <p style="color: var(--gray); font-size: 13px; margin-top: 5px;">${indicator.indicadores[0]}</p>
+                            </div>
+                            <div>
+                                <select id="score_${index}" class="form-control" style="width: 100px;" onchange="calculateTotalScore()">
+                                    <option value="">Puntaje</option>
+                                    <option value="100">100 - Excelente</option>
+                                    <option value="90">90 - Muy bueno</option>
+                                    <option value="80">80 - Bueno</option>
+                                    <option value="70">70 - Satisfactorio</option>
+                                    <option value="60">60 - Básico</option>
+                                    <option value="50">50 - Insuficiente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-size: 13px; color: var(--gray); margin-bottom: 5px; display: block;">Observaciones:</label>
+                            <textarea id="notes_${index}" class="form-control" rows="2" placeholder="Observaciones específicas sobre este indicador..."></textarea>
+                        </div>
+                    </div>
+                `;
+            });
+
+            indicatorsHTML += `
+                <div style="margin-top: 30px;">
+                    <label class="form-label">Retroalimentación General</label>
+                    <textarea id="generalFeedback" class="form-control" rows="3" placeholder="Retroalimentación general para el estudiante..."></textarea>
+                </div>
+                <div class="form-group" style="margin-top: 20px;">
+                    <label class="form-label">Actividad Realizada</label>
+                    <input type="text" id="activityDescription" class="form-control" placeholder="Describa la actividad evaluada...">
+                </div>
+            `;
+
+            document.getElementById('indicatorsContainer').innerHTML = indicatorsHTML;
+            document.getElementById('evaluationActions').style.display = 'block';
+
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('evaluationDate').value = today;
+        }
+
+        // Get PNFT indicators for level and area
+        function getPNFTIndicators(level, area) {
+            // Map level to PNFT structure
+            let grade = '';
+            if (level === 'maternal' || level === 'preescolar') {
+                grade = 'Materno Infantil (Grupo Interactivo II) y Transición';
+            } else if (level === '1-3') {
+                grade = '1°'; // Simplified - in full system would map correctly
+            } else if (level === '4-6') {
+                grade = '4°';
+            } else if (level === '7-9') {
+                grade = '7°';
+            }
+
+            // Map area to PNFT area
+            let pnftArea = '';
+            switch(area) {
+                case 'apropiacion': pnftArea = 'Apropiación tecnológica y Digital'; break;
+                case 'programacion': pnftArea = 'Programación y Algoritmos'; break;
+                case 'computacion': pnftArea = 'Computación física y Robótica'; break;
+                case 'ciencia': pnftArea = 'Ciencia de datos e Inteligencia artificial'; break;
+            }
+
+            if (PNFT_DATA[grade] && PNFT_DATA[grade]['Módulo 1'] && PNFT_DATA[grade]['Módulo 1'][pnftArea]) {
+                return PNFT_DATA[grade]['Módulo 1'][pnftArea].saberes.slice(0, 3); // Return first 3 indicators
+            }
+
+            return [
+                { nombre: 'Indicador de muestra', indicadores: ['Desempeño general en el área'] }
+            ];
+        }
+
+        // Calculate total score
+        function calculateTotalScore() {
+            let total = 0;
+            let count = 0;
+            const indicators = document.querySelectorAll('[id^="score_"]');
+
+            indicators.forEach(select => {
+                if (select.value) {
+                    total += parseInt(select.value);
+                    count++;
+                }
+            });
+
+            const average = count > 0 ? Math.round(total / count) : 0;
+            document.getElementById('calculatedScore').textContent = `Puntuación calculada: ${average}/100`;
+
+            // Update color based on score
+            let color = 'var(--danger)';
+            if (average >= 90) color = 'var(--primary)';
+            else if (average >= 80) color = 'var(--success)';
+            else if (average >= 70) color = 'var(--warning)';
+
+            document.getElementById('calculatedScore').style.color = color;
+
+            return average;
+        }
+
+        // Save evaluation
+        function saveEvaluation() {
+            const studentId = document.getElementById('studentSelect').value;
+            const area = document.getElementById('areaSelect').value;
+            const cycle = document.getElementById('evaluationCycle').value;
+            const date = document.getElementById('evaluationDate').value;
+            const generalFeedback = document.getElementById('generalFeedback').value;
+            const activity = document.getElementById('activityDescription').value;
+            const score = calculateTotalScore();
+
+            if (!studentId || !area || !cycle || score === 0) {
+                showNotification('❌ Complete todos los campos antes de guardar', 'error');
+                return;
+            }
+
+            const students = getStudents();
+            const student = students.find(s => s.id === studentId);
+            if (!student) return;
+
+            // Generate intelligent feedback
+            const autoFeedback = generateIntelligentFeedback(score, area);
+
+            const evaluation = {
+                id: 'EVAL-' + Date.now(),
+                studentId: studentId,
+                studentName: student.name,
+                cycle: cycle,
+                grade: getLevelName(student.level),
+                area: area,
+                areaName: getAreaName(area),
+                indicator: 'Evaluación cotidiana integral',
+                score: score,
+                maxScore: 100,
+                date: date,
+                feedback: generalFeedback || autoFeedback.basic,
+                activity: activity || 'Evaluación cotidiana',
+                teacherNotes: '',
+                autoFeedback: autoFeedback.detailed,
+                suggestions: autoFeedback.suggestions,
+                timestamp: new Date().toISOString()
+            };
+
+            saveEvaluationToDB(evaluation);
+            clearEvaluation();
+            showNotification('✅ Evaluación guardada exitosamente', 'success');
+        }
+
+        // Generate intelligent feedback
+        function generateIntelligentFeedback(score, area) {
+            let basic = '';
+            let detailed = '';
+            let suggestions = [];
+
+            if (score >= 90) {
+                basic = 'Excelente desempeño. Dominio completo de los conceptos evaluados.';
+                detailed = 'El estudiante demuestra comprensión avanzada y aplicación creativa de los conceptos tecnológicos.';
+                suggestions = [
+                    'Proponer proyectos de mayor complejidad',
+                    'Asignar rol de apoyo a compañeros',
+                    'Explorar herramientas avanzadas del área'
+                ];
+            } else if (score >= 80) {
+                basic = 'Buen desempeño. Comprensión sólida de los conceptos principales.';
+                detailed = 'Comprende los conceptos fundamentales y los aplica correctamente en la mayoría de situaciones.';
+                suggestions = [
+                    'Reforzar aspectos específicos identificados',
+                    'Práctica adicional con ejercicios variados',
+                    'Revisión de casos prácticos'
+                ];
+            } else if (score >= 70) {
+                basic = 'Desempeño satisfactorio. Comprende los conceptos básicos.';
+                detailed = 'Logra los objetivos mínimos pero requiere apoyo en aspectos específicos para mejorar.';
+                suggestions = [
+                    'Refuerzo individual en áreas débiles',
+                    'Ejercicios guiados paso a paso',
+                    'Tutoría entre pares'
+                ];
+            } else {
+                basic = 'Requiere apoyo adicional. Dificultades en la comprensión de conceptos.';
+                detailed = 'Necesita intervención pedagógica específica para alcanzar los objetivos de aprendizaje.';
+                suggestions = [
+                    'Evaluación diagnóstica específica',
+                    'Plan de apoyo individualizado',
+                    'Actividades diferenciadas'
+                ];
+            }
+
+            // Add area-specific suggestions
+            const areaSuggestions = {
+                'apropiacion': ['Práctica con diferentes dispositivos', 'Talleres de herramientas digitales'],
+                'programacion': ['Ejercicios de lógica', 'Proyectos de programación creativa'],
+                'computacion': ['Montaje de circuitos', 'Programación de sensores'],
+                'ciencia': ['Análisis de datos simples', 'Uso de herramientas de visualización']
+            };
+
+            if (areaSuggestions[area]) {
+                suggestions = [...suggestions, ...areaSuggestions[area]];
+            }
+
+            return { basic, detailed, suggestions };
+        }
+
+        // Clear evaluation form
+        function clearEvaluation() {
+            document.getElementById('indicatorsContainer').innerHTML = `
+                <p style="color: var(--gray); text-align: center; padding: 40px;">
+                    Seleccione un ciclo, estudiante y área para cargar los indicadores PNFT correspondientes
+                </p>
+            `;
+            document.getElementById('evaluationActions').style.display = 'none';
+            document.getElementById('studentSelect').value = '';
+            document.getElementById('areaSelect').value = '';
+            document.getElementById('evaluationDate').value = '';
+        }
+
+        // Switch tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            // Load tab-specific content
+            if (tabName === 'records') {
+                loadEvaluationsTable();
+            } else if (tabName === 'progress') {
+                loadProgressAnalysis();
+            } else if (tabName === 'feedback') {
+                loadFeedbackAnalysis();
+            }
+        }
+
+        // Load evaluations table
+        function loadEvaluationsTable() {
+            const evaluations = getEvaluations();
+            const container = document.getElementById('evaluationsTable');
+
+            if (evaluations.length === 0) {
+                container.innerHTML = `
+                    <p style="color: var(--gray); text-align: center; padding: 60px;">
+                        No hay evaluaciones registradas. Comience evaluando estudiantes.
+                    </p>
+                `;
+                return;
+            }
+
+            let tableHTML = `
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: var(--light);">
+                                <th style="padding: 12px; text-align: left; font-weight: 600;">Fecha</th>
+                                <th style="padding: 12px; text-align: left; font-weight: 600;">Estudiante</th>
+                                <th style="padding: 12px; text-align: left; font-weight: 600;">Área</th>
+                                <th style="padding: 12px; text-align: left; font-weight: 600;">Puntuación</th>
+                                <th style="padding: 12px; text-align: left; font-weight: 600;">Retroalimentación</th>
+                                <th style="padding: 12px; text-align: left; font-weight: 600;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            evaluations.forEach(eval => {
+                const scoreColor = eval.score >= 90 ? 'success' : 
+                                 eval.score >= 80 ? 'success' : 
+                                 eval.score >= 70 ? 'warning' : 'danger';
+
+                tableHTML += `
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 12px;">${new Date(eval.date).toLocaleDateString()}</td>
+                        <td style="padding: 12px; font-weight: 500;">${eval.studentName}</td>
+                        <td style="padding: 12px;"><span class="badge badge-info">${eval.areaName}</span></td>
+                        <td style="padding: 12px;">
+                            <span class="badge badge-${scoreColor}">${eval.score}/100</span>
+                        </td>
+                        <td style="padding: 12px; font-size: 13px; color: var(--gray); max-width: 200px;">
+                            ${eval.feedback.substring(0, 60)}...
+                        </td>
+                        <td style="padding: 12px;">
+                            <button class="btn btn-sm btn-secondary" onclick="viewEvaluationDetails('${eval.id}')">
+                                👁️ Ver
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteEvaluation('${eval.id}')">
+                                🗑️
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        // Load progress analysis
+        function loadProgressAnalysis() {
+            const evaluations = getEvaluations();
+            
+            // Area progress chart
+            let areaProgressHTML = '';
+            const areas = ['apropiacion', 'programacion', 'computacion', 'ciencia'];
+            
+            areas.forEach(area => {
+                const areaEvals = evaluations.filter(e => e.area === area);
+                if (areaEvals.length > 0) {
+                    const avgScore = Math.round(areaEvals.reduce((sum, e) => sum + e.score, 0) / areaEvals.length);
+                    const color = avgScore >= 90 ? 'var(--primary)' : 
+                                 avgScore >= 80 ? 'var(--success)' : 
+                                 avgScore >= 70 ? 'var(--warning)' : 'var(--danger)';
+                    
+                    areaProgressHTML += `
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>${getAreaName(area)}</span>
+                                <span>${avgScore}%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: ${avgScore}%; background: ${color};"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            document.getElementById('areaProgressChart').innerHTML = areaProgressHTML || '<p style="color: var(--gray); text-align: center;">No hay datos suficientes</p>';
+
+            // Performance trends
+            const lastMonth = new Date();
+            lastMonth.setMonth(lastMonth.getMonth() - 1);
+            const recentEvals = evaluations.filter(e => new Date(e.date) >= lastMonth);
+            
+            if (recentEvals.length > 0) {
+                const trend = calculatePerformanceTrend(recentEvals);
+                document.getElementById('performanceTrends').innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 32px; font-weight: 700; color: ${trend.color};">${trend.icon}</div>
+                        <div style="margin-top: 10px; font-weight: 600;">${trend.text}</div>
+                        <div style="font-size: 13px; color: var(--gray); margin-top: 5px;">${trend.details}</div>
+                    </div>
+                `;
+            }
+
+            // Competency analysis
+            const students = getStudents();
+            if (students.length > 0 && evaluations.length > 0) {
+                let competencyHTML = '<ul style="color: var(--gray); padding-left: 20px;">';
+                
+                // Identify strongest area
+                const areaAverages = {};
+                areas.forEach(area => {
+                    const areaEvals = evaluations.filter(e => e.area === area);
+                    if (areaEvals.length > 0) {
+                        areaAverages[area] = Math.round(areaEvals.reduce((sum, e) => sum + e.score, 0) / areaEvals.length);
+                    }
+                });
+
+                const strongest = Object.entries(areaAverages).sort((a, b) => b[1] - a[1])[0];
+                const weakest = Object.entries(areaAverages).sort((a, b) => a[1] - b[1])[0];
+
+                if (strongest) {
+                    competencyHTML += `<li><strong>Fortaleza:</strong> ${getAreaName(strongest[0])} (${strongest[1]}%)</li>`;
+                }
+                if (weakest && weakest[0] !== strongest[0]) {
+                    competencyHTML += `<li><strong>Área a mejorar:</strong> ${getAreaName(weakest[0])} (${weakest[1]}%)</li>`;
+                }
+
+                competencyHTML += '</ul>';
+                document.getElementById('competencyAnalysis').innerHTML = competencyHTML;
+            }
+        }
+
+        // Calculate performance trend
+        function calculatePerformanceTrend(evaluations) {
+            if (evaluations.length < 2) {
+                return {
+                    icon: '📊',
+                    text: 'Datos insuficientes',
+                    details: 'Se necesitan más evaluaciones para calcular tendencias',
+                    color: 'var(--gray)'
+                };
+            }
+
+            // Sort by date
+            evaluations.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            const firstMonth = evaluations.slice(0, Math.ceil(evaluations.length / 2));
+            const lastMonth = evaluations.slice(-Math.ceil(evaluations.length / 2));
+            
+            const firstAvg = firstMonth.reduce((sum, e) => sum + e.score, 0) / firstMonth.length;
+            const lastAvg = lastMonth.reduce((sum, e) => sum + e.score, 0) / lastMonth.length;
+            
+            const improvement = lastAvg - firstAvg;
+            
+            if (improvement > 10) {
+                return {
+                    icon: '🚀',
+                    text: 'Mejora significativa',
+                    details: `+${improvement.toFixed(1)} puntos en el último mes`,
+                    color: 'var(--success)'
+                };
+            } else if (improvement > 0) {
+                return {
+                    icon: '📈',
+                    text: 'Mejora estable',
+                    details: `+${improvement.toFixed(1)} puntos en el último mes`,
+                    color: 'var(--primary)'
+                };
+            } else if (improvement < -5) {
+                return {
+                    icon: '⚠️',
+                    text: 'Atención requerida',
+                    details: `${improvement.toFixed(1)} puntos en el último mes`,
+                    color: 'var(--danger)'
+                };
+            } else {
+                return {
+                    icon: '📊',
+                    text: 'Desempeño estable',
+                    details: 'Sin cambios significativos',
+                    color: 'var(--gray)'
+                };
+            }
+        }
+
+        // Load feedback analysis
+        function loadFeedbackAnalysis() {
+            const evaluations = getEvaluations();
+            
+            if (evaluations.length === 0) {
+                document.getElementById('intelligentFeedback').innerHTML = `
+                    <p style="color: var(--gray); text-align: center; padding: 40px;">
+                        No hay evaluaciones para generar retroalimentación.
+                    </p>
+                `;
+                return;
+            }
+
+            // Generate intelligent feedback summary
+            const recentEvals = evaluations.slice(-5); // Last 5 evaluations
+            let feedbackHTML = '<div style="display: flex; flex-direction: column; gap: 15px;">';
+            
+            recentEvals.forEach(eval => {
+                const scoreColor = eval.score >= 90 ? 'success' : 
+                                 eval.score >= 80 ? 'success' : 
+                                 eval.score >= 70 ? 'warning' : 'danger';
+                
+                feedbackHTML += `
+                    <div style="padding: 15px; background: white; border-radius: 10px; border: 1px solid var(--border);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <strong>${eval.studentName}</strong>
+                            <span class="badge badge-${scoreColor}">${eval.score}/100</span>
+                        </div>
+                        <div style="font-size: 13px; color: var(--gray); margin-bottom: 10px;">
+                            ${eval.areaName} • ${new Date(eval.date).toLocaleDateString()}
+                        </div>
+                        <div style="font-size: 14px;">
+                            ${eval.autoFeedback || eval.feedback}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            feedbackHTML += '</div>';
+            document.getElementById('intelligentFeedback').innerHTML = feedbackHTML;
+
+            // Generate improvement suggestions
+            const lowScores = evaluations.filter(e => e.score < 70);
+            if (lowScores.length > 0) {
+                const suggestions = generateImprovementSuggestions(lowScores);
+                document.getElementById('improvementSuggestions').innerHTML = suggestions;
+            }
+
+            // Generate recommended resources
+            document.getElementById('recommendedResources').innerHTML = generateRecommendedResources(evaluations);
+        }
+
+        // Generate improvement suggestions
+        function generateImprovementSuggestions(lowScores) {
+            let suggestionsHTML = '<ul style="color: var(--gray); padding-left: 20px;">';
+            
+            // Group by area
+            const areas = {};
+            lowScores.forEach(eval => {
+                if (!areas[eval.area]) {
+                    areas[eval.area] = [];
+                }
+                areas[eval.area].push(eval);
+            });
+
+            for (const [area, evals] of Object.entries(areas)) {
+                suggestionsHTML += `<li><strong>${getAreaName(area)}:</strong> ${evals.length} estudiante(s) requieren apoyo</li>`;
+            }
+
+            suggestionsHTML += '</ul>';
+            
+            // Add general suggestions
+            suggestionsHTML += `
+                <div style="margin-top: 15px; padding: 15px; background: rgba(245, 158, 11, 0.1); border-radius: 8px;">
+                    <strong>📋 Acciones recomendadas:</strong>
+                    <ul style="margin-top: 10px; padding-left: 20px; font-size: 13px;">
+                        <li>Planificar sesiones de refuerzo por área</li>
+                        <li>Implementar evaluación diferenciada</li>
+                        <li>Establecer tutorías entre pares</li>
+                    </ul>
+                </div>
+            `;
+
+            return suggestionsHTML;
+        }
+
+        // Generate recommended resources
+        function generateRecommendedResources(evaluations) {
+            const resources = {
+                'apropiacion': [
+                    { name: 'Guía de herramientas digitales', type: 'PDF', link: '#' },
+                    { name: 'Tutoriales de ofimática', type: 'Video', link: '#' },
+                    { name: 'Simulador de hardware', type: 'Web', link: '#' }
+                ],
+                'programacion': [
+                    { name: 'Ejercicios de lógica', type: 'PDF', link: '#' },
+                    { name: 'Tutorial Scratch/Python', type: 'Video', link: '#' },
+                    { name: 'Plataforma de práctica', type: 'Web', link: '#' }
+                ],
+                'computacion': [
+                    { name: 'Manual de circuitos', type: 'PDF', link: '#' },
+                    { name: 'Guía de Arduino', type: 'Video', link: '#' },
+                    { name: 'Simulador de robótica', type: 'Web', link: '#' }
+                ],
+                'ciencia': [
+                    { name: 'Introducción a datos', type: 'PDF', link: '#' },
+                    { name: 'Tutorial de visualización', type: 'Video', link: '#' },
+                    { name: 'Herramientas de IA educativa', type: 'Web', link: '#' }
+                ]
+            };
+
+            let resourcesHTML = '<div style="display: flex; flex-direction: column; gap: 10px;">';
+            
+            // Get most needed area based on lowest scores
+            const areaScores = {};
+            evaluations.forEach(eval => {
+                if (!areaScores[eval.area]) {
+                    areaScores[eval.area] = { total: 0, count: 0 };
+                }
+                areaScores[eval.area].total += eval.score;
+                areaScores[eval.area].count++;
+            });
+
+            let priorityArea = 'apropiacion'; // Default
+            let lowestAvg = 100;
+
+            for (const [area, data] of Object.entries(areaScores)) {
+                const avg = data.total / data.count;
+                if (avg < lowestAvg) {
+                    lowestAvg = avg;
+                    priorityArea = area;
+                }
+            }
+
+            // Show resources for priority area
+            if (resources[priorityArea]) {
+                resources[priorityArea].forEach(resource => {
+                    resourcesHTML += `
+                        <div style="padding: 12px; background: var(--light); border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong style="font-size: 13px;">${resource.name}</strong>
+                                <div style="font-size: 11px; color: var(--gray); margin-top: 2px;">${resource.type}</div>
+                            </div>
+                            <button class="btn btn-sm btn-primary" style="padding: 4px 12px;">
+                                Acceder
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+
+            resourcesHTML += '</div>';
+            return resourcesHTML;
+        }
+
+        // Show new evaluation modal
+        function showNewEvaluationModal() {
+            // Populate grade select
+            const gradeSelect = document.getElementById('groupCycle');
+            const grades = ['Materno/Transición', '1°', '2°', '3°', '4°', '5°', '6°', '7°', '8°', '9°'];
+            gradeSelect.innerHTML = '<option value="">Seleccionar ciclo</option>';
+            grades.forEach(grade => {
+                const option = document.createElement('option');
+                option.value = grade.replace('°', '').toLowerCase();
+                option.textContent = grade;
+                gradeSelect.appendChild(option);
+            });
+
+            // Set default date
+            document.getElementById('groupDate').value = new Date().toISOString().split('T')[0];
+
+            showModal('newEvaluationModal');
+        }
+
+        // Export evaluations
+        function exportEvaluations() {
+            const evaluations = getEvaluations();
+            const headers = ['Fecha', 'Estudiante', 'Ciclo', 'Área', 'Puntuación', 'Retroalimentación', 'Actividad'];
+            const csv = [
+                headers.join(','),
+                ...evaluations.map(e => [
+                    e.date,
+                    `"${e.studentName}"`,
+                    e.grade,
+                    e.areaName,
+                    e.score,
+                    `"${e.feedback}"`,
+                    `"${e.activity}"`
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `evaluaciones_cotidiano_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            showNotification('📤 Evaluaciones exportadas exitosamente', 'success');
+        }
+
+        // Generate feedback reports
+        function generateFeedbackReports() {
+            showNotification('🤖 Generando reportes de retroalimentación...', 'info');
+            
+            setTimeout(() => {
+                const evaluations = getEvaluations();
+                if (evaluations.length === 0) {
+                    showNotification('❌ No hay evaluaciones para generar reportes', 'error');
+                    return;
+                }
+
+                switchTab('feedback');
+                loadFeedbackAnalysis();
+                showNotification('✅ Reportes de retroalimentación generados', 'success');
+            }, 1500);
+        }
+
+        // Modal functions
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Remove existing notification
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--primary)'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                font-weight: 500;
+            `;
+
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+
+            // Add animation styles
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEvaluationsDatabase();
+            
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('evaluationDate').value = today;
+            if (document.getElementById('filterDate')) {
+                document.getElementById('filterDate').value = today;
+            }
+
+            // Load students for dropdown
+            const students = getStudents();
+            const studentSelect = document.getElementById('studentSelect');
+            students.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = `${student.name} (${getLevelName(student.level)})`;
+                studentSelect.appendChild(option);
+            });
+
+            // Add sample data button for testing
+            const header = document.querySelector('.page-header');
+            const testBtn = document.createElement('button');
+            testBtn.className = 'btn btn-secondary';
+            testBtn.innerHTML = '🧪 Cargar datos de prueba';
+            testBtn.onclick = function() {
+                localStorage.removeItem(EVALUATIONS_DB);
+                initializeEvaluationsDatabase();
+                loadEvaluationsTable();
+                showNotification('🧪 Datos de evaluación cargados exitosamente', 'success');
+            };
+            header.appendChild(testBtn);
+        });
+    </script>
+</body>
+</html>
