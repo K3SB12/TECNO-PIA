@@ -1,0 +1,2764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECNO-PIA | Gestión de Tareas - Sistema de Evaluación Tecnológica MEP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #fef7ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-tab {
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: var(--primary);
+        }
+        
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 800px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--light);
+            border-right: 1px solid var(--border);
+            padding: 30px 0;
+        }
+        
+        .sidebar-section {
+            padding: 0 25px;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .sidebar-menu a:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+        
+        .sidebar-menu a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .module-badge {
+            margin-left: auto;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .tech-badge-1 { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        .tech-badge-2 { background: rgba(124, 58, 237, 0.1); color: var(--secondary); }
+        .tech-badge-3 { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .tech-badge-4 { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        
+        /* Content Area */
+        .content {
+            padding: 30px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .page-subtitle {
+            color: var(--gray);
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .icon-blue { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        .icon-purple { background: rgba(124, 58, 237, 0.1); color: var(--secondary); }
+        .icon-green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .icon-orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            padding: 25px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .change-up { color: var(--success); }
+        .change-down { color: var(--danger); }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        select.form-control {
+            cursor: pointer;
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Calendar */
+        .calendar-container {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+        
+        .calendar-day {
+            background: white;
+            min-height: 100px;
+            padding: 10px;
+            position: relative;
+        }
+        
+        .calendar-day.weekend {
+            background: var(--light);
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            padding: 10px;
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .calendar-task {
+            background: rgba(37, 99, 235, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 5px 8px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        /* Task Cards */
+        .task-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .task-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.1);
+        }
+        
+        .task-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--dark);
+        }
+        
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        /* Progress bars */
+        .progress {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-primary { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        .badge-secondary { background: rgba(124, 58, 237, 0.1); color: var(--secondary); }
+        .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        
+        /* AI Insights */
+        .ai-insight {
+            background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .ai-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .calendar-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <h1>TECNO-PIA</h1>
+                <div class="logo-badge">Sistema de Evaluación Tecnológica MEP</div>
+            </div>
+            <div class="nav-tabs">
+                <a href="principal.html" class="nav-tab">Principal</a>
+                <a href="estudiantes.html" class="nav-tab">Estudiantes</a>
+                <a href="indicadores.html" class="nav-tab">Indicadores</a>
+                <a href="cotidiano.html" class="nav-tab">Cotidiano</a>
+                <a href="tareas.html" class="nav-tab active">Tareas</a>
+                <a href="proyectos.html" class="nav-tab">Proyectos</a>
+                <a href="pruebas.html" class="nav-tab">Pruebas</a>
+                <a href="asistencia.html" class="nav-tab">Asistencia</a>
+                <a href="reportes.html" class="nav-tab">Reportes</a>
+                <a href="recursos.html" class="nav-tab">Recursos</a>
+                <a href="inteligencia.html" class="nav-tab">Inteligencia</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Gestión de Tareas</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active">
+                            <span>📋 Todas las Tareas</span>
+                            <span class="module-badge tech-badge-1">TECNO</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>➕ Nueva Tarea</span>
+                            <span class="module-badge tech-badge-2">TECNO</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📅 Calendarización</span>
+                            <span class="module-badge tech-badge-3">TECNO</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📊 Evaluación</span>
+                            <span class="module-badge tech-badge-4">TECNO</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📤 Exportar Reportes</span>
+                            <span class="module-badge tech-badge-1">MEP</span>
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Áreas Tecnológicas</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">
+                            <span>💻 Apropiación Tecnológica</span>
+                            <span class="module-badge tech-badge-1">Área 1</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>⚡ Programación</span>
+                            <span class="module-badge tech-badge-2">Área 2</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🤖 Computación Física</span>
+                            <span class="module-badge tech-badge-3">Área 3</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🧠 Ciencia de Datos</span>
+                            <span class="module-badge tech-badge-4">Área 4</span>
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Configuración MEP</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#"><span>👶 Maternal: 100% formativo</span></a></li>
+                        <li><a href="#"><span>🧒 I-II Ciclo: Tareas 10%</span></a></li>
+                        <li><a href="#"><span>👱 III Ciclo: Tareas 10%</span></a></li>
+                        <li><a href="#"><span>⚖️ Ponderación Automática</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Herramientas Tech</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#"><span>🎮 Scratch/Scratch Jr.</span></a></li>
+                        <li><a href="#"><span>🛠️ Tinkercad</span></a></li>
+                        <li><a href="#"><span>⚙️ Arduino</span></a></li>
+                        <li><a href="#"><span>🐍 Python</span></a></li>
+                        <li><a href="#"><span>🌐 Blockly/Code.org</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Gestión de Tareas Tecnológicas</h1>
+                        <p class="page-subtitle">Planificación, asignación y evaluación de tareas según configuración MEP</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary" onclick="exportTasks()">
+                            📤 Exportar Reporte
+                        </button>
+                        <button class="btn btn-primary" onclick="showNewTaskModal()">
+                            ➕ Nueva Tarea
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalTasks">0</div>
+                        <div class="stat-label">Tareas Activas</div>
+                        <div class="stat-change change-up">
+                            ↑ 3 nuevas esta semana
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="pendingTasks">0</div>
+                        <div class="stat-label">Pendientes Evaluar</div>
+                        <div class="stat-change change-down">
+                            ↓ 2 evaluadas hoy
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgCompletion">0%</div>
+                        <div class="stat-label">Tasa de Finalización</div>
+                        <div class="stat-change change-up">
+                            ↑ 5% mejoría semanal
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="lateTasks">0</div>
+                        <div class="stat-label">Tareas Atrasadas</div>
+                        <div class="stat-change change-down">
+                            ↓ 1 entregada hoy
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('all')">📋 Todas las Tareas</div>
+                    <div class="tab" onclick="switchTab('calendar')">📅 Calendarización</div>
+                    <div class="tab" onclick="switchTab('evaluation')">📊 Evaluación</div>
+                    <div class="tab" onclick="switchTab('templates')">📝 Plantillas</div>
+                    <div class="tab" onclick="switchTab('analysis')">📈 Análisis IA</div>
+                </div>
+
+                <!-- Tab Content: All Tasks -->
+                <div id="tab-all" class="tab-content active">
+                    <!-- Filters -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Filtros de Búsqueda</div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Nivel/Grado</label>
+                                <select class="form-control" id="filterTaskGrade" onchange="filterTasks()">
+                                    <option value="">Todos los niveles</option>
+                                    <option value="maternal">Maternal - Transición</option>
+                                    <option value="1°">1° Grado</option>
+                                    <option value="2°">2° Grado</option>
+                                    <option value="3°">3° Grado</option>
+                                    <option value="4°">4° Grado</option>
+                                    <option value="5°">5° Grado</option>
+                                    <option value="6°">6° Grado</option>
+                                    <option value="7°">7° Grado</option>
+                                    <option value="8°">8° Grado</option>
+                                    <option value="9°">9° Grado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Área Tecnológica</label>
+                                <select class="form-control" id="filterTaskArea" onchange="filterTasks()">
+                                    <option value="">Todas las áreas</option>
+                                    <option value="Apropiación">Apropiación Tecnológica</option>
+                                    <option value="Programación">Programación</option>
+                                    <option value="Computación Física">Computación Física</option>
+                                    <option value="Ciencia de Datos">Ciencia de Datos</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Estado</label>
+                                <select class="form-control" id="filterTaskStatus" onchange="filterTasks()">
+                                    <option value="">Todos los estados</option>
+                                    <option value="active">Activa</option>
+                                    <option value="pending">Pendiente evaluación</option>
+                                    <option value="evaluated">Evaluada</option>
+                                    <option value="late">Atrasada</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Buscar tarea</label>
+                                <input type="text" class="form-control" id="searchTasks" 
+                                       placeholder="🔍 Ej: programación, robot, diseño..." 
+                                       onkeyup="searchTasks()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tasks List -->
+                    <div class="table-container">
+                        <div class="table-header">
+                            <div>
+                                <h3 style="font-size: 18px; font-weight: 600;">Lista de Tareas Tecnológicas</h3>
+                                <p style="color: var(--gray); margin-top: 5px; font-size: 14px;">
+                                    Gestión completa de tareas con ponderación MEP automática
+                                </p>
+                            </div>
+                            <div class="table-actions">
+                                <button class="btn btn-secondary btn-sm" onclick="showBulkEvaluation()">
+                                    📊 Evaluación Masiva
+                                </button>
+                                <button class="btn btn-primary btn-sm" onclick="generateTaskReport()">
+                                    📈 Generar Reporte
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="tasksListContainer" style="padding: 20px;">
+                            <!-- Tasks will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- AI Insights -->
+                    <div class="ai-insight">
+                        <div class="ai-header">
+                            <div style="font-size: 20px;">🤖</div>
+                            <div class="ai-title">Recomendaciones de Inteligencia Artificial</div>
+                        </div>
+                        <div id="taskAIRecommendations" style="font-size: 14px; color: var(--dark);">
+                            Analizando patrones de desempeño en tareas tecnológicas...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Calendar -->
+                <div id="tab-calendar" class="tab-content">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <div>
+                                <h3 style="font-size: 18px; font-weight: 600;">Calendarización de Tareas</h3>
+                                <p style="color: var(--gray); margin-top: 5px; font-size: 14px;">
+                                    Planificación mensual de actividades tecnológicas
+                                </p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn btn-secondary btn-sm" onclick="prevMonth()">
+                                    ← Mes anterior
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="nextMonth()">
+                                    Mes siguiente →
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="calendarView">
+                            <!-- Calendar will be generated here -->
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">📋 Tareas del Mes</div>
+                            <div class="card-icon icon-blue">📅</div>
+                        </div>
+                        <div id="monthTasks" style="min-height: 200px;">
+                            <!-- Month tasks will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Evaluation -->
+                <div id="tab-evaluation" class="tab-content">
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">📝 Evaluación Individual</div>
+                                <div class="card-icon icon-green">✓</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Seleccionar Estudiante</label>
+                                <select class="form-control" id="evalStudentSelect" onchange="loadStudentTasks()">
+                                    <option value="">Seleccionar estudiante...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Seleccionar Tarea</label>
+                                <select class="form-control" id="evalTaskSelect" onchange="loadTaskForEvaluation()">
+                                    <option value="">Seleccionar tarea...</option>
+                                </select>
+                            </div>
+                            <div id="evaluationForm" style="display: none;">
+                                <!-- Evaluation form will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">📊 Rúbrica Automática</div>
+                                <div class="card-icon icon-purple">📈</div>
+                            </div>
+                            <div id="autoRubric" style="font-size: 14px; color: var(--gray);">
+                                <p>Seleccione una tarea para generar la rúbrica automática basada en PNFT.</p>
+                                <div class="progress" style="margin: 15px 0;">
+                                    <div class="progress-bar" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <div class="card-title">📋 Evaluación Masiva por Grupo</div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Seleccionar Grupo</label>
+                                <select class="form-control" id="groupSelect">
+                                    <option value="">Seleccionar grupo...</option>
+                                    <option value="maternal">Maternal/Transición</option>
+                                    <option value="1-3">1°-3° Primaria</option>
+                                    <option value="4-6">4°-6° Primaria</option>
+                                    <option value="7-9">7°-9° Secundaria</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Seleccionar Tarea</label>
+                                <select class="form-control" id="groupTaskSelect">
+                                    <option value="">Seleccionar tarea...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="loadGroupEvaluation()">
+                            📥 Cargar para Evaluación Masiva
+                        </button>
+                        
+                        <div id="groupEvaluationTable" style="margin-top: 20px; display: none;">
+                            <!-- Group evaluation table will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Templates -->
+                <div id="tab-templates" class="tab-content">
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">💻 Plantilla: Apropiación Tecnológica</div>
+                                <div class="card-icon icon-blue">💻</div>
+                            </div>
+                            <p style="color: var(--gray); margin-bottom: 15px; font-size: 14px;">
+                                Tareas de uso de herramientas digitales, procesadores de texto, presentaciones
+                            </p>
+                            <button class="btn btn-primary" onclick="useTemplate('apropiacion')" style="width: 100%;">
+                                Usar Plantilla
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">⚡ Plantilla: Programación</div>
+                                <div class="card-icon icon-purple">⚡</div>
+                            </div>
+                            <p style="color: var(--gray); margin-bottom: 15px; font-size: 14px;">
+                                Tareas de Scratch, Blockly, algoritmos, pensamiento computacional
+                            </p>
+                            <button class="btn btn-primary" onclick="useTemplate('programacion')" style="width: 100%;">
+                                Usar Plantilla
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">🤖 Plantilla: Computación Física</div>
+                                <div class="card-icon icon-green">🤖</div>
+                            </div>
+                            <p style="color: var(--gray); margin-bottom: 15px; font-size: 14px;">
+                                Tareas de Arduino, circuitos, robótica, sensores, automatización
+                            </p>
+                            <button class="btn btn-primary" onclick="useTemplate('robotica')" style="width: 100%;">
+                                Usar Plantilla
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">🧠 Plantilla: Ciencia de Datos</div>
+                                <div class="card-icon icon-orange">🧠</div>
+                            </div>
+                            <p style="color: var(--gray); margin-bottom: 15px; font-size: 14px;">
+                                Tareas de análisis de datos, gráficos, IA básica, visualización
+                            </p>
+                            <button class="btn btn-primary" onclick="useTemplate('datos')" style="width: 100%;">
+                                Usar Plantilla
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <div class="card-title">🎯 Generador IA de Tareas</div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Área Tecnológica</label>
+                                <select class="form-control" id="aiTemplateArea">
+                                    <option value="Apropiación">Apropiación Tecnológica</option>
+                                    <option value="Programación">Programación</option>
+                                    <option value="Computación Física">Computación Física</option>
+                                    <option value="Ciencia de Datos">Ciencia de Datos</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nivel/Grado</label>
+                                <select class="form-control" id="aiTemplateGrade">
+                                    <option value="1°">1° Grado</option>
+                                    <option value="4°">4° Grado</option>
+                                    <option value="7°">7° Grado</option>
+                                    <option value="9°">9° Grado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Dificultad</label>
+                                <select class="form-control" id="aiTemplateDifficulty">
+                                    <option value="basic">Básica (Recordar)</option>
+                                    <option value="intermediate" selected>Intermedia (Aplicar)</option>
+                                    <option value="advanced">Avanzada (Crear)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Herramienta Principal</label>
+                                <select class="form-control" id="aiTemplateTool">
+                                    <option value="scratch">Scratch</option>
+                                    <option value="tinkercad">Tinkercad</option>
+                                    <option value="arduino">Arduino</option>
+                                    <option value="python">Python</option>
+                                    <option value="word">Procesador de Texto</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-warning" onclick="generateAITask()">
+                            🚀 Generar Tarea con IA
+                        </button>
+                        
+                        <div id="aiTaskResult" style="margin-top: 20px; display: none;">
+                            <div id="generatedTask" style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 10px;">
+                                <!-- Generated task will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Analysis -->
+                <div id="tab-analysis" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">📈 Análisis de Desempeño por Área Tecnológica</div>
+                            <div class="card-icon icon-purple">📊</div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Período de Análisis</label>
+                                <select class="form-control" id="analysisPeriod" onchange="updateAnalysis()">
+                                    <option value="week">Última semana</option>
+                                    <option value="month" selected>Último mes</option>
+                                    <option value="quarter">Último trimestre</option>
+                                    <option value="year">Último año</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nivel/Grado</label>
+                                <select class="form-control" id="analysisGrade" onchange="updateAnalysis()">
+                                    <option value="">Todos los niveles</option>
+                                    <option value="1-3">1°-3° Primaria</option>
+                                    <option value="4-6">4°-6° Primaria</option>
+                                    <option value="7-9">7°-9° Secundaria</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="performanceAnalysis" style="min-height: 300px;">
+                            <!-- Analysis will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <div class="card-title">🎯 Recomendaciones de Mejora por Estudiante</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Seleccionar Estudiante</label>
+                            <select class="form-control" id="studentAnalysisSelect" onchange="generateStudentRecommendations()">
+                                <option value="">Seleccionar estudiante...</option>
+                            </select>
+                        </div>
+                        
+                        <div id="studentRecommendations" style="min-height: 200px; margin-top: 15px;">
+                            <!-- Recommendations will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="ai-insight" style="margin-top: 20px;">
+                        <div class="ai-header">
+                            <div style="font-size: 20px;">🤖</div>
+                            <div class="ai-title">Análisis Predictivo de Desempeño</div>
+                        </div>
+                        <div id="predictiveAnalysis" style="font-size: 14px; color: var(--dark);">
+                            <p>Cargando análisis predictivo basado en tendencias de desempeño en tareas tecnológicas...</p>
+                            <div class="progress" style="margin: 10px 0;">
+                                <div class="progress-bar" style="width: 30%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: New Task -->
+    <div id="newTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-size: 20px; font-weight: 600;">➕ Nueva Tarea Tecnológica</h2>
+                <button onclick="closeModal('newTaskModal')" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray);">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="newTaskForm" onsubmit="createNewTask(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Título de la Tarea *</label>
+                            <input type="text" class="form-control" id="taskTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Área Tecnológica *</label>
+                            <select class="form-control" id="taskArea" required>
+                                <option value="">Seleccionar área...</option>
+                                <option value="Apropiación">Apropiación Tecnológica</option>
+                                <option value="Programación">Programación y Algoritmos</option>
+                                <option value="Computación Física">Computación Física y Robótica</option>
+                                <option value="Ciencia de Datos">Ciencia de Datos e IA</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nivel/Grado *</label>
+                            <select class="form-control" id="taskGrade" required onchange="updateMEPWeight()">
+                                <option value="">Seleccionar nivel...</option>
+                                <option value="maternal">Maternal/Transición</option>
+                                <option value="1°">1° Grado</option>
+                                <option value="2°">2° Grado</option>
+                                <option value="3°">3° Grado</option>
+                                <option value="4°">4° Grado</option>
+                                <option value="5°">5° Grado</option>
+                                <option value="6°">6° Grado</option>
+                                <option value="7°">7° Grado</option>
+                                <option value="8°">8° Grado</option>
+                                <option value="9°">9° Grado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Herramienta Tech Principal</label>
+                            <select class="form-control" id="taskTool">
+                                <option value="">Seleccionar herramienta...</option>
+                                <option value="scratch">Scratch / Scratch Jr.</option>
+                                <option value="tinkercad">Tinkercad (3D/Circuitos)</option>
+                                <option value="arduino">Arduino / Micro:bit</option>
+                                <option value="python">Python</option>
+                                <option value="blockly">Blockly / Code.org</option>
+                                <option value="word">Procesador de Texto</option>
+                                <option value="excel">Hoja de Cálculo</option>
+                                <option value="powerpoint">Presentaciones</option>
+                                <option value="teachable">Teachable Machine</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha de Asignación *</label>
+                            <input type="date" class="form-control" id="taskStartDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha de Entrega *</label>
+                            <input type="date" class="form-control" id="taskDueDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ponderación MEP *</label>
+                            <input type="text" class="form-control" id="taskWeight" value="10%" readonly>
+                            <small style="color: var(--gray); font-size: 12px;" id="weightDescription">
+                                Según configuración MEP para el nivel seleccionado
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Indicador PNFT Asociado</label>
+                            <select class="form-control" id="taskIndicator">
+                                <option value="">Seleccionar indicador...</option>
+                                <!-- Will be populated from PNFT database -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descripción de la Tarea *</label>
+                        <textarea class="form-control" id="taskDescription" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Recursos y Materiales</label>
+                        <textarea class="form-control" id="taskResources" rows="3" placeholder="Enlaces, documentos, tutoriales..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Criterios de Evaluación</label>
+                        <textarea class="form-control" id="taskCriteria" rows="3" placeholder="Qué se evaluará específicamente..."></textarea>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('newTaskModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            💾 Guardar Tarea
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Task Details -->
+    <div id="taskDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-size: 20px; font-weight: 600;" id="taskDetailsTitle">Detalles de Tarea</h2>
+                <button onclick="closeModal('taskDetailsModal')" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray);">×</button>
+            </div>
+            <div class="modal-body" id="taskDetailsContent">
+                <!-- Task details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Evaluation -->
+    <div id="evaluationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-size: 20px; font-weight: 600;">📊 Evaluación de Tarea</h2>
+                <button onclick="closeModal('evaluationModal')" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray);">×</button>
+            </div>
+            <div class="modal-body" id="evaluationModalContent">
+                <!-- Evaluation form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== BASE DE DATOS ==========
+        const TASKS_DB_NAME = 'TECNO_PIA_TASKS';
+        const STUDENTS_DB_NAME = 'TECNO_PIA_STUDENTS';
+        const EVALUATIONS_DB_NAME = 'TECNO_PIA_EVALUATIONS';
+
+        // ========== CONFIGURACIÓN MEP ==========
+        const MEP_CONFIG = {
+            'maternal': { 
+                weight: 0, 
+                description: '100% formativo - Sin calificación numérica',
+                type: 'formativo'
+            },
+            'transicion': { 
+                weight: 0, 
+                description: '100% formativo - Sin calificación numérica',
+                type: 'formativo'
+            },
+            '1°': { weight: 10, description: 'I Ciclo: 10% del total' },
+            '2°': { weight: 10, description: 'I Ciclo: 10% del total' },
+            '3°': { weight: 10, description: 'I Ciclo: 10% del total' },
+            '4°': { weight: 10, description: 'II Ciclo: 10% del total' },
+            '5°': { weight: 10, description: 'II Ciclo: 10% del total' },
+            '6°': { weight: 10, description: 'II Ciclo: 10% del total' },
+            '7°': { weight: 10, description: 'III Ciclo: 10% del total' },
+            '8°': { weight: 10, description: 'III Ciclo: 10% del total' },
+            '9°': { weight: 10, description: 'III Ciclo: 10% del total' }
+        };
+
+        // ========== HERRAMIENTAS POR ÁREA ==========
+        const TECH_TOOLS_BY_AREA = {
+            'Apropiación': [
+                'Procesador de texto',
+                'Editor de presentaciones',
+                'Hoja de cálculo',
+                'Editor gráfico',
+                'Editor de audio/video',
+                'Navegador web'
+            ],
+            'Programación': [
+                'Scratch / Scratch Jr.',
+                'Blockly',
+                'Code.org',
+                'Python (básico)',
+                'MIT App Inventor',
+                'JavaScript'
+            ],
+            'Computación Física': [
+                'Tinkercad Circuits',
+                'Arduino IDE',
+                'Micro:bit',
+                'mBlock',
+                'Simuladores de robótica',
+                'Fritzing'
+            ],
+            'Ciencia de Datos': [
+                'Hoja de cálculo',
+                'Teachable Machine',
+                'Python (pandas)',
+                'Google Data Studio',
+                'Tableau Public',
+                'Power BI'
+            ]
+        };
+
+        // ========== PLANTILLAS DE TAREAS ==========
+        const TASK_TEMPLATES = {
+            'apropiacion': {
+                title: 'Creación de Documento Digital',
+                area: 'Apropiación',
+                description: 'Crear un documento digital que incluya texto formateado, imágenes y elementos multimedia.',
+                resources: 'Procesador de texto, imágenes de ejemplo, tutorial de formato',
+                criteria: 'Formato adecuado, ortografía, organización, creatividad'
+            },
+            'programacion': {
+                title: 'Animación Interactiva en Scratch',
+                area: 'Programación',
+                description: 'Programar una animación interactiva en Scratch que incluya movimiento, sonido y eventos.',
+                resources: 'Scratch online, sprites de ejemplo, tutorial de eventos',
+                criteria: 'Funcionalidad, creatividad, uso de eventos, documentación'
+            },
+            'robotica': {
+                title: 'Circuito con Sensor de Luz',
+                area: 'Computación Física',
+                description: 'Construir y programar un circuito que reaccione a cambios en la intensidad de luz.',
+                resources: 'Tinkercad Circuits, componentes virtuales, tutorial de sensores',
+                criteria: 'Circuito funcional, programación correcta, documentación'
+            },
+            'datos': {
+                title: 'Análisis de Datos Escolares',
+                area: 'Ciencia de Datos',
+                description: 'Recolectar y analizar datos escolares creando gráficos y conclusiones.',
+                resources: 'Hoja de cálculo, datos de ejemplo, tutorial de gráficos',
+                criteria: 'Recolección adecuada, análisis correcto, visualización clara'
+            }
+        };
+
+        // ========== VARIABLES GLOBALES ==========
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let selectedTaskId = null;
+
+        // ========== INICIALIZACIÓN ==========
+        function initializePage() {
+            // Inicializar bases de datos
+            initializeDatabases();
+            
+            // Cargar datos
+            loadTasks();
+            updateDashboard();
+            populateStudentSelect();
+            populateTaskSelect();
+            loadCalendar();
+            generateAIRecommendations();
+            
+            // Configurar fecha actual en formulario
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('taskStartDate').value = today;
+            
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            document.getElementById('taskDueDate').value = nextWeek.toISOString().split('T')[0];
+            
+            // Cargar indicadores PNFT
+            loadPNFTIndicators();
+        }
+
+        // Inicializar bases de datos
+        function initializeDatabases() {
+            // Base de tareas
+            if (!localStorage.getItem(TASKS_DB_NAME)) {
+                const sampleTasks = [
+                    {
+                        id: 'TASK001',
+                        title: 'Programar un Juego en Scratch',
+                        area: 'Programación',
+                        grade: '4°',
+                        tool: 'scratch',
+                        description: 'Crear un juego educativo en Scratch que enseñe operaciones matemáticas básicas.',
+                        resources: 'Scratch online, tutorial de juegos, sprites matemáticos',
+                        criteria: 'Funcionalidad completa, interfaz amigable, valor educativo',
+                        startDate: '2024-03-01',
+                        dueDate: '2024-03-15',
+                        weight: 10,
+                        status: 'active',
+                        assignedTo: ['20241003', '20241007'],
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'TASK002',
+                        title: 'Diseño 3D en Tinkercad',
+                        area: 'Computación Física',
+                        grade: '7°',
+                        tool: 'tinkercad',
+                        description: 'Diseñar un modelo 3D de un robot utilizando Tinkercad.',
+                        resources: 'Tinkercad online, tutorial de modelado 3D',
+                        criteria: 'Originalidad, complejidad, aplicabilidad',
+                        startDate: '2024-03-05',
+                        dueDate: '2024-03-20',
+                        weight: 10,
+                        status: 'pending',
+                        assignedTo: ['20241004', '20241008'],
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'TASK003',
+                        title: 'Análisis de Datos con Excel',
+                        area: 'Ciencia de Datos',
+                        grade: '9°',
+                        tool: 'excel',
+                        description: 'Analizar datos de asistencia escolar y crear gráficos estadísticos.',
+                        resources: 'Excel, datos de ejemplo, tutorial de gráficos',
+                        criteria: 'Análisis correcto, gráficos adecuados, conclusiones válidas',
+                        startDate: '2024-03-10',
+                        dueDate: '2024-03-25',
+                        weight: 10,
+                        status: 'active',
+                        assignedTo: ['20241004'],
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'TASK004',
+                        title: 'Presentación Digital Interactiva',
+                        area: 'Apropiación',
+                        grade: '5°',
+                        tool: 'powerpoint',
+                        description: 'Crear una presentación digital sobre el sistema solar con elementos interactivos.',
+                        resources: 'PowerPoint/Google Slides, imágenes del espacio',
+                        criteria: 'Diseño atractivo, información correcta, interactividad',
+                        startDate: '2024-02-25',
+                        dueDate: '2024-03-05',
+                        weight: 10,
+                        status: 'evaluated',
+                        assignedTo: ['20241003', '20241007'],
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem(TASKS_DB_NAME, JSON.stringify(sampleTasks));
+            }
+            
+            // Base de evaluaciones
+            if (!localStorage.getItem(EVALUATIONS_DB_NAME)) {
+                localStorage.setItem(EVALUATIONS_DB_NAME, JSON.stringify([]));
+            }
+        }
+
+        // ========== GESTIÓN DE TAREAS ==========
+
+        // Cargar todas las tareas
+        function loadTasks(filtered = null) {
+            const tasks = filtered || getTasks();
+            const container = document.getElementById('tasksListContainer');
+            
+            if (tasks.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--gray);">
+                        <div style="font-size: 48px; margin-bottom: 15px;">📋</div>
+                        <h3 style="margin-bottom: 10px; color: var(--dark);">No hay tareas</h3>
+                        <p>Comience creando su primera tarea tecnológica.</p>
+                        <button class="btn btn-primary" onclick="showNewTaskModal()" style="margin-top: 15px;">
+                            ➕ Crear Primera Tarea
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            tasks.forEach(task => {
+                const statusBadge = getTaskStatusBadge(task.status);
+                const areaBadge = getAreaBadge(task.area);
+                const progress = calculateTaskProgress(task);
+                
+                html += `
+                    <div class="task-card">
+                        <div class="task-card-header">
+                            <div>
+                                <div class="task-title">${task.title}</div>
+                                <div class="task-meta">
+                                    <span>${task.grade}</span>
+                                    <span>${areaBadge}</span>
+                                    <span>${statusBadge}</span>
+                                    <span>${task.weight}% MEP</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn btn-secondary btn-sm" onclick="viewTaskDetails('${task.id}')">
+                                    👁️ Ver
+                                </button>
+                                <button class="btn btn-primary btn-sm" onclick="evaluateTask('${task.id}')">
+                                    📊 Evaluar
+                                </button>
+                                ${task.status === 'active' ? `
+                                <button class="btn btn-warning btn-sm" onclick="extendTaskDeadline('${task.id}')">
+                                    📅 Extender
+                                </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 10px;">
+                            <p style="font-size: 14px; color: var(--gray);">${task.description.substring(0, 150)}...</p>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 13px; color: var(--gray);">
+                                <strong>Entrega:</strong> ${formatDate(task.dueDate)} 
+                                ${isTaskLate(task) ? '<span style="color: var(--danger);"> (Atrasada)</span>' : ''}
+                            </div>
+                            <div style="width: 150px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px;">
+                                    <span>Progreso</span>
+                                    <span>${progress}%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: ${progress}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Obtener todas las tareas
+        function getTasks() {
+            const tasks = localStorage.getItem(TASKS_DB_NAME);
+            return tasks ? JSON.parse(tasks) : [];
+        }
+
+        // Guardar tareas
+        function saveTasks(tasks) {
+            localStorage.setItem(TASKS_DB_NAME, JSON.stringify(tasks));
+            updateDashboard();
+            loadTasks();
+            loadCalendar();
+        }
+
+        // Crear nueva tarea
+        function createNewTask(event) {
+            event.preventDefault();
+            
+            const taskId = 'TASK' + Date.now().toString().slice(-6);
+            const task = {
+                id: taskId,
+                title: document.getElementById('taskTitle').value,
+                area: document.getElementById('taskArea').value,
+                grade: document.getElementById('taskGrade').value,
+                tool: document.getElementById('taskTool').value,
+                description: document.getElementById('taskDescription').value,
+                resources: document.getElementById('taskResources').value,
+                criteria: document.getElementById('taskCriteria').value,
+                startDate: document.getElementById('taskStartDate').value,
+                dueDate: document.getElementById('taskDueDate').value,
+                weight: parseInt(document.getElementById('taskWeight').value),
+                indicator: document.getElementById('taskIndicator').value,
+                status: 'active',
+                assignedTo: [],
+                evaluations: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            const tasks = getTasks();
+            tasks.push(task);
+            saveTasks(tasks);
+            
+            closeModal('newTaskModal');
+            document.getElementById('newTaskForm').reset();
+            
+            showNotification('✅ Tarea creada exitosamente', 'success');
+            updateDashboard();
+        }
+
+        // Ver detalles de tarea
+        function viewTaskDetails(taskId) {
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === taskId);
+            
+            if (!task) return;
+            
+            document.getElementById('taskDetailsTitle').textContent = task.title;
+            
+            const students = getStudents();
+            const assignedStudents = students.filter(s => task.assignedTo?.includes(s.id));
+            
+            let html = `
+                <div class="form-grid">
+                    <div>
+                        <h4 style="margin-bottom: 10px; color: var(--dark);">Información General</h4>
+                        <p><strong>ID:</strong> ${task.id}</p>
+                        <p><strong>Área:</strong> ${task.area}</p>
+                        <p><strong>Grado:</strong> ${task.grade}</p>
+                        <p><strong>Herramienta:</strong> ${task.tool || 'No especificada'}</p>
+                        <p><strong>Ponderación MEP:</strong> ${task.weight}%</p>
+                        <p><strong>Estado:</strong> ${getTaskStatusText(task.status)}</p>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 10px; color: var(--dark);">Fechas</h4>
+                        <p><strong>Asignación:</strong> ${formatDate(task.startDate)}</p>
+                        <p><strong>Entrega:</strong> ${formatDate(task.dueDate)}</p>
+                        <p><strong>Días restantes:</strong> ${getDaysRemaining(task.dueDate)} días</p>
+                        <p><strong>Creada:</strong> ${formatDate(task.createdAt)}</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px; color: var(--dark);">Descripción</h4>
+                    <div style="background: var(--light); padding: 15px; border-radius: 10px;">
+                        ${task.description}
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px; color: var(--dark);">Recursos</h4>
+                    <div style="background: var(--light); padding: 15px; border-radius: 10px; font-size: 14px;">
+                        ${task.resources || 'No se especificaron recursos'}
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px; color: var(--dark);">Criterios de Evaluación</h4>
+                    <div style="background: var(--light); padding: 15px; border-radius: 10px; font-size: 14px;">
+                        ${task.criteria || 'No se especificaron criterios'}
+                    </div>
+                </div>
+            `;
+            
+            if (assignedStudents.length > 0) {
+                html += `
+                    <div style="margin-top: 20px;">
+                        <h4 style="margin-bottom: 10px; color: var(--dark);">Estudiantes Asignados (${assignedStudents.length})</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            ${assignedStudents.map(s => `
+                                <span class="badge badge-primary">${s.name}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            html += `
+                <div style="display: flex; gap: 10px; margin-top: 25px;">
+                    <button class="btn btn-primary" onclick="evaluateTask('${task.id}'); closeModal('taskDetailsModal')">
+                        📊 Evaluar Tarea
+                    </button>
+                    <button class="btn btn-secondary" onclick="assignStudentsToTask('${task.id}')">
+                        👥 Asignar Estudiantes
+                    </button>
+                    <button class="btn btn-warning" onclick="editTask('${task.id}')">
+                        ✏️ Editar
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('taskDetailsContent').innerHTML = html;
+            showModal('taskDetailsModal');
+        }
+
+        // Evaluar tarea
+        function evaluateTask(taskId) {
+            selectedTaskId = taskId;
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === taskId);
+            
+            if (!task) return;
+            
+            const students = getStudents();
+            const assignedStudents = students.filter(s => task.assignedTo?.includes(s.id));
+            
+            let html = `
+                <h3 style="margin-bottom: 15px; color: var(--dark);">${task.title}</h3>
+                <p style="color: var(--gray); margin-bottom: 20px;">${task.grade} - ${task.area}</p>
+                
+                <div id="evaluationStudents">
+            `;
+            
+            if (assignedStudents.length === 0) {
+                html += `
+                    <div style="text-align: center; padding: 20px; background: var(--light); border-radius: 10px;">
+                        <p>No hay estudiantes asignados a esta tarea.</p>
+                        <button class="btn btn-primary" onclick="assignStudentsToTask('${taskId}'); closeModal('evaluationModal')">
+                            👥 Asignar Estudiantes
+                        </button>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <h4 style="margin-bottom: 15px; color: var(--dark);">Estudiantes a Evaluar</h4>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                `;
+                
+                assignedStudents.forEach(student => {
+                    const existingEval = getEvaluation(taskId, student.id);
+                    
+                    html += `
+                        <div class="task-card" style="margin-bottom: 10px;">
+                            <div class="task-card-header">
+                                <div>
+                                    <div class="task-title">${student.name}</div>
+                                    <div class="task-meta">
+                                        <span>ID: ${student.id}</span>
+                                        <span>${student.level || task.grade}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    ${existingEval ? 
+                                        `<span class="badge badge-success">Evaluado: ${existingEval.score}/100</span>` : 
+                                        `<button class="btn btn-primary btn-sm" onclick="evaluateStudent('${taskId}', '${student.id}')">
+                                            📝 Evaluar
+                                        </button>`
+                                    }
+                                </div>
+                            </div>
+                            ${existingEval ? `
+                            <div style="font-size: 13px; color: var(--gray); margin-top: 10px;">
+                                <strong>Retroalimentación:</strong> ${existingEval.feedback || 'Sin retroalimentación'}
+                            </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            
+            document.getElementById('evaluationModalContent').innerHTML = html;
+            showModal('evaluationModal');
+        }
+
+        // Evaluar estudiante específico
+        function evaluateStudent(taskId, studentId) {
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === taskId);
+            const students = getStudents();
+            const student = students.find(s => s.id === studentId);
+            
+            if (!task || !student) return;
+            
+            let html = `
+                <h3 style="margin-bottom: 10px; color: var(--dark);">Evaluación Individual</h3>
+                <p style="color: var(--gray); margin-bottom: 20px;">
+                    ${student.name} - ${task.title}
+                </p>
+                
+                <form id="studentEvaluationForm" onsubmit="saveEvaluation(event, '${taskId}', '${studentId}')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Calificación (0-100)</label>
+                            <input type="number" class="form-control" id="evalScore" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nivel de Bloom</label>
+                            <select class="form-control" id="evalBloomLevel">
+                                <option value="1">1 - Recordar</option>
+                                <option value="2">2 - Comprender</option>
+                                <option value="3" selected>3 - Aplicar</option>
+                                <option value="4">4 - Analizar</option>
+                                <option value="5">5 - Evaluar</option>
+                                <option value="6">6 - Crear</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Retroalimentación</label>
+                        <textarea class="form-control" id="evalFeedback" rows="4" required 
+                                  placeholder="Proporcione retroalimentación específica para el estudiante..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Recomendaciones de Mejora</label>
+                        <textarea class="form-control" id="evalRecommendations" rows="3"
+                                  placeholder="Sugerencias para mejorar en futuras tareas..."></textarea>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('evaluationModal'); evaluateTask('${taskId}')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            💾 Guardar Evaluación
+                        </button>
+                    </div>
+                </form>
+            `;
+            
+            // Cargar evaluación existente si existe
+            const existingEval = getEvaluation(taskId, studentId);
+            if (existingEval) {
+                document.getElementById('evalScore').value = existingEval.score;
+                document.getElementById('evalBloomLevel').value = existingEval.bloomLevel || 3;
+                document.getElementById('evalFeedback').value = existingEval.feedback || '';
+                document.getElementById('evalRecommendations').value = existingEval.recommendations || '';
+            }
+            
+            document.getElementById('evaluationModalContent').innerHTML = html;
+        }
+
+        // Guardar evaluación
+        function saveEvaluation(event, taskId, studentId) {
+            event.preventDefault();
+            
+            const evaluation = {
+                taskId: taskId,
+                studentId: studentId,
+                score: parseInt(document.getElementById('evalScore').value),
+                bloomLevel: parseInt(document.getElementById('evalBloomLevel').value),
+                feedback: document.getElementById('evalFeedback').value,
+                recommendations: document.getElementById('evalRecommendations').value,
+                evaluatedAt: new Date().toISOString(),
+                evaluator: 'Docente' // En un sistema real sería el usuario actual
+            };
+            
+            const evaluations = getEvaluations();
+            
+            // Eliminar evaluación existente si existe
+            const existingIndex = evaluations.findIndex(e => 
+                e.taskId === taskId && e.studentId === studentId
+            );
+            
+            if (existingIndex > -1) {
+                evaluations[existingIndex] = evaluation;
+            } else {
+                evaluations.push(evaluation);
+            }
+            
+            localStorage.setItem(EVALUATIONS_DB_NAME, JSON.stringify(evaluations));
+            
+            // Actualizar estado de la tarea si todos están evaluados
+            updateTaskStatus(taskId);
+            
+            showNotification('✅ Evaluación guardada exitosamente', 'success');
+            closeModal('evaluationModal');
+            evaluateTask(taskId); // Recargar la vista de evaluación
+        }
+
+        // Obtener evaluación específica
+        function getEvaluation(taskId, studentId) {
+            const evaluations = getEvaluations();
+            return evaluations.find(e => e.taskId === taskId && e.studentId === studentId);
+        }
+
+        // Obtener todas las evaluaciones
+        function getEvaluations() {
+            const evaluations = localStorage.getItem(EVALUATIONS_DB_NAME);
+            return evaluations ? JSON.parse(evaluations) : [];
+        }
+
+        // Actualizar estado de tarea
+        function updateTaskStatus(taskId) {
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === taskId);
+            
+            if (!task || !task.assignedTo) return;
+            
+            const evaluations = getEvaluations();
+            const taskEvaluations = evaluations.filter(e => e.taskId === taskId);
+            
+            // Verificar si todos los estudiantes asignados están evaluados
+            const allEvaluated = task.assignedTo.every(studentId => 
+                taskEvaluations.some(e => e.studentId === studentId)
+            );
+            
+            if (allEvaluated && task.status === 'active') {
+                task.status = 'evaluated';
+                task.updatedAt = new Date().toISOString();
+                saveTasks(tasks);
+            }
+        }
+
+        // ========== CALENDARIO ==========
+
+        // Cargar calendario
+        function loadCalendar() {
+            const container = document.getElementById('calendarView');
+            const tasks = getTasks();
+            const today = new Date();
+            
+            // Obtener primer día del mes
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            
+            // Nombres de días y meses
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                               'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            
+            // Encabezado del calendario
+            let html = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: var(--dark);">${monthNames[currentMonth]} ${currentYear}</h3>
+                </div>
+                
+                <div class="calendar-grid">
+            `;
+            
+            // Encabezados de días
+            dayNames.forEach(day => {
+                html += `<div class="calendar-day-header">${day}</div>`;
+            });
+            
+            // Días del mes
+            let day = 1;
+            for (let i = 0; i < 42; i++) { // 6 semanas
+                const date = new Date(currentYear, currentMonth, day - firstDay.getDay() + i);
+                
+                if (date.getMonth() === currentMonth) {
+                    const dayTasks = tasks.filter(task => 
+                        isDateInRange(date, task.startDate, task.dueDate)
+                    );
+                    
+                    const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                    const isToday = date.toDateString() === today.toDateString();
+                    
+                    html += `<div class="calendar-day ${isWeekend ? 'weekend' : ''} ${isToday ? 'calendar-today' : ''}">`;
+                    html += `<div style="font-weight: 600; margin-bottom: 5px; ${isToday ? 'color: var(--primary);' : ''}">${day}</div>`;
+                    
+                    dayTasks.slice(0, 3).forEach(task => {
+                        const statusColor = getTaskStatusColor(task.status);
+                        html += `
+                            <div class="calendar-task" style="border-left-color: ${statusColor};" 
+                                 onclick="viewTaskDetails('${task.id}')">
+                                ${task.title.substring(0, 15)}...
+                            </div>
+                        `;
+                    });
+                    
+                    if (dayTasks.length > 3) {
+                        html += `<div style="font-size: 11px; color: var(--gray);">+${dayTasks.length - 3} más</div>`;
+                    }
+                    
+                    html += `</div>`;
+                    day++;
+                } else {
+                    html += `<div class="calendar-day" style="background: var(--light);"></div>`;
+                }
+            }
+            
+            html += `</div>`;
+            container.innerHTML = html;
+            
+            // Cargar tareas del mes
+            loadMonthTasks();
+        }
+
+        // Cargar tareas del mes
+        function loadMonthTasks() {
+            const tasks = getTasks();
+            const monthTasks = tasks.filter(task => {
+                const taskDate = new Date(task.dueDate);
+                return taskDate.getMonth() === currentMonth && taskDate.getFullYear() === currentYear;
+            });
+            
+            const container = document.getElementById('monthTasks');
+            
+            if (monthTasks.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: var(--gray);">
+                        No hay tareas programadas para este mes.
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            monthTasks.forEach(task => {
+                const statusBadge = getTaskStatusBadge(task.status);
+                const daysRemaining = getDaysRemaining(task.dueDate);
+                
+                html += `
+                    <div class="task-card" style="margin-bottom: 10px;">
+                        <div class="task-card-header">
+                            <div class="task-title">${task.title}</div>
+                            <div>${statusBadge}</div>
+                        </div>
+                        <div class="task-meta">
+                            <span>${task.grade}</span>
+                            <span>${task.area}</span>
+                            <span>Entrega: ${formatDate(task.dueDate)}</span>
+                            <span>${daysRemaining} días</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Navegar al mes anterior
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            loadCalendar();
+        }
+
+        // Navegar al mes siguiente
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            loadCalendar();
+        }
+
+        // ========== FILTRADO Y BÚSQUEDA ==========
+
+        // Filtrar tareas
+        function filterTasks() {
+            const gradeFilter = document.getElementById('filterTaskGrade').value;
+            const areaFilter = document.getElementById('filterTaskArea').value;
+            const statusFilter = document.getElementById('filterTaskStatus').value;
+            const searchTerm = document.getElementById('searchTasks').value.toLowerCase();
+            
+            const tasks = getTasks();
+            
+            let filtered = tasks.filter(task => {
+                // Filtrar por grado
+                if (gradeFilter && task.grade !== gradeFilter && 
+                    (gradeFilter !== 'maternal' || !task.grade.includes('Maternal'))) {
+                    return false;
+                }
+                
+                // Filtrar por área
+                if (areaFilter && task.area !== areaFilter) {
+                    return false;
+                }
+                
+                // Filtrar por estado
+                if (statusFilter && task.status !== statusFilter) {
+                    return false;
+                }
+                
+                // Filtrar por término de búsqueda
+                if (searchTerm) {
+                    const searchFields = [
+                        task.title,
+                        task.description,
+                        task.area,
+                        task.tool,
+                        task.grade
+                    ].join(' ').toLowerCase();
+                    
+                    if (!searchFields.includes(searchTerm)) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            loadTasks(filtered);
+        }
+
+        // Buscar tareas
+        function searchTasks() {
+            filterTasks();
+        }
+
+        // ========== PANEL DE CONTROL ==========
+
+        // Actualizar dashboard
+        function updateDashboard() {
+            const tasks = getTasks();
+            const total = tasks.length;
+            const pending = tasks.filter(t => t.status === 'pending').length;
+            const evaluated = tasks.filter(t => t.status === 'evaluated').length;
+            const late = tasks.filter(t => isTaskLate(t)).length;
+            
+            // Calcular tasa de finalización
+            const completionRate = total > 0 ? Math.round((evaluated / total) * 100) : 0;
+            
+            document.getElementById('totalTasks').textContent = total;
+            document.getElementById('pendingTasks').textContent = pending;
+            document.getElementById('avgCompletion').textContent = completionRate + '%';
+            document.getElementById('lateTasks').textContent = late;
+        }
+
+        // Generar recomendaciones IA
+        function generateAIRecommendations() {
+            const tasks = getTasks();
+            const lateTasks = tasks.filter(t => isTaskLate(t));
+            const pendingEvaluation = tasks.filter(t => t.status === 'pending');
+            
+            let recommendations = '';
+            
+            if (lateTasks.length > 0) {
+                recommendations += `<p>⚠️ <strong>${lateTasks.length} tareas atrasadas</strong>. Considere extender plazos o contactar estudiantes.</p>`;
+            }
+            
+            if (pendingEvaluation.length > 0) {
+                recommendations += `<p>📊 <strong>${pendingEvaluation.length} tareas pendientes de evaluación</strong>. Priorice la retroalimentación para estos estudiantes.</p>`;
+            }
+            
+            // Análisis por área tecnológica
+            const areaCount = {};
+            tasks.forEach(task => {
+                areaCount[task.area] = (areaCount[task.area] || 0) + 1;
+            });
+            
+            const mostCommonArea = Object.keys(areaCount).reduce((a, b) => 
+                areaCount[a] > areaCount[b] ? a : b, 'Apropiación');
+            
+            recommendations += `<p style="margin-top: 15px;"><strong>📈 Análisis por área:</strong> Mayor concentración en <strong>${mostCommonArea}</strong>. Considere diversificar actividades.</p>`;
+            
+            if (!recommendations) {
+                recommendations = '<p>✅ Todas las tareas están al día. Continúe con el plan de estudios tecnológico.</p>';
+            }
+            
+            document.getElementById('taskAIRecommendations').innerHTML = recommendations;
+        }
+
+        // ========== PLANTILLAS Y GENERADOR IA ==========
+
+        // Usar plantilla
+        function useTemplate(templateKey) {
+            const template = TASK_TEMPLATES[templateKey];
+            
+            document.getElementById('taskTitle').value = template.title;
+            document.getElementById('taskArea').value = template.area;
+            document.getElementById('taskDescription').value = template.description;
+            document.getElementById('taskResources').value = template.resources;
+            document.getElementById('taskCriteria').value = template.criteria;
+            
+            showModal('newTaskModal');
+        }
+
+        // Generar tarea con IA
+        function generateAITask() {
+            const area = document.getElementById('aiTemplateArea').value;
+            const grade = document.getElementById('aiTemplateGrade').value;
+            const difficulty = document.getElementById('aiTemplateDifficulty').value;
+            const tool = document.getElementById('aiTemplateTool').value;
+            
+            // Generar tarea basada en parámetros
+            const taskTemplates = {
+                'Apropiación': {
+                    basic: `Crear un documento simple en procesador de texto sobre un tema dado.`,
+                    intermediate: `Diseñar una presentación digital con imágenes, texto y transiciones.`,
+                    advanced: `Producir un video educativo con edición profesional sobre un tema tecnológico.`
+                },
+                'Programación': {
+                    basic: `Programar una animación simple en Scratch con movimiento básico.`,
+                    intermediate: `Crear un juego interactivo en Scratch con puntuación y niveles.`,
+                    advanced: `Desarrollar una aplicación simple en Python para resolver un problema específico.`
+                },
+                'Computación Física': {
+                    basic: `Simular un circuito simple en Tinkercad con LED y resistencia.`,
+                    intermediate: `Programar un robot virtual para seguir una línea en simulador.`,
+                    advanced: `Diseñar y simular un sistema domótico completo con sensores y actuadores.`
+                },
+                'Ciencia de Datos': {
+                    basic: `Crear una tabla de datos y generar un gráfico simple en Excel.`,
+                    intermediate: `Analizar un conjunto de datos y extraer conclusiones estadísticas.`,
+                    advanced: `Implementar un modelo simple de machine learning para clasificación.`
+                }
+            };
+            
+            const toolNames = {
+                'scratch': 'Scratch',
+                'tinkercad': 'Tinkercad',
+                'arduino': 'Arduino',
+                'python': 'Python',
+                'word': 'Procesador de Texto'
+            };
+            
+            const description = taskTemplates[area]?.[difficulty] || `Tarea de ${area} utilizando ${toolNames[tool] || tool}`;
+            
+            const generatedTask = {
+                title: `Tarea de ${area} - ${grade}`,
+                area: area,
+                description: description,
+                resources: `${toolNames[tool] || tool}, tutoriales en línea, ejemplos de referencia`,
+                criteria: `Calidad del trabajo, funcionalidad, creatividad, documentación`,
+                difficulty: difficulty,
+                tool: tool
+            };
+            
+            const container = document.getElementById('generatedTask');
+            container.innerHTML = `
+                <h4 style="margin-bottom: 10px; color: var(--dark);">Tarea Generada:</h4>
+                <p><strong>Título:</strong> ${generatedTask.title}</p>
+                <p><strong>Área:</strong> ${generatedTask.area}</p>
+                <p><strong>Dificultad:</strong> ${difficulty}</p>
+                <p><strong>Herramienta:</strong> ${toolNames[tool] || tool}</p>
+                <p><strong>Descripción:</strong> ${generatedTask.description}</p>
+                <p><strong>Recursos:</strong> ${generatedTask.resources}</p>
+                <p><strong>Criterios:</strong> ${generatedTask.criteria}</p>
+                
+                <div style="margin-top: 15px;">
+                    <button class="btn btn-primary" onclick="useGeneratedTask()">
+                        🚀 Usar esta Tarea
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('aiTaskResult').style.display = 'block';
+        }
+
+        // Usar tarea generada
+        function useGeneratedTask() {
+            const generatedTask = document.getElementById('generatedTask').innerText;
+            // Aquí se implementaría la lógica para cargar la tarea generada en el formulario
+            showNotification('✅ Tarea cargada en formulario', 'success');
+            closeModal('newTaskModal');
+            showModal('newTaskModal');
+        }
+
+        // ========== EVALUACIÓN MASIVA ==========
+
+        // Cargar evaluación masiva
+        function loadGroupEvaluation() {
+            const group = document.getElementById('groupSelect').value;
+            const taskId = document.getElementById('groupTaskSelect').value;
+            
+            if (!group || !taskId) {
+                showNotification('❌ Seleccione grupo y tarea', 'error');
+                return;
+            }
+            
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === taskId);
+            const students = getStudents();
+            
+            // Filtrar estudiantes por grupo
+            let groupStudents;
+            switch(group) {
+                case 'maternal':
+                    groupStudents = students.filter(s => s.level === 'maternal' || s.level === 'preescolar');
+                    break;
+                case '1-3':
+                    groupStudents = students.filter(s => s.level === '1-3');
+                    break;
+                case '4-6':
+                    groupStudents = students.filter(s => s.level === '4-6');
+                    break;
+                case '7-9':
+                    groupStudents = students.filter(s => s.level === '7-9');
+                    break;
+                default:
+                    groupStudents = students;
+            }
+            
+            let html = `
+                <h4 style="margin-bottom: 15px; color: var(--dark);">Evaluación Masiva: ${task.title}</h4>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: var(--light);">
+                                <th style="padding: 10px; text-align: left;">Estudiante</th>
+                                <th style="padding: 10px; text-align: left;">Calificación</th>
+                                <th style="padding: 10px; text-align: left;">Retroalimentación</th>
+                                <th style="padding: 10px; text-align: left;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            groupStudents.forEach(student => {
+                const existingEval = getEvaluation(taskId, student.id);
+                
+                html += `
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 10px;">${student.name}</td>
+                        <td style="padding: 10px;">
+                            <input type="number" id="mass-score-${student.id}" 
+                                   value="${existingEval?.score || 0}" min="0" max="100" 
+                                   style="width: 80px; padding: 5px;">
+                        </td>
+                        <td style="padding: 10px;">
+                            <input type="text" id="mass-feedback-${student.id}" 
+                                   value="${existingEval?.feedback || ''}" 
+                                   style="width: 100%; padding: 5px;" 
+                                   placeholder="Retroalimentación breve">
+                        </td>
+                        <td style="padding: 10px;">
+                            <button class="btn btn-sm btn-primary" onclick="saveMassEvaluation('${taskId}', '${student.id}')">
+                                💾 Guardar
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <button class="btn btn-success" onclick="saveAllMassEvaluations('${taskId}')">
+                        💾 Guardar Todas las Evaluaciones
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('groupEvaluationTable').innerHTML = html;
+            document.getElementById('groupEvaluationTable').style.display = 'block';
+        }
+
+        // Guardar evaluación masiva individual
+        function saveMassEvaluation(taskId, studentId) {
+            const score = document.getElementById(`mass-score-${studentId}`).value;
+            const feedback = document.getElementById(`mass-feedback-${studentId}`).value;
+            
+            const evaluation = {
+                taskId: taskId,
+                studentId: studentId,
+                score: parseInt(score),
+                feedback: feedback,
+                evaluatedAt: new Date().toISOString()
+            };
+            
+            const evaluations = getEvaluations();
+            const existingIndex = evaluations.findIndex(e => 
+                e.taskId === taskId && e.studentId === studentId
+            );
+            
+            if (existingIndex > -1) {
+                evaluations[existingIndex] = evaluation;
+            } else {
+                evaluations.push(evaluation);
+            }
+            
+            localStorage.setItem(EVALUATIONS_DB_NAME, JSON.stringify(evaluations));
+            
+            showNotification(`✅ Evaluación guardada para ${studentId}`, 'success');
+        }
+
+        // ========== ANÁLISIS Y REPORTES ==========
+
+        // Exportar tareas
+        function exportTasks() {
+            const tasks = getTasks();
+            const evaluations = getEvaluations();
+            
+            // Crear CSV
+            let csv = 'ID,Título,Área,Grado,Estado,Asignación,Entrega,Ponderación,Evaluaciones\n';
+            
+            tasks.forEach(task => {
+                const taskEvaluations = evaluations.filter(e => e.taskId === task.id);
+                const avgScore = taskEvaluations.length > 0 
+                    ? taskEvaluations.reduce((sum, e) => sum + e.score, 0) / taskEvaluations.length 
+                    : 0;
+                
+                csv += `"${task.id}","${task.title}","${task.area}","${task.grade}","${task.status}",`;
+                csv += `"${task.startDate}","${task.dueDate}","${task.weight}%","${taskEvaluations.length} evaluaciones (${avgScore.toFixed(1)} avg)"\n`;
+            });
+            
+            // Descargar
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tareas_tecnologicas_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            showNotification('📤 Reporte exportado exitosamente', 'success');
+        }
+
+        // Generar reporte de tareas
+        function generateTaskReport() {
+            showNotification('📊 Generando reporte de análisis...', 'info');
+            
+            // Simular generación de reporte
+            setTimeout(() => {
+                const tasks = getTasks();
+                const evaluations = getEvaluations();
+                
+                let report = `=== REPORTE DE TAREAS TECNOLÓGICAS ===\n\n`;
+                report += `Fecha: ${new Date().toLocaleDateString()}\n`;
+                report += `Total tareas: ${tasks.length}\n\n`;
+                
+                // Por área tecnológica
+                const areaStats = {};
+                tasks.forEach(task => {
+                    areaStats[task.area] = (areaStats[task.area] || 0) + 1;
+                });
+                
+                report += `Distribución por área:\n`;
+                for (const [area, count] of Object.entries(areaStats)) {
+                    const percentage = Math.round((count / tasks.length) * 100);
+                    report += `  ${area}: ${count} tareas (${percentage}%)\n`;
+                }
+                
+                // Por estado
+                const statusStats = {};
+                tasks.forEach(task => {
+                    statusStats[task.status] = (statusStats[task.status] || 0) + 1;
+                });
+                
+                report += `\nDistribución por estado:\n`;
+                for (const [status, count] of Object.entries(statusStats)) {
+                    report += `  ${getTaskStatusText(status)}: ${count} tareas\n`;
+                }
+                
+                // Promedio de calificaciones
+                if (evaluations.length > 0) {
+                    const avgScore = evaluations.reduce((sum, e) => sum + e.score, 0) / evaluations.length;
+                    report += `\nPromedio general de calificaciones: ${avgScore.toFixed(1)}/100\n`;
+                }
+                
+                alert(report);
+                showNotification('✅ Reporte generado exitosamente', 'success');
+            }, 1000);
+        }
+
+        // ========== FUNCIONES DE UTILIDAD ==========
+
+        // Obtener estudiantes
+        function getStudents() {
+            const students = localStorage.getItem(STUDENTS_DB_NAME);
+            return students ? JSON.parse(students) : [];
+        }
+
+        // Poblar selector de estudiantes
+        function populateStudentSelect() {
+            const students = getStudents();
+            const select = document.getElementById('evalStudentSelect');
+            const analysisSelect = document.getElementById('studentAnalysisSelect');
+            
+            let options = '<option value="">Seleccionar estudiante...</option>';
+            students.forEach(student => {
+                options += `<option value="${student.id}">${student.name} (${student.level})</option>`;
+            });
+            
+            select.innerHTML = options;
+            analysisSelect.innerHTML = options;
+        }
+
+        // Poblar selector de tareas
+        function populateTaskSelect() {
+            const tasks = getTasks();
+            const select = document.getElementById('evalTaskSelect');
+            const groupSelect = document.getElementById('groupTaskSelect');
+            
+            let options = '<option value="">Seleccionar tarea...</option>';
+            tasks.forEach(task => {
+                options += `<option value="${task.id}">${task.title} (${task.grade})</option>`;
+            });
+            
+            select.innerHTML = options;
+            groupSelect.innerHTML = options;
+        }
+
+        // Cargar indicadores PNFT
+        function loadPNFTIndicators() {
+            const select = document.getElementById('taskIndicator');
+            // En un sistema real, se cargarían desde la base PNFT
+            // Por ahora, agregamos algunos ejemplos
+            const indicators = [
+                'Identificar el hardware básico de una computadora',
+                'Programar una animación simple en Scratch',
+                'Diseñar un circuito eléctrico básico',
+                'Analizar datos simples en hoja de cálculo'
+            ];
+            
+            indicators.forEach(indicator => {
+                select.innerHTML += `<option value="${indicator}">${indicator}</option>`;
+            });
+        }
+
+        // Actualizar peso MEP
+        function updateMEPWeight() {
+            const grade = document.getElementById('taskGrade').value;
+            const config = MEP_CONFIG[grade];
+            
+            if (config) {
+                document.getElementById('taskWeight').value = config.weight + '%';
+                document.getElementById('weightDescription').textContent = config.description;
+            }
+        }
+
+        // Obtener badge de estado
+        function getTaskStatusBadge(status) {
+            const badges = {
+                'active': '<span class="badge badge-primary">Activa</span>',
+                'pending': '<span class="badge badge-warning">Pendiente</span>',
+                'evaluated': '<span class="badge badge-success">Evaluada</span>',
+                'late': '<span class="badge badge-danger">Atrasada</span>'
+            };
+            return badges[status] || '<span class="badge">Desconocido</span>';
+        }
+
+        // Obtener texto de estado
+        function getTaskStatusText(status) {
+            const texts = {
+                'active': 'Activa',
+                'pending': 'Pendiente de evaluación',
+                'evaluated': 'Evaluada',
+                'late': 'Atrasada'
+            };
+            return texts[status] || 'Desconocido';
+        }
+
+        // Obtener color de estado
+        function getTaskStatusColor(status) {
+            const colors = {
+                'active': 'var(--primary)',
+                'pending': 'var(--warning)',
+                'evaluated': 'var(--success)',
+                'late': 'var(--danger)'
+            };
+            return colors[status] || 'var(--gray)';
+        }
+
+        // Obtener badge de área
+        function getAreaBadge(area) {
+            const badges = {
+                'Apropiación': '<span class="badge badge-primary">Apropiación</span>',
+                'Programación': '<span class="badge badge-secondary">Programación</span>',
+                'Computación Física': '<span class="badge badge-success">Comp. Física</span>',
+                'Ciencia de Datos': '<span class="badge badge-warning">Ciencia Datos</span>'
+            };
+            return badges[area] || '<span class="badge">Otra</span>';
+        }
+
+        // Calcular progreso de tarea
+        function calculateTaskProgress(task) {
+            const evaluations = getEvaluations();
+            const taskEvaluations = evaluations.filter(e => e.taskId === task.id);
+            
+            if (taskEvaluations.length === 0) return 0;
+            
+            const assignedCount = task.assignedTo?.length || 0;
+            return Math.round((taskEvaluations.length / assignedCount) * 100) || 0;
+        }
+
+        // Verificar si tarea está atrasada
+        function isTaskLate(task) {
+            if (task.status === 'evaluated') return false;
+            
+            const dueDate = new Date(task.dueDate);
+            const today = new Date();
+            return dueDate < today;
+        }
+
+        // Formatear fecha
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        // Obtener días restantes
+        function getDaysRemaining(dueDateString) {
+            const dueDate = new Date(dueDateString);
+            const today = new Date();
+            const diffTime = dueDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        // Verificar si fecha está en rango
+        function isDateInRange(date, startDateString, endDateString) {
+            const startDate = new Date(startDateString);
+            const endDate = new Date(endDateString);
+            return date >= startDate && date <= endDate;
+        }
+
+        // Cambiar pestaña
+        function switchTab(tabName) {
+            // Actualizar pestañas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Actualizar contenido
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // Mostrar modal nueva tarea
+        function showNewTaskModal() {
+            showModal('newTaskModal');
+        }
+
+        // Mostrar modal
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        // Cerrar modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Mostrar notificación
+        function showNotification(message, type = 'info') {
+            // Eliminar notificación existente
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--primary)'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                font-weight: 500;
+            `;
+            
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+            
+            // Agregar estilos de animación si no existen
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // ========== INICIALIZACIÓN ==========
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            
+            // Agregar botón de prueba
+            const header = document.querySelector('.page-header');
+            const testBtn = document.createElement('button');
+            testBtn.className = 'btn btn-secondary';
+            testBtn.innerHTML = '🧪 Datos de prueba';
+            testBtn.onclick = function() {
+                // Resetear bases de datos
+                localStorage.removeItem(TASKS_DB_NAME);
+                localStorage.removeItem(EVALUATIONS_DB_NAME);
+                initializeDatabases();
+                initializePage();
+                showNotification('🧪 Datos de prueba cargados', 'info');
+            };
+            header.appendChild(testBtn);
+        });
+    </script>
+</body>
+</html>
