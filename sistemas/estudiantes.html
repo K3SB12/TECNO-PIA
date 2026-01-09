@@ -3,484 +3,956 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecnoPIA - Gestión de Estudiantes</title>
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>TECNO-PIA | Gestión de Estudiantes - EXCEVAL + Califica.ai</title>
     <style>
-        .estudiantes-container {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 25px;
-            margin-top: 20px;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
         }
         
-        .niveles-sidebar {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #fef7ff 100%);
+            min-height: 100vh;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .nivel-item {
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            background: rgba(255, 255, 255, 0.05);
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid var(--border);
         }
         
-        .nivel-item:hover {
-            border-color: rgba(102, 126, 234, 0.5);
-            transform: translateX(5px);
-        }
-        
-        .nivel-item.active {
-            border-color: #667eea;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-        }
-        
-        .nivel-header {
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 5px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .nivel-title {
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
-            color: white;
-            font-size: 16px;
+            letter-spacing: 0.5px;
         }
         
-        .nivel-count {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 3px 10px;
-            border-radius: 10px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .nivel-desc {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 5px;
-        }
-        
-        .estudiantes-list {
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        .estudiante-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
         
-        .estudiante-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .estudiante-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .estudiante-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .estudiante-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        
-        .estudiante-details h4 {
-            color: white;
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-        
-        .estudiante-details p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 13px;
-        }
-        
-        .estudiante-stats {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .stat-badge {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .estudiante-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .btn-icon-sm {
-            padding: 8px 12px;
+        .nav-tab {
+            padding: 12px 24px;
             border-radius: 8px;
-            border: none;
-            background: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.8);
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: var(--primary);
+        }
+        
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 800px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--light);
+            border-right: 1px solid var(--border);
+            padding: 30px 0;
+        }
+        
+        .sidebar-section {
+            padding: 0 25px;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 12px;
-        }
-        
-        .btn-icon-sm:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-        
-        .import-export-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .search-box {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--dark);
+            text-decoration: none;
             border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
+            transition: all 0.2s;
+            font-weight: 500;
             font-size: 14px;
         }
         
-        .search-box input:focus {
-            outline: none;
-            border-color: #667eea;
+        .sidebar-menu a:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
         }
         
-        .filters-bar {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-chip {
-            padding: 8px 15px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-        
-        .filter-chip:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .filter-chip.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .sidebar-menu a.active {
+            background: var(--primary);
             color: white;
-            border-color: transparent;
+        }
+        
+        .module-badge {
+            margin-left: auto;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .exceval-badge {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+        
+        .califica-badge {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--secondary);
+        }
+        
+        /* Content Area */
+        .content {
+            padding: 30px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .page-subtitle {
+            color: var(--gray);
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        /* Colors for icons */
+        .icon-blue { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        .icon-purple { background: rgba(124, 58, 237, 0.1); color: var(--secondary); }
+        .icon-green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .icon-orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            padding: 25px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .change-up { color: var(--success); }
+        .change-down { color: var(--danger); }
+        
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* AI Insights */
+        .ai-insight {
+            background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .ai-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .badge-info { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        
+        /* Progress bars */
+        .progress {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
+        <!-- Header -->
+        <div class="header">
             <div class="logo">
-                <i class="fas fa-robot"></i>
-                <h2>TecnoPIA</h2>
+                <h1>TECNO-PIA</h1>
+                <div class="logo-badge">EXCEVAL + Califica.ai</div>
             </div>
-            
-            <nav class="menu">
-                <a href="principal.html" class="menu-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Principal</span>
-                </a>
-                <a href="estudiantes.html" class="menu-item active">
-                    <i class="fas fa-users"></i>
-                    <span>Estudiantes</span>
-                </a>
-                <a href="indicadores.html" class="menu-item">
-                    <i class="fas fa-list-check"></i>
-                    <span>Indicadores</span>
-                </a>
-                <a href="cotidiano.html" class="menu-item">
-                    <i class="fas fa-calendar-day"></i>
-                    <span>Cotidiano</span>
-                </a>
-                <a href="tareas.html" class="menu-item">
-                    <i class="fas fa-tasks"></i>
-                    <span>Tareas</span>
-                </a>
-                <a href="proyectos.html" class="menu-item">
-                    <i class="fas fa-project-diagram"></i>
-                    <span>Proyectos</span>
-                </a>
-                <a href="pruebas.html" class="menu-item">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Pruebas</span>
-                </a>
-                <a href="asistencia.html" class="menu-item">
-                    <i class="fas fa-clipboard-check"></i>
-                    <span>Asistencia</span>
-                </a>
-                <a href="reportes.html" class="menu-item">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Reportes</span>
-                </a>
-                <a href="recursos.html" class="menu-item">
-                    <i class="fas fa-toolbox"></i>
-                    <span>Recursos</span>
-                </a>
-            </nav>
-            
-            <div class="user-info">
-                <div class="user-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="user-details">
-                    <span class="user-name">Docente Tecnología</span>
-                    <span class="user-role">Formación Tecnológica</span>
-                </div>
+            <div class="nav-tabs">
+                <a href="principal.html" class="nav-tab">Principal</a>
+                <a href="estudiantes.html" class="nav-tab active">Estudiantes</a>
+                <a href="indicadores.html" class="nav-tab">Indicadores</a>
+                <a href="cotidiano.html" class="nav-tab">Cotidiano</a>
+                <a href="tareas.html" class="nav-tab">Tareas</a>
+                <a href="proyectos.html" class="nav-tab">Proyectos</a>
+                <a href="pruebas.html" class="nav-tab">Pruebas</a>
+                <a href="asistencia.html" class="nav-tab">Asistencia</a>
+                <a href="reportes.html" class="nav-tab">Reportes</a>
+                <a href="recursos.html" class="nav-tab">Recursos</a>
+                <a href="inteligencia.html" class="nav-tab">Inteligencia</a>
             </div>
-        </aside>
+        </div>
 
         <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-title">
-                    <h1><i class="fas fa-users"></i> Gestión de Estudiantes</h1>
-                    <p>Administre estudiantes de Formación Tecnológica por nivel</p>
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Gestión EXCEVAL</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active">
+                            <span>📋 Lista de Estudiantes</span>
+                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>➕ Agregar Estudiante</span>
+                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📁 Grupos/Niveles</span>
+                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📊 Historial Académico</span>
+                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📤 Importar CSV</span>
+                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📥 Exportar MEP</span>
+                            <span class="module-badge exceval-badge">EXCEVAL</span>
+                        </a></li>
+                    </ul>
                 </div>
-                <div class="header-actions">
-                    <button class="btn btn-primary" onclick="mostrarModalNuevoEstudiante()">
-                        <i class="fas fa-user-plus"></i> Nuevo Estudiante
-                    </button>
-                    <button class="btn btn-secondary" onclick="mostrarModalImportar()">
-                        <i class="fas fa-file-import"></i> Importar CSV
-                    </button>
-                    <button class="btn btn-success" onclick="exportarEstudiantes()">
-                        <i class="fas fa-file-export"></i> Exportar Lista
-                    </button>
-                </div>
-            </header>
 
-            <!-- Contenido Principal -->
-            <div class="content-grid">
-                <div class="card full-width">
-                    <div class="card-header">
-                        <h3><i class="fas fa-user-graduate"></i> Estudiantes por Nivel</h3>
-                        <div class="card-actions">
-                            <div class="search-box">
-                                <i class="fas fa-search"></i>
-                                <input type="text" id="buscarEstudiantes" placeholder="Buscar por nombre, cédula o nivel..." oninput="filtrarEstudiantes()">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Inteligencia Califica.ai</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">
+                            <span>🧠 Portafolios Digitales</span>
+                            <span class="module-badge califica-badge">Califica.ai</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📈 Progreso Inteligente</span>
+                            <span class="module-badge califica-badge">Califica.ai</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>⚠️ Alertas Tempranas</span>
+                            <span class="module-badge califica-badge">Califica.ai</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🔮 Predicción de Desempeño</span>
+                            <span class="module-badge califica-badge">Califica.ai</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>📱 Comunicación Familias</span>
+                            <span class="module-badge califica-badge">Califica.ai</span>
+                        </a></li>
+                        <li><a href="#">
+                            <span>🎯 Recomendaciones IA</span>
+                            <span class="module-badge califica-badge">Califica.ai</span>
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Niveles Tecnológicos</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#"><span>👶 Maternal (0-3 años)</span></a></li>
+                        <li><a href="#"><span>🧒 Preescolar (4-6 años)</span></a></li>
+                        <li><a href="#"><span>👦 1°-3° Primaria</span></a></li>
+                        <li><a href="#"><span>🧑 4°-6° Primaria</span></a></li>
+                        <li><a href="#"><span>👱 7°-9° Secundaria</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Gestión de Estudiantes</h1>
+                        <p class="page-subtitle">Módulo EXCEVAL + Portafolios Digitales Califica.ai</p>
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            📤 Exportar CSV
+                        </button>
+                        <button class="btn btn-primary" onclick="showImportModal()">
+                            📥 Importar Estudiantes
+                        </button>
+                        <button class="btn btn-success" onclick="showAddStudentModal()">
+                            👨‍🎓 Agregar Estudiante
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalStudents">0</div>
+                        <div class="stat-label">Total Estudiantes</div>
+                        <div class="stat-change change-up">
+                            ↑ 12% desde última semana
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="activePortfolios">0</div>
+                        <div class="stat-label">Portafolios Activos</div>
+                        <div class="stat-change change-up">
+                            ↑ 8% nuevos proyectos
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgProgress">0%</div>
+                        <div class="stat-label">Progreso Promedio</div>
+                        <div class="stat-change change-up">
+                            ↑ 3.2% mejoría mensual
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="needsAttention">0</div>
+                        <div class="stat-label">Requieren Atención</div>
+                        <div class="stat-change change-down">
+                            ↓ 2 estudiantes mejoraron
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('list')">📋 Lista de Estudiantes</div>
+                    <div class="tab" onclick="switchTab('groups')">👥 Grupos por Nivel</div>
+                    <div class="tab" onclick="switchTab('portfolios')">📁 Portafolios Digitales</div>
+                    <div class="tab" onclick="switchTab('analytics')">📈 Análisis IA</div>
+                </div>
+
+                <!-- Tab Content: Student List -->
+                <div id="tab-list" class="tab-content active">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <div>
+                                <h3 style="font-size: 18px; font-weight: 600;">Registro de Estudiantes</h3>
+                                <p style="color: var(--gray); margin-top: 5px; font-size: 14px;">
+                                    Gestión EXCEVAL con integración de portafolios digitales Califica.ai
+                                </p>
+                            </div>
+                            <div class="table-actions">
+                                <input type="text" id="searchStudents" class="form-control" style="width: 250px;" 
+                                       placeholder="🔍 Buscar estudiante..." onkeyup="searchStudents()">
+                                <select id="filterLevel" class="form-control" style="width: 150px;" onchange="filterStudents()">
+                                    <option value="">Todos los niveles</option>
+                                    <option value="maternal">Maternal</option>
+                                    <option value="preescolar">Preescolar</option>
+                                    <option value="1-3">1°-3° Primaria</option>
+                                    <option value="4-6">4°-6° Primaria</option>
+                                    <option value="7-9">7°-9° Secundaria</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="overflow-x: auto;">
+                            <table id="studentsTable" style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: var(--light);">
+                                        <th style="padding: 15px; text-align: left; font-weight: 600; color: var(--dark);">ID</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600; color: var(--dark);">Nombre Completo</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600; color: var(--dark);">Nivel</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600; color: var(--dark);">Edad</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600; color: var(--dark);">Progreso</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600; color: var(--dark);">Portafolio</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600; color: var(--dark);">Estado</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600; color: var(--dark);">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentsTableBody">
+                                    <!-- Students will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- AI Insights -->
+                    <div class="ai-insight">
+                        <div class="ai-header">
+                            <div style="font-size: 20px;">🤖</div>
+                            <div class="ai-title">Recomendaciones de Inteligencia Artificial</div>
+                        </div>
+                        <div id="aiRecommendations" style="font-size: 14px; color: var(--dark);">
+                            Analizando patrones de desempeño tecnológico...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Groups -->
+                <div id="tab-groups" class="tab-content">
+                    <div class="dashboard-grid">
+                        <!-- Maternal Group Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">👶 Maternal (0-3 años)</div>
+                                <div class="card-icon icon-blue">👶</div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="font-size: 14px; color: var(--gray);">Estudiantes:</span>
+                                    <span style="font-weight: 600;" id="maternalCount">0</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 40%; background: var(--primary);"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--gray);">
+                                Competencias tecnológicas básicas: interacción con dispositivos, reconocimiento de formas digitales
+                            </div>
+                        </div>
+
+                        <!-- Preschool Group Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">🧒 Preescolar (4-6 años)</div>
+                                <div class="card-icon icon-purple">🧒</div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="font-size: 14px; color: var(--gray);">Estudiantes:</span>
+                                    <span style="font-weight: 600;" id="preschoolCount">0</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 65%; background: var(--secondary);"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--gray);">
+                                Introducción a Scratch Jr., programación por bloques, robótica básica
+                            </div>
+                        </div>
+
+                        <!-- Primary 1-3 Group Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">👦 1°-3° Primaria</div>
+                                <div class="card-icon icon-green">👦</div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="font-size: 14px; color: var(--gray);">Estudiantes:</span>
+                                    <span style="font-weight: 600;" id="primary13Count">0</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 80%; background: var(--success);"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--gray);">
+                                Scratch avanzado, introducción a Tinkercad, circuitos simples
+                            </div>
+                        </div>
+
+                        <!-- Primary 4-6 Group Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">🧑 4°-6° Primaria</div>
+                                <div class="card-icon icon-orange">🧑</div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="font-size: 14px; color: var(--gray);">Estudiantes:</span>
+                                    <span style="font-weight: 600;" id="primary46Count">0</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 75%; background: var(--warning);"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--gray);">
+                                Python básico, diseño 3D, robótica con Arduino, desarrollo web simple
+                            </div>
+                        </div>
+
+                        <!-- Secondary 7-9 Group Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">👱 7°-9° Secundaria</div>
+                                <div class="card-icon icon-blue">👱</div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="font-size: 14px; color: var(--gray);">Estudiantes:</span>
+                                    <span style="font-weight: 600;" id="secondaryCount">0</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 90%; background: var(--primary);"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--gray);">
+                                Desarrollo de apps, inteligencia artificial, IoT, proyectos tecnológicos complejos
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="estudiantes-container">
-                            <!-- Sidebar de Niveles -->
-                            <div class="niveles-sidebar">
-                                <h4 style="color: white; margin-bottom: 20px;">Niveles Tecnológicos</h4>
-                                <div id="listaNiveles">
-                                    <!-- Los niveles se cargarán dinámicamente -->
-                                </div>
-                                
-                                <div class="import-export-buttons">
-                                    <button class="btn btn-primary btn-block" onclick="mostrarModalImportar()">
-                                        <i class="fas fa-file-import"></i> Importar CSV
-                                    </button>
-                                    <button class="btn btn-secondary btn-block" onclick="exportarPorNivel()">
-                                        <i class="fas fa-download"></i> Exportar Nivel
-                                    </button>
-                                </div>
-                                
-                                <div style="margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
-                                    <h5 style="color: white; font-size: 14px; margin-bottom: 10px;">Estadísticas</h5>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                                        <div>
-                                            <div style="font-size: 20px; font-weight: bold; color: white;" id="totalEstudiantes">0</div>
-                                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6);">Total</div>
-                                        </div>
-                                        <div>
-                                            <div style="font-size: 20px; font-weight: bold; color: #2ed573;" id="estudiantesActivos">0</div>
-                                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6);">Activos</div>
-                                        </div>
-                                    </div>
+                </div>
+
+                <!-- Tab Content: Portfolios -->
+                <div id="tab-portfolios" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">📁 Portafolios Digitales - Califica.ai</div>
+                            <button class="btn btn-primary btn-sm" onclick="generateAllPortfolios()">
+                                🚀 Generar Todos los Portafolios
+                            </button>
+                        </div>
+                        <div id="portfoliosContainer" style="min-height: 400px;">
+                            <!-- Portfolios will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Analytics -->
+                <div id="tab-analytics" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">📈 Análisis Predictivo - Inteligencia Califica.ai</div>
+                        </div>
+                        <div class="form-grid">
+                            <div>
+                                <h4 style="margin-bottom: 15px; color: var(--dark);">Predicción de Desempeño</h4>
+                                <div id="performancePrediction">
+                                    <!-- AI predictions will be shown here -->
                                 </div>
                             </div>
-
-                            <!-- Lista de Estudiantes -->
                             <div>
-                                <div class="filters-bar" id="filtrosEstado">
-                                    <div class="filter-chip active" data-estado="todos" onclick="filtrarPorEstado('todos')">Todos</div>
-                                    <div class="filter-chip" data-estado="activo" onclick="filtrarPorEstado('activo')">Activos</div>
-                                    <div class="filter-chip" data-estado="inactivo" onclick="filtrarPorEstado('inactivo')">Inactivos</div>
-                                    <div class="filter-chip" data-estado="evaluado" onclick="filtrarPorEstado('evaluado')">Evaluados</div>
-                                    <div class="filter-chip" data-estado="pendiente" onclick="filtrarPorEstado('pendiente')">Pendientes</div>
-                                </div>
-                                
-                                <div class="estudiantes-list" id="listaEstudiantes">
-                                    <!-- Los estudiantes se cargarán dinámicamente -->
-                                    <div class="empty-state">
-                                        <i class="fas fa-user-graduate"></i>
-                                        <h4>No hay estudiantes registrados</h4>
-                                        <p>Agregue estudiantes manualmente o importe desde un archivo CSV.</p>
-                                        <button class="btn btn-primary" onclick="mostrarModalNuevoEstudiante()">
-                                            <i class="fas fa-user-plus"></i> Agregar primer estudiante
-                                        </button>
-                                    </div>
+                                <h4 style="margin-bottom: 15px; color: var(--dark);">Alertas Tempranas</h4>
+                                <div id="earlyAlerts">
+                                    <!-- Early alerts will be shown here -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
-    <!-- Modal para Nuevo Estudiante -->
-    <div class="modal" id="modalNuevoEstudiante">
+    <!-- Modal: Add Student -->
+    <div id="addStudentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-user-plus"></i> Nuevo Estudiante</h3>
-                <button class="modal-close" onclick="cerrarModal('modalNuevoEstudiante')">&times;</button>
+                <h2 style="font-size: 20px; font-weight: 600;">👨‍🎓 Agregar Nuevo Estudiante</h2>
+                <button onclick="closeModal('addStudentModal')" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray);">×</button>
             </div>
             <div class="modal-body">
-                <form id="formNuevoEstudiante" onsubmit="guardarEstudiante(event)">
-                    <div class="form-row">
+                <form id="addStudentForm" onsubmit="addStudent(event)">
+                    <div class="form-grid">
                         <div class="form-group">
-                            <label><i class="fas fa-user"></i> Nombre</label>
-                            <input type="text" id="nombreEstudiante" class="form-control" required placeholder="Nombre del estudiante">
+                            <label class="form-label">Cédula / Identificación</label>
+                            <input type="text" class="form-control" id="studentId" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-user"></i> Apellidos</label>
-                            <input type="text" id="apellidosEstudiante" class="form-control" required placeholder="Apellidos del estudiante">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label><i class="fas fa-id-card"></i> Cédula/Identificación</label>
-                            <input type="text" id="cedulaEstudiante" class="form-control" placeholder="Número de identificación">
+                            <label class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control" id="studentName" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-graduation-cap"></i> Nivel</label>
-                            <select id="nivelEstudiante" class="form-control" required>
-                                <option value="">Seleccionar nivel...</option>
-                                <option value="maternal">Maternal</option>
-                                <option value="transicion">Transición</option>
-                                <option value="primero">Primero</option>
-                                <option value="segundo">Segundo</option>
-                                <option value="tercero">Tercero</option>
-                                <option value="cuarto">Cuarto</option>
-                                <option value="quinto">Quinto</option>
-                                <option value="sexto">Sexto</option>
-                                <option value="septimo">Séptimo</option>
-                                <option value="octavo">Octavo</option>
-                                <option value="noveno">Noveno</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label><i class="fas fa-venus-mars"></i> Género</label>
-                            <select id="generoEstudiante" class="form-control">
-                                <option value="">No especificar</option>
-                                <option value="masculino">Masculino</option>
-                                <option value="femenino">Femenino</option>
-                                <option value="otro">Otro</option>
+                            <label class="form-label">Nivel Tecnológico</label>
+                            <select class="form-control" id="studentLevel" required>
+                                <option value="">Seleccionar nivel</option>
+                                <option value="maternal">Maternal (0-3 años)</option>
+                                <option value="preescolar">Preescolar (4-6 años)</option>
+                                <option value="1-3">1°-3° Primaria</option>
+                                <option value="4-6">4°-6° Primaria</option>
+                                <option value="7-9">7°-9° Secundaria</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-calendar"></i> Fecha de Nacimiento</label>
-                            <input type="date" id="fechaNacimiento" class="form-control">
+                            <label class="form-label">Edad</label>
+                            <input type="number" class="form-control" id="studentAge" min="0" max="18" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="studentEmail">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Teléfono (opcional)</label>
+                            <input type="tel" class="form-control" id="studentPhone">
                         </div>
                     </div>
-                    
                     <div class="form-group">
-                        <label><i class="fas fa-envelope"></i> Correo Electrónico</label>
-                        <input type="email" id="correoEstudiante" class="form-control" placeholder="correo@ejemplo.com">
+                        <label class="form-label">Observaciones</label>
+                        <textarea class="form-control" id="studentNotes" rows="3"></textarea>
                     </div>
-                    
-                    <div class="form-group">
-                        <label><i class="fas fa-phone"></i> Teléfono</label>
-                        <input type="tel" id="telefonoEstudiante" class="form-control" placeholder="Número de contacto">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label><i class="fas fa-sticky-note"></i> Observaciones</label>
-                        <textarea id="observacionesEstudiante" class="form-control" rows="3" placeholder="Información adicional del estudiante..."></textarea>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('modalNuevoEstudiante')">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Guardar Estudiante
+                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('addStudentModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            💾 Guardar Estudiante
                         </button>
                     </div>
                 </form>
@@ -488,946 +960,847 @@
         </div>
     </div>
 
-    <!-- Modal para Importar CSV -->
-    <div class="modal" id="modalImportar">
+    <!-- Modal: Import Students -->
+    <div id="importModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-file-import"></i> Importar Estudiantes desde CSV</h3>
-                <button class="modal-close" onclick="cerrarModal('modalImportar')">&times;</button>
+                <h2 style="font-size: 20px; font-weight: 600;">📥 Importar Estudiantes desde CSV/Excel</h2>
+                <button onclick="closeModal('importModal')" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray);">×</button>
             </div>
             <div class="modal-body">
-                <div class="import-instructions">
-                    <h4><i class="fas fa-info-circle"></i> Instrucciones para importación</h4>
-                    <p>Suba un archivo CSV con los siguientes campos (pueden estar en cualquier orden):</p>
-                    <ul>
-                        <li><strong>nombre</strong>: Nombre del estudiante (obligatorio)</li>
-                        <li><strong>apellidos</strong>: Apellidos del estudiante (obligatorio)</li>
-                        <li><strong>nivel</strong>: Nivel (maternal, transicion, primero, etc.)</li>
-                        <li><strong>cedula</strong>: Número de identificación</li>
-                        <li><strong>correo</strong>: Correo electrónico</li>
-                        <li><strong>telefono</strong>: Teléfono de contacto</li>
-                    </ul>
-                    <p>La primera fila debe contener los nombres de las columnas.</p>
+                <div style="background: var(--light); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 10px; color: var(--dark);">Formato EXCEVAL Compatible:</h4>
+                    <pre style="font-size: 12px; color: var(--gray);">
+ID,Nombre,Apellido,Nivel,Edad,Email,Telefono
+2024001,Juan,Perez,4-6,10,juan@email.com,8888-8888
+2024002,Maria,Gomez,1-3,8,maria@email.com,7777-7777
+                    </pre>
                 </div>
-                
-                <div class="import-upload">
-                    <div class="upload-area" id="dropArea" onclick="document.getElementById('fileInput').click()">
-                        <i class="fas fa-cloud-upload-alt fa-3x"></i>
-                        <p>Haga clic aquí o arrastre su archivo CSV</p>
-                        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">Formatos aceptados: .csv, .txt</p>
-                    </div>
-                    <input type="file" id="fileInput" accept=".csv,.txt" style="display: none;" onchange="procesarArchivoCSV(this.files[0])">
+                <div class="form-group">
+                    <label class="form-label">Seleccionar archivo CSV o Excel</label>
+                    <input type="file" class="form-control" id="csvFile" accept=".csv,.xlsx,.xls">
                 </div>
-                
-                <div class="import-preview" id="importPreview" style="display: none; margin-top: 20px;">
-                    <h5><i class="fas fa-eye"></i> Vista Previa de Datos</h5>
-                    <div class="preview-table-container">
-                        <table class="preview-table" id="previewTable" style="width: 100%; border-collapse: collapse;">
-                            <!-- Vista previa se cargará aquí -->
-                        </table>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">O pegar datos CSV:</label>
+                    <textarea class="form-control" id="csvData" rows="6" placeholder="Pegue aquí los datos en formato CSV..."></textarea>
                 </div>
-                
-                <div class="form-actions" style="margin-top: 20px;">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarModal('modalImportar')">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="confirmarImportacion" disabled onclick="confirmarImportacion()">
-                        <i class="fas fa-file-import"></i> Importar Estudiantes
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('importModal')">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="importCSV()">
+                        📤 Importar Datos
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal: Student Portfolio -->
+    <div id="portfolioModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-size: 20px; font-weight: 600;" id="portfolioTitle">Portafolio Digital</h2>
+                <button onclick="closeModal('portfolioModal')" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray);">×</button>
+            </div>
+            <div class="modal-body" id="portfolioContent">
+                <!-- Portfolio content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // BASE DE DATOS DE NIVELES TECNOLÓGICOS
-        const nivelesTecnologicos = [
-            {
-                id: "maternal",
-                nombre: "Maternal",
-                descripcion: "Iniciación a la tecnología",
-                rangoEdad: "0-3 años",
-                color: "#FF6B8B"
-            },
-            {
-                id: "transicion",
-                nombre: "Transición",
-                descripcion: "Exploración tecnológica básica",
-                rangoEdad: "4-6 años",
-                color: "#36D7B7"
-            },
-            {
-                id: "primero",
-                nombre: "Primero",
-                descripcion: "Primeros contactos con herramientas digitales",
-                rangoEdad: "6-7 años",
-                color: "#3498DB"
-            },
-            {
-                id: "segundo",
-                nombre: "Segundo",
-                descripcion: "Manejo básico de dispositivos",
-                rangoEdad: "7-8 años",
-                color: "#9B59B6"
-            },
-            {
-                id: "tercero",
-                nombre: "Tercero",
-                descripcion: "Introducción a programación visual",
-                rangoEdad: "8-9 años",
-                color: "#E74C3C"
-            },
-            {
-                id: "cuarto",
-                nombre: "Cuarto",
-                descripcion: "Uso de software educativo",
-                rangoEdad: "9-10 años",
-                color: "#1ABC9C"
-            },
-            {
-                id: "quinto",
-                nombre: "Quinto",
-                descripcion: "Creación de contenidos digitales",
-                rangoEdad: "10-11 años",
-                color: "#F39C12"
-            },
-            {
-                id: "sexto",
-                nombre: "Sexto",
-                descripcion: "Proyectos tecnológicos básicos",
-                rangoEdad: "11-12 años",
-                color: "#2ECC71"
-            },
-            {
-                id: "septimo",
-                nombre: "Séptimo",
-                descripcion: "Programación y robótica inicial",
-                rangoEdad: "12-13 años",
-                color: "#9B59B6"
-            },
-            {
-                id: "octavo",
-                nombre: "Octavo",
-                descripcion: "Desarrollo de aplicaciones simples",
-                rangoEdad: "13-14 años",
-                color: "#34495E"
-            },
-            {
-                id: "noveno",
-                nombre: "Noveno",
-                descripcion: "Proyectos tecnológicos complejos",
-                rangoEdad: "14-15 años",
-                color: "#E67E22"
-            }
-        ];
-
-        // VARIABLES GLOBALES
-        let estudiantes = [];
-        let nivelSeleccionado = null;
-        let filtroEstado = 'todos';
-        let datosCSVImportar = [];
-
-        // INICIALIZAR SISTEMA
-        document.addEventListener('DOMContentLoaded', function() {
-            cargarEstudiantes();
-            cargarNiveles();
-            actualizarEstadisticas();
-            
-            // Configurar área de drop para CSV
-            configurarDropArea();
-            
-            // Configurar búsqueda en tiempo real
-            document.getElementById('buscarEstudiantes').addEventListener('input', filtrarEstudiantes);
-        });
-
-        function cargarEstudiantes() {
-            try {
-                const estudiantesGuardados = localStorage.getItem('tecnoPIA_estudiantes');
-                estudiantes = estudiantesGuardados ? JSON.parse(estudiantesGuardados) : [];
+        // Database initialization
+        const DB_NAME = 'TECNO_PIA_STUDENTS';
+        
+        // Initialize database with sample data if empty
+        function initializeDatabase() {
+            if (!localStorage.getItem(DB_NAME)) {
+                const sampleStudents = [
+                    {
+                        id: '20241001',
+                        name: 'Ana Sofía Rodríguez',
+                        level: 'preescolar',
+                        age: 5,
+                        email: 'ana.rodriguez@email.com',
+                        progress: 65,
+                        portfolio: true,
+                        status: 'active',
+                        lastUpdated: new Date().toISOString()
+                    },
+                    {
+                        id: '20241002',
+                        name: 'Carlos Enrique Pérez',
+                        level: '1-3',
+                        age: 8,
+                        email: 'carlos.perez@email.com',
+                        progress: 82,
+                        portfolio: true,
+                        status: 'active',
+                        lastUpdated: new Date().toISOString()
+                    },
+                    {
+                        id: '20241003',
+                        name: 'María Fernanda Gómez',
+                        level: '4-6',
+                        age: 11,
+                        email: 'maria.gomez@email.com',
+                        progress: 78,
+                        portfolio: true,
+                        status: 'active',
+                        lastUpdated: new Date().toISOString()
+                    },
+                    {
+                        id: '20241004',
+                        name: 'Juan Diego Martínez',
+                        level: '7-9',
+                        age: 14,
+                        email: 'juan.martinez@email.com',
+                        progress: 91,
+                        portfolio: true,
+                        status: 'active',
+                        lastUpdated: new Date().toISOString()
+                    },
+                    {
+                        id: '20241005',
+                        name: 'Valentina Morales',
+                        level: 'preescolar',
+                        age: 6,
+                        email: 'valentina.morales@email.com',
+                        progress: 45,
+                        portfolio: false,
+                        status: 'needs_attention',
+                        lastUpdated: new Date().toISOString()
+                    },
+                    {
+                        id: '20241006',
+                        name: 'Diego Alejandro Castro',
+                        level: '1-3',
+                        age: 9,
+                        email: 'diego.castro@email.com',
+                        progress: 73,
+                        portfolio: true,
+                        status: 'active',
+                        lastUpdated: new Date().toISOString()
+                    },
+                    {
+                        id: '20241007',
+                        name: 'Sofía Isabel Ramírez',
+                        level: '4-6',
+                        age: 10,
+                        email: 'sofia.ramirez@email.com',
+                        progress: 88,
+                        portfolio: true,
+                        status: 'active',
+                        lastUpdated: new Date().toISOString()
+                    },
+                    {
+                        id: '20241008',
+                        name: 'Andrés Felipe López',
+                        level: '7-9',
+                        age: 13,
+                        email: 'andres.lopez@email.com',
+                        progress: 67,
+                        portfolio: true,
+                        status: 'warning',
+                        lastUpdated: new Date().toISOString()
+                    }
+                ];
                 
-                // Si no hay estudiantes, crear algunos de ejemplo
-                if (estudiantes.length === 0) {
-                    estudiantes = generarEstudiantesEjemplo();
-                    localStorage.setItem('tecnoPIA_estudiantes', JSON.stringify(estudiantes));
-                }
-                
-                mostrarEstudiantes();
-                
-            } catch (error) {
-                console.error('Error cargando estudiantes:', error);
-                estudiantes = [];
-                mostrarEstudiantes();
+                localStorage.setItem(DB_NAME, JSON.stringify(sampleStudents));
             }
         }
-
-        function generarEstudiantesEjemplo() {
-            return [
-                {
-                    id: '1',
-                    nombre: 'Ana',
-                    apellidos: 'García Pérez',
-                    cedula: '001110111',
-                    nivel: 'noveno',
-                    genero: 'femenino',
-                    correo: 'ana.garcia@instituto.ed.cr',
-                    telefono: '8888-8888',
-                    estado: 'activo',
-                    fechaRegistro: new Date().toISOString(),
-                    evaluado: false,
-                    promedio: 0
-                },
-                {
-                    id: '2',
-                    nombre: 'Carlos',
-                    apellidos: 'Rodríguez Sánchez',
-                    cedula: '001110112',
-                    nivel: 'noveno',
-                    genero: 'masculino',
-                    correo: 'carlos.rodriguez@instituto.ed.cr',
-                    telefono: '8888-8889',
-                    estado: 'activo',
-                    fechaRegistro: new Date().toISOString(),
-                    evaluado: true,
-                    promedio: 85
-                },
-                {
-                    id: '3',
-                    nombre: 'María',
-                    apellidos: 'López Martínez',
-                    cedula: '001110113',
-                    nivel: 'octavo',
-                    genero: 'femenino',
-                    correo: 'maria.lopez@instituto.ed.cr',
-                    telefono: '8888-8890',
-                    estado: 'activo',
-                    fechaRegistro: new Date().toISOString(),
-                    evaluado: false,
-                    promedio: 0
-                },
-                {
-                    id: '4',
-                    nombre: 'José',
-                    apellidos: 'Fernández Gómez',
-                    cedula: '001110114',
-                    nivel: 'septimo',
-                    genero: 'masculino',
-                    correo: 'jose.fernandez@instituto.ed.cr',
-                    telefono: '8888-8891',
-                    estado: 'activo',
-                    fechaRegistro: new Date().toISOString(),
-                    evaluado: true,
-                    promedio: 92
-                }
-            ];
+        
+        // Get all students
+        function getStudents() {
+            const students = localStorage.getItem(DB_NAME);
+            return students ? JSON.parse(students) : [];
         }
-
-        function cargarNiveles() {
-            const listaNiveles = document.getElementById('listaNiveles');
-            let html = '';
-            
-            // Obtener niveles configurados en Principal
-            const nivelesConfigurados = JSON.parse(localStorage.getItem('tecnoPIA_niveles')) || ['noveno'];
-            
-            nivelesTecnologicos.forEach(nivel => {
-                // Solo mostrar niveles configurados
-                if (nivelesConfigurados.includes(nivel.id)) {
-                    const estudiantesNivel = estudiantes.filter(e => e.nivel === nivel.id);
-                    const count = estudiantesNivel.length;
-                    
-                    html += `
-                        <div class="nivel-item ${nivelSeleccionado === nivel.id ? 'active' : ''}" 
-                             onclick="seleccionarNivel('${nivel.id}')"
-                             style="border-left: 4px solid ${nivel.color}">
-                            <div class="nivel-header">
-                                <div class="nivel-title">${nivel.nombre}</div>
-                                <div class="nivel-count">${count}</div>
-                            </div>
-                            <div class="nivel-desc">${nivel.descripcion}</div>
-                            <div class="nivel-desc" style="font-size: 10px;">${nivel.rangoEdad}</div>
-                        </div>
-                    `;
-                }
-            });
-            
-            listaNiveles.innerHTML = html;
-            
-            // Seleccionar primer nivel por defecto
-            if (!nivelSeleccionado && nivelesConfigurados.length > 0) {
-                seleccionarNivel(nivelesConfigurados[0]);
-            }
+        
+        // Save students to database
+        function saveStudents(students) {
+            localStorage.setItem(DB_NAME, JSON.stringify(students));
+            updateDashboard();
+            renderStudentsTable();
         }
-
-        function seleccionarNivel(nivelId) {
-            nivelSeleccionado = nivelId;
+        
+        // Update dashboard statistics
+        function updateDashboard() {
+            const students = getStudents();
+            const total = students.length;
+            const activePortfolios = students.filter(s => s.portfolio).length;
+            const avgProgress = students.length > 0 
+                ? Math.round(students.reduce((sum, s) => sum + (s.progress || 0), 0) / students.length)
+                : 0;
+            const needsAttention = students.filter(s => s.status === 'needs_attention' || s.status === 'warning').length;
             
-            // Actualizar UI
-            document.querySelectorAll('.nivel-item').forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('onclick').includes(nivelId)) {
-                    item.classList.add('active');
-                }
-            });
+            document.getElementById('totalStudents').textContent = total;
+            document.getElementById('activePortfolios').textContent = activePortfolios;
+            document.getElementById('avgProgress').textContent = avgProgress + '%';
+            document.getElementById('needsAttention').textContent = needsAttention;
             
-            // Filtrar estudiantes
-            filtrarEstudiantes();
+            // Update level counts
+            const maternalCount = students.filter(s => s.level === 'maternal').length;
+            const preschoolCount = students.filter(s => s.level === 'preescolar').length;
+            const primary13Count = students.filter(s => s.level === '1-3').length;
+            const primary46Count = students.filter(s => s.level === '4-6').length;
+            const secondaryCount = students.filter(s => s.level === '7-9').length;
+            
+            document.getElementById('maternalCount').textContent = maternalCount;
+            document.getElementById('preschoolCount').textContent = preschoolCount;
+            document.getElementById('primary13Count').textContent = primary13Count;
+            document.getElementById('primary46Count').textContent = primary46Count;
+            document.getElementById('secondaryCount').textContent = secondaryCount;
+            
+            // Generate AI recommendations
+            generateAIRecommendations(students);
         }
-
-        function mostrarEstudiantes() {
-            const listaEstudiantes = document.getElementById('listaEstudiantes');
+        
+        // Render students table
+        function renderStudentsTable(filteredStudents = null) {
+            const students = filteredStudents || getStudents();
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
             
-            if (estudiantes.length === 0) {
-                listaEstudiantes.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-user-graduate"></i>
-                        <h4>No hay estudiantes registrados</h4>
-                        <p>Agregue estudiantes manualmente o importe desde un archivo CSV.</p>
-                        <button class="btn btn-primary" onclick="mostrarModalNuevoEstudiante()">
-                            <i class="fas fa-user-plus"></i> Agregar primer estudiante
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Filtrar estudiantes según criterios
-            let estudiantesFiltrados = estudiantes;
-            
-            // Filtrar por nivel seleccionado
-            if (nivelSeleccionado) {
-                estudiantesFiltrados = estudiantesFiltrados.filter(e => e.nivel === nivelSeleccionado);
-            }
-            
-            // Filtrar por estado
-            if (filtroEstado !== 'todos') {
-                switch(filtroEstado) {
-                    case 'activo':
-                        estudiantesFiltrados = estudiantesFiltrados.filter(e => e.estado === 'activo');
-                        break;
-                    case 'inactivo':
-                        estudiantesFiltrados = estudiantesFiltrados.filter(e => e.estado === 'inactivo');
-                        break;
-                    case 'evaluado':
-                        estudiantesFiltrados = estudiantesFiltrados.filter(e => e.evaluado === true);
-                        break;
-                    case 'pendiente':
-                        estudiantesFiltrados = estudiantesFiltrados.filter(e => !e.evaluado);
-                        break;
-                }
-            }
-            
-            // Filtrar por búsqueda
-            const busqueda = document.getElementById('buscarEstudiantes').value.toLowerCase();
-            if (busqueda) {
-                estudiantesFiltrados = estudiantesFiltrados.filter(e => 
-                    e.nombre.toLowerCase().includes(busqueda) ||
-                    e.apellidos.toLowerCase().includes(busqueda) ||
-                    e.cedula.toLowerCase().includes(busqueda) ||
-                    e.nivel.toLowerCase().includes(busqueda)
-                );
-            }
-            
-            if (estudiantesFiltrados.length === 0) {
-                listaEstudiantes.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-search"></i>
-                        <h4>No se encontraron estudiantes</h4>
-                        <p>Intente con otros criterios de búsqueda.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Generar HTML de estudiantes
-            let html = '';
-            
-            estudiantesFiltrados.forEach(estudiante => {
-                const nivelInfo = nivelesTecnologicos.find(n => n.id === estudiante.nivel);
-                const colorNivel = nivelInfo ? nivelInfo.color : '#667eea';
+            students.forEach(student => {
+                const statusBadge = getStatusBadge(student.status);
+                const portfolioBadge = student.portfolio 
+                    ? '<span class="badge badge-success">Activo</span>' 
+                    : '<span class="badge badge-warning">Pendiente</span>';
                 
-                // Generar avatar con iniciales
-                const iniciales = (estudiante.nombre.charAt(0) + estudiante.apellidos.charAt(0)).toUpperCase();
-                
-                html += `
-                    <div class="estudiante-card" data-id="${estudiante.id}">
-                        <div class="estudiante-header">
-                            <div class="estudiante-info">
-                                <div class="estudiante-avatar" style="background: linear-gradient(135deg, ${colorNivel}, ${colorNivel}80);">
-                                    ${iniciales}
-                                </div>
-                                <div class="estudiante-details">
-                                    <h4>${estudiante.nombre} ${estudiante.apellidos}</h4>
-                                    <p>
-                                        <i class="fas fa-id-card"></i> ${estudiante.cedula || 'Sin cédula'} | 
-                                        <i class="fas fa-graduation-cap"></i> ${nivelInfo ? nivelInfo.nombre : estudiante.nivel}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="estudiante-stats">
-                                <div class="stat-badge ${estudiante.estado === 'activo' ? 'activo' : 'inactivo'}">
-                                    <i class="fas fa-${estudiante.estado === 'activo' ? 'check-circle' : 'times-circle'}"></i>
-                                    ${estudiante.estado === 'activo' ? 'Activo' : 'Inactivo'}
-                                </div>
-                                <div class="stat-badge ${estudiante.evaluado ? 'evaluado' : 'pendiente'}">
-                                    <i class="fas fa-${estudiante.evaluado ? 'clipboard-check' : 'clipboard-list'}"></i>
-                                    ${estudiante.evaluado ? 'Evaluado' : 'Pendiente'}
-                                </div>
-                                ${estudiante.promedio > 0 ? `
-                                    <div class="stat-badge">
-                                        <i class="fas fa-chart-line"></i>
-                                        ${estudiante.promedio}%
+                const row = `
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 15px;">${student.id}</td>
+                        <td style="padding: 15px; font-weight: 500;">${student.name}</td>
+                        <td style="padding: 15px;">
+                            <span class="badge badge-info">${getLevelName(student.level)}</span>
+                        </td>
+                        <td style="padding: 15px;">${student.age} años</td>
+                        <td style="padding: 15px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="flex: 1;">
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: ${student.progress}%;"></div>
                                     </div>
-                                ` : ''}
+                                </div>
+                                <span style="font-weight: 600;">${student.progress}%</span>
                             </div>
-                        </div>
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                ${estudiante.correo ? `<p style="font-size: 12px; color: rgba(255, 255, 255, 0.7);"><i class="fas fa-envelope"></i> ${estudiante.correo}</p>` : ''}
-                                ${estudiante.telefono ? `<p style="font-size: 12px; color: rgba(255, 255, 255, 0.7);"><i class="fas fa-phone"></i> ${estudiante.telefono}</p>` : ''}
-                            </div>
-                            
-                            <div class="estudiante-actions">
-                                <button class="btn-icon-sm" onclick="editarEstudiante('${estudiante.id}')" title="Editar">
-                                    <i class="fas fa-edit"></i> Editar
+                        </td>
+                        <td style="padding: 15px;">${portfolioBadge}</td>
+                        <td style="padding: 15px;">${statusBadge}</td>
+                        <td style="padding: 15px;">
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn btn-secondary btn-sm" onclick="viewPortfolio('${student.id}')" title="Ver portafolio">
+                                    👁️
                                 </button>
-                                <button class="btn-icon-sm" onclick="evaluarEstudiante('${estudiante.id}')" title="Evaluar">
-                                    <i class="fas fa-clipboard-check"></i> Evaluar
+                                <button class="btn btn-primary btn-sm" onclick="editStudent('${student.id}')" title="Editar">
+                                    ✏️
                                 </button>
-                                <button class="btn-icon-sm" onclick="verReporte('${estudiante.id}')" title="Ver reporte">
-                                    <i class="fas fa-chart-bar"></i> Reporte
-                                </button>
-                                <button class="btn-icon-sm btn-danger" onclick="eliminarEstudiante('${estudiante.id}')" title="Eliminar">
-                                    <i class="fas fa-trash"></i>
+                                <button class="btn btn-danger btn-sm" onclick="deleteStudent('${student.id}')" title="Eliminar">
+                                    🗑️
                                 </button>
                             </div>
-                        </div>
-                    </div>
+                        </td>
+                    </tr>
                 `;
+                tbody.innerHTML += row;
             });
-            
-            listaEstudiantes.innerHTML = html;
         }
-
-        function filtrarPorEstado(estado) {
-            filtroEstado = estado;
-            
-            // Actualizar UI de filtros
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.classList.remove('active');
-                if (chip.dataset.estado === estado) {
-                    chip.classList.add('active');
-                }
-            });
-            
-            // Aplicar filtro
-            filtrarEstudiantes();
+        
+        // Get level name
+        function getLevelName(levelCode) {
+            const levels = {
+                'maternal': 'Maternal',
+                'preescolar': 'Preescolar',
+                '1-3': '1°-3° Primaria',
+                '4-6': '4°-6° Primaria',
+                '7-9': '7°-9° Secundaria'
+            };
+            return levels[levelCode] || levelCode;
         }
-
-        function filtrarEstudiantes() {
-            mostrarEstudiantes();
+        
+        // Get status badge
+        function getStatusBadge(status) {
+            const badges = {
+                'active': '<span class="badge badge-success">Activo</span>',
+                'needs_attention': '<span class="badge badge-warning">Requiere atención</span>',
+                'warning': '<span class="badge badge-danger">En riesgo</span>',
+                'inactive': '<span class="badge badge-info">Inactivo</span>'
+            };
+            return badges[status] || '<span class="badge">Desconocido</span>';
         }
-
-        function mostrarModalNuevoEstudiante() {
-            document.getElementById('modalNuevoEstudiante').style.display = 'block';
-            document.getElementById('formNuevoEstudiante').reset();
-        }
-
-        function guardarEstudiante(event) {
+        
+        // Add new student
+        function addStudent(event) {
             event.preventDefault();
             
-            // Obtener datos del formulario
-            const estudiante = {
-                id: Date.now().toString(),
-                nombre: document.getElementById('nombreEstudiante').value.trim(),
-                apellidos: document.getElementById('apellidosEstudiante').value.trim(),
-                cedula: document.getElementById('cedulaEstudiante').value.trim(),
-                nivel: document.getElementById('nivelEstudiante').value,
-                genero: document.getElementById('generoEstudiante').value,
-                fechaNacimiento: document.getElementById('fechaNacimiento').value,
-                correo: document.getElementById('correoEstudiante').value.trim(),
-                telefono: document.getElementById('telefonoEstudiante').value.trim(),
-                observaciones: document.getElementById('observacionesEstudiante').value.trim(),
-                estado: 'activo',
-                fechaRegistro: new Date().toISOString(),
-                evaluado: false,
-                promedio: 0
-            };
-
-            // Validar datos
-            if (!estudiante.nombre || !estudiante.apellidos || !estudiante.nivel) {
-                mostrarNotificacion('Complete los campos obligatorios: Nombre, Apellidos y Nivel', 'error');
-                return;
-            }
-
-            // Verificar si ya existe un estudiante con la misma cédula
-            if (estudiante.cedula) {
-                const existeCedula = estudiantes.some(e => e.cedula === estudiante.cedula);
-                if (existeCedula) {
-                    mostrarNotificacion('Ya existe un estudiante con esta cédula', 'error');
-                    return;
-                }
-            }
-
-            // Agregar estudiante
-            estudiantes.push(estudiante);
-            
-            // Guardar en localStorage
-            guardarEstudiantesEnStorage();
-            
-            // Actualizar UI
-            cargarNiveles();
-            mostrarEstudiantes();
-            actualizarEstadisticas();
-            
-            // Cerrar modal
-            cerrarModal('modalNuevoEstudiante');
-            
-            // Mostrar notificación
-            mostrarNotificacion(`Estudiante "${estudiante.nombre} ${estudiante.apellidos}" agregado exitosamente`, 'success');
-        }
-
-        function guardarEstudiantesEnStorage() {
-            try {
-                localStorage.setItem('tecnoPIA_estudiantes', JSON.stringify(estudiantes));
-            } catch (error) {
-                console.error('Error guardando estudiantes:', error);
-                mostrarNotificacion('Error al guardar los estudiantes', 'error');
-            }
-        }
-
-        function editarEstudiante(estudianteId) {
-            const estudiante = estudiantes.find(e => e.id === estudianteId);
-            if (!estudiante) return;
-            
-            // Llenar formulario con datos del estudiante
-            document.getElementById('nombreEstudiante').value = estudiante.nombre;
-            document.getElementById('apellidosEstudiante').value = estudiante.apellidos;
-            document.getElementById('cedulaEstudiante').value = estudiante.cedula || '';
-            document.getElementById('nivelEstudiante').value = estudiante.nivel;
-            document.getElementById('generoEstudiante').value = estudiante.genero || '';
-            document.getElementById('fechaNacimiento').value = estudiante.fechaNacimiento || '';
-            document.getElementById('correoEstudiante').value = estudiante.correo || '';
-            document.getElementById('telefonoEstudiante').value = estudiante.telefono || '';
-            document.getElementById('observacionesEstudiante').value = estudiante.observaciones || '';
-            
-            // Cambiar comportamiento del formulario para edición
-            const form = document.getElementById('formNuevoEstudiante');
-            form.onsubmit = function(e) {
-                e.preventDefault();
-                actualizarEstudiante(estudianteId);
+            const student = {
+                id: document.getElementById('studentId').value,
+                name: document.getElementById('studentName').value,
+                level: document.getElementById('studentLevel').value,
+                age: parseInt(document.getElementById('studentAge').value),
+                email: document.getElementById('studentEmail').value,
+                phone: document.getElementById('studentPhone').value,
+                notes: document.getElementById('studentNotes').value,
+                progress: 0,
+                portfolio: false,
+                status: 'active',
+                createdAt: new Date().toISOString(),
+                lastUpdated: new Date().toISOString()
             };
             
-            // Mostrar modal
-            document.getElementById('modalNuevoEstudiante').style.display = 'block';
+            const students = getStudents();
+            students.push(student);
+            saveStudents(students);
+            
+            closeModal('addStudentModal');
+            document.getElementById('addStudentForm').reset();
+            
+            showNotification('✅ Estudiante agregado exitosamente', 'success');
         }
-
-        function actualizarEstudiante(estudianteId) {
-            const index = estudiantes.findIndex(e => e.id === estudianteId);
-            if (index === -1) return;
+        
+        // Edit student
+        function editStudent(studentId) {
+            const students = getStudents();
+            const student = students.find(s => s.id === studentId);
             
-            // Actualizar datos
-            estudiantes[index].nombre = document.getElementById('nombreEstudiante').value.trim();
-            estudiantes[index].apellidos = document.getElementById('apellidosEstudiante').value.trim();
-            estudiantes[index].cedula = document.getElementById('cedulaEstudiante').value.trim();
-            estudiantes[index].nivel = document.getElementById('nivelEstudiante').value;
-            estudiantes[index].genero = document.getElementById('generoEstudiante').value;
-            estudiantes[index].fechaNacimiento = document.getElementById('fechaNacimiento').value;
-            estudiantes[index].correo = document.getElementById('correoEstudiante').value.trim();
-            estudiantes[index].telefono = document.getElementById('telefonoEstudiante').value.trim();
-            estudiantes[index].observaciones = document.getElementById('observacionesEstudiante').value.trim();
-            
-            // Guardar cambios
-            guardarEstudiantesEnStorage();
-            
-            // Actualizar UI
-            cargarNiveles();
-            mostrarEstudiantes();
-            
-            // Cerrar modal
-            cerrarModal('modalNuevoEstudiante');
-            
-            // Restaurar comportamiento original del formulario
-            document.getElementById('formNuevoEstudiante').onsubmit = guardarEstudiante;
-            
-            mostrarNotificacion('Estudiante actualizado exitosamente', 'success');
-        }
-
-        function eliminarEstudiante(estudianteId) {
-            if (!confirm('¿Está seguro de eliminar este estudiante? Esta acción no se puede deshacer.')) {
-                return;
-            }
-            
-            const index = estudiantes.findIndex(e => e.id === estudianteId);
-            if (index === -1) return;
-            
-            const estudianteEliminado = estudiantes.splice(index, 1)[0];
-            
-            // Guardar cambios
-            guardarEstudiantesEnStorage();
-            
-            // Actualizar UI
-            cargarNiveles();
-            mostrarEstudiantes();
-            actualizarEstadisticas();
-            
-            mostrarNotificacion(`Estudiante "${estudianteEliminado.nombre} ${estudianteEliminado.apellidos}" eliminado`, 'success');
-        }
-
-        function evaluarEstudiante(estudianteId) {
-            // Redirigir a la página de evaluación cotidiana
-            localStorage.setItem('tecnoPIA_estudiante_a_evaluar', estudianteId);
-            window.location.href = 'cotidiano.html';
-        }
-
-        function verReporte(estudianteId) {
-            // Redirigir a la página de reportes
-            localStorage.setItem('tecnoPIA_estudiante_reporte', estudianteId);
-            window.location.href = 'reportes.html';
-        }
-
-        function mostrarModalImportar() {
-            document.getElementById('modalImportar').style.display = 'block';
-            document.getElementById('importPreview').style.display = 'none';
-            document.getElementById('confirmarImportacion').disabled = true;
-            datosCSVImportar = [];
-        }
-
-        function cerrarModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function configurarDropArea() {
-            const dropArea = document.getElementById('dropArea');
-            const fileInput = document.getElementById('fileInput');
-
-            // Prevenir comportamientos por defecto
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            // Resaltar área de drop
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, highlight, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, unhighlight, false);
-            });
-
-            function highlight() {
-                dropArea.style.backgroundColor = 'rgba(102, 126, 234, 0.1)';
-                dropArea.style.borderColor = '#667eea';
-            }
-
-            function unhighlight() {
-                dropArea.style.backgroundColor = '';
-                dropArea.style.borderColor = '';
-            }
-
-            // Manejar drop de archivos
-            dropArea.addEventListener('drop', handleDrop, false);
-
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
+            if (student) {
+                document.getElementById('studentId').value = student.id;
+                document.getElementById('studentName').value = student.name;
+                document.getElementById('studentLevel').value = student.level;
+                document.getElementById('studentAge').value = student.age;
+                document.getElementById('studentEmail').value = student.email || '';
+                document.getElementById('studentPhone').value = student.phone || '';
+                document.getElementById('studentNotes').value = student.notes || '';
                 
-                if (files.length > 0) {
-                    procesarArchivoCSV(files[0]);
-                }
-            }
-        }
-
-        function procesarArchivoCSV(file) {
-            if (!file) return;
-            
-            // Verificar que sea un archivo CSV o texto
-            if (!file.name.toLowerCase().endsWith('.csv') && !file.name.toLowerCase().endsWith('.txt')) {
-                mostrarNotificacion('Por favor seleccione un archivo CSV o TXT', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                try {
-                    const contenido = e.target.result;
-                    procesarContenidoCSV(contenido);
-                } catch (error) {
-                    console.error('Error procesando archivo:', error);
-                    mostrarNotificacion('Error al procesar el archivo', 'error');
-                }
-            };
-            
-            reader.onerror = function() {
-                mostrarNotificacion('Error al leer el archivo', 'error');
-            };
-            
-            reader.readAsText(file, 'UTF-8');
-        }
-
-        function procesarContenidoCSV(contenido) {
-            try {
-                const lineas = contenido.split('\n');
-                if (lineas.length < 2) {
-                    mostrarNotificacion('El archivo está vacío o tiene formato incorrecto', 'error');
-                    return;
-                }
-
-                // Obtener encabezados
-                const encabezados = lineas[0].split(',').map(h => h.trim().toLowerCase());
-                
-                // Validar encabezados mínimos
-                if (!encabezados.includes('nombre') || !encabezados.includes('apellidos')) {
-                    mostrarNotificacion('El archivo debe contener las columnas "nombre" y "apellidos"', 'error');
-                    return;
-                }
-
-                // Procesar datos
-                datosCSVImportar = [];
-                
-                for (let i = 1; i < Math.min(lineas.length, 51); i++) { // Limitar a 50 filas para vista previa
-                    if (lineas[i].trim() === '') continue;
+                document.getElementById('addStudentForm').onsubmit = function(e) {
+                    e.preventDefault();
                     
-                    const valores = lineas[i].split(',');
-                    const fila = {};
+                    student.name = document.getElementById('studentName').value;
+                    student.level = document.getElementById('studentLevel').value;
+                    student.age = parseInt(document.getElementById('studentAge').value);
+                    student.email = document.getElementById('studentEmail').value;
+                    student.phone = document.getElementById('studentPhone').value;
+                    student.notes = document.getElementById('studentNotes').value;
+                    student.lastUpdated = new Date().toISOString();
                     
-                    encabezados.forEach((encabezado, index) => {
-                        if (valores[index]) {
-                            fila[encabezado] = valores[index].trim();
-                        }
-                    });
-                    
-                    // Validar que tenga nombre y apellidos
-                    if (fila.nombre && fila.apellidos) {
-                        datosCSVImportar.push(fila);
-                    }
-                }
-                
-                if (datosCSVImportar.length === 0) {
-                    mostrarNotificacion('No se encontraron datos válidos en el archivo', 'error');
-                    return;
-                }
-                
-                // Mostrar vista previa
-                mostrarVistaPreviaCSV(datosCSVImportar, encabezados);
-                
-                // Habilitar botón de confirmación
-                document.getElementById('confirmarImportacion').disabled = false;
-                
-            } catch (error) {
-                console.error('Error procesando CSV:', error);
-                mostrarNotificacion('Error al procesar el archivo CSV', 'error');
-            }
-        }
-
-        function mostrarVistaPreviaCSV(datos, encabezados) {
-            const preview = document.getElementById('importPreview');
-            const table = document.getElementById('previewTable');
-            
-            // Crear encabezados de la tabla
-            let html = '<thead><tr>';
-            encabezados.forEach(encabezado => {
-                if (['nombre', 'apellidos', 'nivel', 'cedula'].includes(encabezado)) {
-                    html += `<th style="padding: 10px; border-bottom: 2px solid rgba(255, 255, 255, 0.1); text-align: left; color: white;">${encabezado.charAt(0).toUpperCase() + encabezado.slice(1)}</th>`;
-                }
-            });
-            html += '</tr></thead><tbody>';
-            
-            // Agregar filas de datos
-            datos.forEach(fila => {
-                html += '<tr>';
-                encabezados.forEach(encabezado => {
-                    if (['nombre', 'apellidos', 'nivel', 'cedula'].includes(encabezado)) {
-                        html += `<td style="padding: 8px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.8);">${fila[encabezado] || ''}</td>`;
-                    }
-                });
-                html += '</tr>';
-            });
-            
-            html += '</tbody>';
-            table.innerHTML = html;
-            preview.style.display = 'block';
-        }
-
-        function confirmarImportacion() {
-            if (datosCSVImportar.length === 0) {
-                mostrarNotificacion('No hay datos para importar', 'error');
-                return;
-            }
-            
-            // Convertir datos CSV a estudiantes
-            const nuevosEstudiantes = datosCSVImportar.map((fila, index) => {
-                // Obtener nivel válido
-                let nivel = fila.nivel || 'noveno';
-                if (!['maternal', 'transicion', 'primero', 'segundo', 'tercero', 'cuarto', 'quinto', 'sexto', 'septimo', 'octavo', 'noveno'].includes(nivel.toLowerCase())) {
-                    nivel = 'noveno';
-                }
-                
-                return {
-                    id: `csv_${Date.now()}_${index}`,
-                    nombre: fila.nombre || '',
-                    apellidos: fila.apellidos || '',
-                    cedula: fila.cedula || '',
-                    nivel: nivel.toLowerCase(),
-                    genero: fila.genero || '',
-                    correo: fila.correo || '',
-                    telefono: fila.telefono || '',
-                    estado: 'activo',
-                    fechaRegistro: new Date().toISOString(),
-                    evaluado: false,
-                    promedio: 0
+                    saveStudents(students);
+                    closeModal('addStudentModal');
+                    showNotification('✅ Estudiante actualizado exitosamente', 'success');
                 };
-            });
-            
-            // Agregar nuevos estudiantes
-            estudiantes.push(...nuevosEstudiantes);
-            
-            // Guardar en localStorage
-            guardarEstudiantesEnStorage();
-            
-            // Actualizar UI
-            cargarNiveles();
-            mostrarEstudiantes();
-            actualizarEstadisticas();
-            
-            // Cerrar modal
-            cerrarModal('modalImportar');
-            
-            // Mostrar notificación
-            mostrarNotificacion(`${nuevosEstudiantes.length} estudiantes importados exitosamente`, 'success');
+                
+                document.getElementById('addStudentModal').querySelector('h2').textContent = '✏️ Editar Estudiante';
+                showModal('addStudentModal');
+            }
         }
-
-        function exportarEstudiantes() {
-            if (estudiantes.length === 0) {
-                mostrarNotificacion('No hay estudiantes para exportar', 'info');
+        
+        // Delete student
+        function deleteStudent(studentId) {
+            if (confirm('¿Está seguro de eliminar este estudiante? Esta acción no se puede deshacer.')) {
+                let students = getStudents();
+                students = students.filter(s => s.id !== studentId);
+                saveStudents(students);
+                showNotification('🗑️ Estudiante eliminado exitosamente', 'warning');
+            }
+        }
+        
+        // Search students
+        function searchStudents() {
+            const searchTerm = document.getElementById('searchStudents').value.toLowerCase();
+            const students = getStudents();
+            
+            const filtered = students.filter(student => 
+                student.name.toLowerCase().includes(searchTerm) || 
+                student.id.toLowerCase().includes(searchTerm) ||
+                student.email?.toLowerCase().includes(searchTerm)
+            );
+            
+            renderStudentsTable(filtered);
+        }
+        
+        // Filter students by level
+        function filterStudents() {
+            const level = document.getElementById('filterLevel').value;
+            const students = getStudents();
+            
+            if (!level) {
+                renderStudentsTable(students);
                 return;
             }
             
-            // Crear contenido CSV
-            let csv = 'nombre,apellidos,cedula,nivel,genero,correo,telefono,estado,evaluado,promedio\n';
-            
-            estudiantes.forEach(est => {
-                csv += `"${est.nombre}","${est.apellidos}","${est.cedula || ''}","${est.nivel}","${est.genero || ''}","${est.correo || ''}","${est.telefono || ''}","${est.estado}","${est.evaluado}","${est.promedio}"\n`;
-            });
-            
-            // Crear archivo y descargar
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `estudiantes_tecnoPIA_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            mostrarNotificacion('Estudiantes exportados exitosamente', 'success');
+            const filtered = students.filter(student => student.level === level);
+            renderStudentsTable(filtered);
         }
-
-        function exportarPorNivel() {
-            if (!nivelSeleccionado) {
-                mostrarNotificacion('Seleccione un nivel primero', 'warning');
-                return;
-            }
+        
+        // View student portfolio
+        function viewPortfolio(studentId) {
+            const students = getStudents();
+            const student = students.find(s => s.id === studentId);
             
-            const estudiantesNivel = estudiantes.filter(e => e.nivel === nivelSeleccionado);
+            if (!student) return;
             
-            if (estudiantesNivel.length === 0) {
-                mostrarNotificacion('No hay estudiantes en este nivel', 'info');
-                return;
-            }
+            document.getElementById('portfolioTitle').textContent = `Portafolio Digital - ${student.name}`;
             
-            // Crear contenido CSV
-            let csv = 'nombre,apellidos,cedula,nivel,genero,correo,telefono,estado,evaluado,promedio\n';
+            // Generate portfolio content based on level
+            const portfolioContent = generatePortfolioContent(student);
+            document.getElementById('portfolioContent').innerHTML = portfolioContent;
             
-            estudiantesNivel.forEach(est => {
-                csv += `"${est.nombre}","${est.apellidos}","${est.cedula || ''}","${est.nivel}","${est.genero || ''}","${est.correo || ''}","${est.telefono || ''}","${est.estado}","${est.evaluado}","${est.promedio}"\n`;
-            });
-            
-            // Obtener nombre del nivel
-            const nivelInfo = nivelesTecnologicos.find(n => n.id === nivelSeleccionado);
-            const nombreNivel = nivelInfo ? nivelInfo.nombre : nivelSeleccionado;
-            
-            // Crear archivo y descargar
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `estudiantes_${nombreNivel}_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            mostrarNotificacion(`Estudiantes de ${nombreNivel} exportados exitosamente`, 'success');
+            showModal('portfolioModal');
         }
-
-        function actualizarEstadisticas() {
-            const total = estudiantes.length;
-            const activos = estudiantes.filter(e => e.estado === 'activo').length;
+        
+        // Generate portfolio content
+        function generatePortfolioContent(student) {
+            const levelResources = {
+                'maternal': [
+                    'Interacción con tabletas educativas',
+                    'Reconocimiento de colores y formas digitales',
+                    'Actividades táctiles básicas'
+                ],
+                'preescolar': [
+                    'Proyectos en Scratch Jr.',
+                    'Introducción a la robótica con Bee-Bot',
+                    'Actividades de pensamiento computacional'
+                ],
+                '1-3': [
+                    'Proyectos Scratch avanzados',
+                    'Diseño 2D básico',
+                    'Circuitos simples con materiales reciclados'
+                ],
+                '4-6': [
+                    'Programación en Python básico',
+                    'Diseño 3D con Tinkercad',
+                    'Robótica con Arduino',
+                    'Desarrollo web con HTML/CSS'
+                ],
+                '7-9': [
+                    'Desarrollo de aplicaciones móviles',
+                    'Inteligencia Artificial con Teachable Machine',
+                    'Proyectos IoT',
+                    'Análisis de datos con Python'
+                ]
+            };
             
-            document.getElementById('totalEstudiantes').textContent = total;
-            document.getElementById('estudiantesActivos').textContent = activos;
-        }
-
-        function mostrarNotificacion(mensaje, tipo = 'info') {
-            // Crear elemento de notificación
-            const notificacion = document.createElement('div');
-            notificacion.className = `notificacion notificacion-${tipo}`;
-            notificacion.innerHTML = `
-                <div class="notificacion-icon">
-                    <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+            return `
+                <div class="form-grid">
+                    <div>
+                        <h4 style="margin-bottom: 10px; color: var(--dark);">Información del Estudiante</h4>
+                        <p><strong>ID:</strong> ${student.id}</p>
+                        <p><strong>Nivel:</strong> ${getLevelName(student.level)}</p>
+                        <p><strong>Edad:</strong> ${student.age} años</p>
+                        <p><strong>Progreso:</strong> ${student.progress}%</p>
+                        
+                        <h4 style="margin-top: 20px; margin-bottom: 10px; color: var(--dark);">Recursos Recomendados</h4>
+                        <ul style="padding-left: 20px; color: var(--gray);">
+                            ${levelResources[student.level]?.map(item => `<li>${item}</li>`).join('') || '<li>No hay recursos específicos</li>'}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 10px; color: var(--dark);">Proyectos Tecnológicos</h4>
+                        <div style="background: var(--light); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <strong>🛠️ Proyecto Actual:</strong> ${getCurrentProject(student.level)}
+                        </div>
+                        
+                        <h4 style="margin-bottom: 10px; color: var(--dark);">Análisis de Competencias</h4>
+                        <div style="background: var(--light); padding: 15px; border-radius: 10px;">
+                            ${generateCompetencyAnalysis(student)}
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="exportPortfolio('${student.id}')">
+                                📤 Exportar Portafolio PDF
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="notificacion-content">
-                    <p>${mensaje}</p>
-                </div>
-                <button class="notificacion-close" onclick="this.parentElement.remove()">&times;</button>
             `;
+        }
+        
+        // Get current project based on level
+        function getCurrentProject(level) {
+            const projects = {
+                'maternal': 'Juego de reconocimiento de formas digitales',
+                'preescolar': 'Animación interactiva en Scratch Jr.',
+                '1-3': 'Videojuego educativo en Scratch',
+                '4-6': 'Sistema automatizado con Arduino',
+                '7-9': 'Aplicación web con inteligencia artificial'
+            };
+            return projects[level] || 'Proyecto tecnológico personalizado';
+        }
+        
+        // Generate competency analysis
+        function generateCompetencyAnalysis(student) {
+            const competencies = {
+                'pensamiento_computacional': Math.min(100, student.progress + 20),
+                'programacion': Math.min(100, student.progress + 10),
+                'diseno_digital': Math.min(100, student.progress + 15),
+                'robotic': Math.min(100, student.progress - 5),
+                'colaboracion': Math.min(100, student.progress + 25)
+            };
             
-            // Estilos para la notificación
-            notificacion.style.cssText = `
+            let html = '';
+            for (const [competency, value] of Object.entries(competencies)) {
+                html += `
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>${competency.replace('_', ' ').toUpperCase()}</span>
+                            <span>${value}%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${value}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            return html;
+        }
+        
+        // Generate all portfolios
+        function generateAllPortfolios() {
+            showNotification('🚀 Generando portafolios digitales para todos los estudiantes...', 'info');
+            
+            // Simulate portfolio generation
+            setTimeout(() => {
+                showNotification('✅ Portafolios digitales generados exitosamente', 'success');
+            }, 2000);
+        }
+        
+        // Export portfolio as PDF
+        function exportPortfolio(studentId) {
+            showNotification('📤 Preparando exportación del portafolio en formato PDF...', 'info');
+            // In a real implementation, this would generate and download a PDF
+        }
+        
+        // Generate AI recommendations
+        function generateAIRecommendations(students) {
+            const atRisk = students.filter(s => s.status === 'needs_attention' || s.status === 'warning');
+            const lowProgress = students.filter(s => s.progress < 50);
+            const noPortfolio = students.filter(s => !s.portfolio);
+            
+            let recommendations = '';
+            
+            if (atRisk.length > 0) {
+                recommendations += `<p>⚠️ <strong>${atRisk.length} estudiantes requieren atención inmediata</strong>. Revise sus portafolios para intervención pedagógica.</p>`;
+            }
+            
+            if (lowProgress.length > 0) {
+                recommendations += `<p>📉 <strong>${lowProgress.length} estudiantes con progreso bajo (<50%)</strong>. Considere actividades diferenciadas.</p>`;
+            }
+            
+            if (noPortfolio.length > 0) {
+                recommendations += `<p>📁 <strong>${noPortfolio.length} estudiantes sin portafolio digital</strong>. Genere portafolios para seguimiento completo.</p>`;
+            }
+            
+            if (!recommendations) {
+                recommendations = '<p>✅ Todos los estudiantes están progresando adecuadamente. Continúe con el plan actual.</p>';
+            }
+            
+            // Add personalized recommendations
+            recommendations += `<p style="margin-top: 15px;"><strong>🎯 Recomendación personalizada:</strong> ${getPersonalizedRecommendation(students)}</p>`;
+            
+            document.getElementById('aiRecommendations').innerHTML = recommendations;
+        }
+        
+        // Get personalized recommendation
+        function getPersonalizedRecommendation(students) {
+            const levels = students.map(s => s.level);
+            const uniqueLevels = [...new Set(levels)];
+            
+            if (uniqueLevels.length === 1) {
+                return `Grupo homogéneo de ${getLevelName(uniqueLevels[0])}. Implemente proyectos colaborativos.`;
+            }
+            
+            return `Grupo multinivel detectado. Implemente aprendizaje diferenciado por estaciones tecnológicas.`;
+        }
+        
+        // Export data to CSV
+        function exportData() {
+            const students = getStudents();
+            const headers = ['ID', 'Nombre', 'Nivel', 'Edad', 'Email', 'Progreso', 'Estado'];
+            const csv = [
+                headers.join(','),
+                ...students.map(s => [
+                    s.id,
+                    `"${s.name}"`,
+                    s.level,
+                    s.age,
+                    s.email || '',
+                    s.progress,
+                    s.status
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `estudiantes_tecnologia_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            showNotification('📤 Datos exportados en formato CSV', 'success');
+        }
+        
+        // Import CSV data
+        function importCSV() {
+            const csvData = document.getElementById('csvData').value;
+            
+            if (!csvData.trim()) {
+                showNotification('❌ Ingrese datos CSV para importar', 'error');
+                return;
+            }
+            
+            try {
+                const lines = csvData.split('\n').filter(line => line.trim());
+                const headers = lines[0].split(',').map(h => h.trim());
+                
+                const newStudents = [];
+                
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+                    const student = {
+                        id: values[0] || `IMP${Date.now()}${i}`,
+                        name: values[1] || 'Estudiante Importado',
+                        level: values[3]?.toLowerCase() || '1-3',
+                        age: parseInt(values[4]) || 8,
+                        email: values[5] || '',
+                        progress: 0,
+                        portfolio: false,
+                        status: 'active',
+                        imported: true,
+                        createdAt: new Date().toISOString()
+                    };
+                    newStudents.push(student);
+                }
+                
+                const existingStudents = getStudents();
+                const allStudents = [...existingStudents, ...newStudents];
+                saveStudents(allStudents);
+                
+                closeModal('importModal');
+                showNotification(`✅ ${newStudents.length} estudiantes importados exitosamente`, 'success');
+                document.getElementById('csvData').value = '';
+                
+            } catch (error) {
+                showNotification('❌ Error al importar datos CSV. Verifique el formato.', 'error');
+                console.error('Import error:', error);
+            }
+        }
+        
+        // Modal functions
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.getElementById('addStudentForm').onsubmit = addStudent;
+            document.getElementById('addStudentForm').reset();
+            document.getElementById('addStudentModal').querySelector('h2').textContent = '👨‍🎓 Agregar Nuevo Estudiante';
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Remove existing notification
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.style.cssText = `
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: ${tipo === 'success' ? '#2ed573' : tipo === 'error' ? '#ff4757' : '#1e90ff'};
-                color: white;
                 padding: 15px 20px;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 1000;
-                animation: slideIn 0.3s ease-out;
-                max-width: 400px;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--primary)'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                font-weight: 500;
             `;
             
-            // Agregar al documento
-            document.body.appendChild(notificacion);
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
             
-            // Auto-remover después de 5 segundos
             setTimeout(() => {
-                if (notificacion.parentNode) {
-                    notificacion.style.animation = 'slideOut 0.3s ease-out';
-                    setTimeout(() => {
-                        if (notificacion.parentNode) {
-                            notificacion.parentNode.removeChild(notificacion);
-                        }
-                    }, 300);
-                }
-            }, 5000);
-        }
-
-        // Configurar cierre de modales al hacer clic fuera
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+            
+            // Add animation styles
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
             }
-        };
+        }
+        
+        // Switch between tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            // Load tab-specific content
+            if (tabName === 'portfolios') {
+                loadPortfoliosContent();
+            } else if (tabName === 'analytics') {
+                loadAnalyticsContent();
+            }
+        }
+        
+        // Load portfolios content
+        function loadPortfoliosContent() {
+            const students = getStudents();
+            const container = document.getElementById('portfoliosContainer');
+            
+            let html = '<div class="dashboard-grid">';
+            
+            students.forEach(student => {
+                const progressColor = student.progress >= 70 ? 'success' : 
+                                     student.progress >= 40 ? 'warning' : 'danger';
+                
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">${student.name}</div>
+                            <div class="card-icon icon-${progressColor}">📁</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span style="font-size: 14px; color: var(--gray);">Progreso:</span>
+                                <span style="font-weight: 600; color: var(--${progressColor});">${student.progress}%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: ${student.progress}%; background: var(--${progressColor});"></div>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; color: var(--gray); margin-bottom: 15px;">
+                            <strong>Nivel:</strong> ${getLevelName(student.level)}
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary btn-sm" onclick="viewPortfolio('${student.id}')" style="flex: 1;">
+                                Ver Portafolio
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="exportPortfolio('${student.id}')">
+                                📤
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        // Load analytics content
+        function loadAnalyticsContent() {
+            const students = getStudents();
+            
+            // Performance prediction
+            let predictionHTML = '<div style="font-size: 14px;">';
+            
+            const highPerformers = students.filter(s => s.progress >= 80);
+            const mediumPerformers = students.filter(s => s.progress >= 50 && s.progress < 80);
+            const lowPerformers = students.filter(s => s.progress < 50);
+            
+            if (highPerformers.length > 0) {
+                predictionHTML += `<p>🏆 <strong>${highPerformers.length} estudiantes de alto desempeño</strong>: Podrían liderar proyectos avanzados.</p>`;
+            }
+            
+            if (mediumPerformers.length > 0) {
+                predictionHTML += `<p>📈 <strong>${mediumPerformers.length} estudiantes con desempeño medio</strong>: Con apoyo adecuado, pueden alcanzar nivel alto.</p>`;
+            }
+            
+            if (lowPerformers.length > 0) {
+                predictionHTML += `<p>📊 <strong>${lowPerformers.length} estudiantes con bajo desempeño</strong>: Requieren intervención diferenciada.</p>`;
+            }
+            
+            predictionHTML += '</div>';
+            document.getElementById('performancePrediction').innerHTML = predictionHTML;
+            
+            // Early alerts
+            let alertsHTML = '<div style="font-size: 14px;">';
+            
+            const riskStudents = students.filter(s => s.status === 'needs_attention' || s.status === 'warning');
+            
+            if (riskStudents.length > 0) {
+                alertsHTML += '<div style="background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">';
+                alertsHTML += '<strong>⚠️ ALERTAS ACTIVAS</strong><br>';
+                riskStudents.slice(0, 3).forEach(student => {
+                    alertsHTML += `<div style="margin-top: 10px;">
+                        <strong>${student.name}</strong> (${getLevelName(student.level)})<br>
+                        <span style="font-size: 12px; color: var(--danger);">Progreso: ${student.progress}% - Requiere atención inmediata</span>
+                    </div>`;
+                });
+                alertsHTML += '</div>';
+            } else {
+                alertsHTML += '<p style="color: var(--success);">✅ No hay alertas activas. Todos los estudiantes progresan adecuadamente.</p>';
+            }
+            
+            alertsHTML += '</div>';
+            document.getElementById('earlyAlerts').innerHTML = alertsHTML;
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDatabase();
+            updateDashboard();
+            renderStudentsTable();
+            
+            // Setup modal triggers
+            window.showAddStudentModal = () => showModal('addStudentModal');
+            window.showImportModal = () => showModal('importModal');
+            
+            // Setup file input
+            document.getElementById('csvFile').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.getElementById('csvData').value = event.target.result;
+                    };
+                    reader.readAsText(file);
+                }
+            });
+            
+            // Add sample data button for testing
+            const header = document.querySelector('.page-header');
+            const testBtn = document.createElement('button');
+            testBtn.className = 'btn btn-secondary';
+            testBtn.innerHTML = '🧪 Cargar datos de prueba';
+            testBtn.onclick = function() {
+                localStorage.removeItem(DB_NAME);
+                initializeDatabase();
+                updateDashboard();
+                renderStudentsTable();
+                showNotification('🧪 Datos de prueba cargados exitosamente', 'success');
+            };
+            header.appendChild(testBtn);
+        });
     </script>
 </body>
 </html>
